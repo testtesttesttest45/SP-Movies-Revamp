@@ -15,7 +15,6 @@ $(document).ready(function () {
                     localStorage.setItem('token', data.token);
                     localStorage.setItem('userInfo', data.UserData);
                     window.location.assign("index.html");
-                    
                 }
             },
             error: function (xhr, textStatus, errorThrown) {

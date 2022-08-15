@@ -48,7 +48,8 @@ module.exports = {
                 console.log("In movie.js findAll ConnError:", err);
                 return callback(err, null);
             } else {
-                const findAllUsersQuery = "SELECT movieid, title, description, cast, time, opening_date  from movie ;";
+                // const findAllUsersQuery = "SELECT movieid, title, description, cast, time, opening_date  from movie ;";
+                const findAllUsersQuery = "SELECT m.movieid, m.title, m.description, m.cast, m.time, m.opening_date , CONCAT(g.genre) as 'genre', thumbnail from movie m, genre g where m.genreid = g.genreid";
                 dbConn.query(findAllUsersQuery, (error, results) => {
                     dbConn.end();
                     if (error) {
