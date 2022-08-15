@@ -7,7 +7,7 @@ $(document).ready(function () {
         .then(data => {
             console.log("Total movies retrieved:" ,data);
             for (let i = 0; i < data.length; i++) {
-                const { title, genre, time, thumbnail } = data[i];
+                const { movieid, title, genre, time, thumbnail } = data[i];
                 homeHTML = `
                 <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6" id="container">
                     <div class="video-thumb">
@@ -29,7 +29,7 @@ $(document).ready(function () {
                                     <li>${data[i].genre}</li>
                                 </ul>
                                 <div class="age">PG13</div>
-                                <h3 class="name"><a href="">${data[i].title}</a></h3>
+                                <h3 class="name"><a href="http://localhost:3001/movie.html?movieid=${data[i].movieid}">${data[i].title}</a></h3>
                             </div>
                         </div>
                     </div>
