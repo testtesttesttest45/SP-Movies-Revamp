@@ -5,34 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="theme-color" content="#e90101" />
-    <title>digiflex | Online Movie Streaming</title>
-    <meta name="author" content="Themezinho">
-    <meta name="description" content="For all kind of video streaming website">
-    <meta name="keywords"
-        content="digiflex, video, movie, show, tv, watch, online, streaming, stream, ads, trailer, imdb, dram, action, hollywood, cinema, rate">
-
-    <!-- SOCIAL MEDIA META -->
-    <meta property="og:description" content="digiflex | Online Movie Streaming">
-    <meta property="og:image" content="http://www.themezinho.net/digiflex/preview.png">
-    <meta property="og:site_name" content="digiflex">
-    <meta property="og:title" content="digiflex">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="http://www.themezinho.net/digiflex">
-
-    <!-- TWITTER META -->
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:site" content="@digiflex">
-    <meta name="twitter:creator" content="@digiflex">
-    <meta name="twitter:title" content="digiflex">
-    <meta name="twitter:description" content="digiflex | Online Movie Streaming">
-    <meta name="twitter:image" content="http://www.themezinho.net/digiflex/preview.png">
-
-    <!-- FAVICON FILES -->
-    <link href="ico/apple-touch-icon-144-precomposed.png" rel="apple-touch-icon" sizes="144x144">
-    <link href="ico/apple-touch-icon-114-precomposed.png" rel="apple-touch-icon" sizes="114x114">
-    <link href="ico/apple-touch-icon-72-precomposed.png" rel="apple-touch-icon" sizes="72x72">
-    <link href="ico/apple-touch-icon-57-precomposed.png" rel="apple-touch-icon">
-    <link href="ico/favicon.png" rel="shortcut icon">
+    <title>SP Movies | Movie</title>
+    <link rel="icon" type="image/png" href="./icons/favicon.ico">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <link rel="stylesheet" href="css/lineicons.css">
     <link rel="stylesheet" href="css/fancybox.min.css">
@@ -41,18 +16,19 @@
     <link rel="stylesheet" href="css/homepage.css">
     <link rel="stylesheet" type="text/css" href="./css/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
     <script src="./js/checkLogin.js"></script>
+    <script src="./js/movie.js"></script>
 </head>
 
 <body>
     
     <main>
-        <header class="page-header single" data-background="images/movie-poster-bg.jpg">
+        <header class="page-header single" data-background="">
             <div class="container">
                 <div class="row">
                     <div class="col-12">
                         <div class="video-player">
                             <a href="index.html" class="back-btn"><i class="fa fa-chevron-left"></i> BACK</a>
-                            <video src="http://localhost:8085/image/movies/trailer.mov" poster="images/movie-poster.jpg" controls
+                            <video src="http://localhost:8085/image/movies/trailer.mov" id="movie-poster" poster="" controls
                                 playsinline></video>
                             <!-- end video-player -->
                         </div>
@@ -66,59 +42,8 @@
         <!-- end header -->
         <section class="content-section" data-background="#ffffff">
             <div class="container">
-                <div class="row">
-                    <div class="col-lg-8">
-                        <div class="movie-info-box">
-                            <h2 class="name">Call<br>
-                            </h2>
-                            <ul class="features">
-                                <li>
-                                    <div class="rate">
-                                        <svg class="circle-chart" viewBox="0 0 30 30" width="40" height="40"
-                                            fill="transparent" xmlns="http://www.w3.org/2000/svg">
-                                            <circle class="circle-chart__background" stroke="#eee" stroke-width="2"
-                                                fill="none" cx="15" cy="15" r="14"></circle>
-                                            <circle class="circle-chart__circle" stroke="#4eb04b" stroke-width="2"
-                                                stroke-dasharray="50,100" cx="15" cy="15" r="14"></circle>
-                                        </svg>
-                                        <b>5.7</b> Total rating
-                                    </div>
-                                    <!-- end rate -->
-                                </li>
-                                
-                                <li>
-                                    <div class="hd">1080 <b>HD</b></div>
-                                </li>
-                                <li>
-                                    <div class="tags">Romance, Action</div>
-                                </li>
-                            </ul>
-                            <p class="description">A hardened mercenary's mission becomes a soul-searching
-                                race to survive when he's sent into Bangladesh to rescue a
-                                drug lord's kidnapped son.</p>
-                            <a href="#" class="add-btn">+ ADD YOUR LIST</a>
-
-                            <div class="rate-box">
-                                <a href=""><i class="fa fa-thumbs-up"></i></a> <a href=""><i
-                                        class="fa fa-thumbs-down"></i></a> <strong>82% liked this film</strong>
-                            </div>
-                        </div>
-                        <!-- end movie-info-box -->
-                    </div>
-                    <!-- end col-8 -->
-                    <div class="col-lg-4">
-                        <div class="movie-side-info-box">
-                            <figure><img src="http://localhost:8085/image/movies/call.png" alt="Image"></figure>
-                            <ul>
-                                <li><strong>Release date: </strong> Sept 16, 2020</li>
-                                <li><strong>Cast:</strong> Johnson</li>
-                                <li><strong>Genre:</strong> Action</li>
-                                <li><strong>Duration:</strong> 2h 40m</li>
-                            </ul>
-                        </div>
-                        <!-- end movie-side-info-box -->
-                    </div>
-                    <!-- end col-4 -->
+                <div class="row" id="movieContainer">
+                    <!-- movie data will display right here -->
                 </div>
                 <!-- end col-12 -->
                 <!-- end row -->
@@ -132,6 +57,7 @@
                     <div class="col-12">
                         <div class="section-title light">
                             <h2>Related Movies</h2>
+                            <h6 style="color:gold">No pls dont click anything here!!</h6>
                         </div>
                         <!-- end section-title -->
                     </div>
@@ -145,7 +71,7 @@
                                         <circle class="circle-chart__background" stroke="#2f3439" stroke-width="2"
                                             fill="none" cx="15" cy="15" r="14"></circle>
                                         <circle class="circle-chart__circle" stroke="#4eb04b" stroke-width="2"
-                                            stroke-dasharray="50,100" cx="15" cy="15" r="14"></circle>
+                                            stroke-dasharray="80,100" cx="15" cy="15" r="14"></circle>
                                     </svg>
                                     <b>5.7</b>
                                 </div>
@@ -168,7 +94,7 @@
                     <!-- end col-2 -->
                     <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6">
                         <div class="video-thumb light">
-                            <figure class="video-image"> <a href="#"><img src="http://localhost:8085/image/movies/call.png" alt="Image"></a>
+                            <figure class="video-image"> <a href=""><img src="http://localhost:8085/image/movies/godzillaVSkong.png" alt="Image"></a>
                                 <div class="circle-rate">
                                     <svg class="circle-chart" viewBox="0 0 30 30" width="100" height="100"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -183,13 +109,13 @@
                                 <div class="hd">1080 <b>HD</b></div>
                                 <!-- end hd -->
                             </figure>
-                            <div class="video-content"> <small class="range">1h 52m,</small>
+                            <div class="video-content"> <small class="range">1h 53m,</small>
                                 <ul class="tags">
-                                    <li>Horror</li>
+                                    <li>Action</li>
                                 </ul>
                                 <div class="age">PG13</div>
                                 <!-- end age -->
-                                <h3 class="name"><a href="">Call</a></h3>
+                                <h3 class="name"><a href="">Godzilla vs. Kong</a></h3>
                             </div>
                             <!-- end video-content -->
                         </div>
@@ -254,12 +180,9 @@
                                     <figure class="avatar"><img src="http://localhost:8085/image/terry.jpg" alt="Image"></figure>
                                     <div class="comment">
                                         <h6>Jenny Klausein</h6>
-                                        <p>Users like you see an increase in open rates when including recipients’ first
-                                            and last name in the “To” field to personalize their emails. Gravity letters
-                                            it amongst herself dearest an windows by. Wooded ladies she basket season
-                                            age her uneasy saw.</p>
+                                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellendus praesentium blanditiis error. Tempora, odio laborum culpa eum reprehenderit voluptatibus fugiat beatae dolorum quaerat, accusamus mollitia doloremque rerum dolore earum magni enim explicabo voluptatem? Dignissimos id totam maxime officiis. Ipsum ab enim recusandae sequi aut corporis fugit? Sed, corrupti. Iste, vero.</p>
                                         <small>November 25, 2020</small>
-                                        <a href="#">REPLY</a>
+                                        <a href="">REPLY</a>
                                     </div>
                                     <!-- end comment -->
                                 </li>

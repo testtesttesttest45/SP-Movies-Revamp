@@ -102,7 +102,7 @@ module.exports = {
             console.log(err);
             return callback(err, null);
           } else {
-            const findUserByIDQuery = "SELECT m.movieid, m.title, m.description, m.cast, m.time, m.opening_date , CONCAT(g.genre) as 'genre' from movie m, genre g where m.genreid = g.genreid and movieid = ? ;  "
+            const findUserByIDQuery = "SELECT m.movieid, m.title, m.description, m.cast, m.time, m.opening_date , m.thumbnail,  CONCAT(g.genre) as 'genre' from movie m, genre g where m.genreid = g.genreid and movieid = ? ;  "
             // SELECT m.movieid, m.title, m.description, m.cast, m.time, m.opening_date , CONCAT(g.genre, ', ', m.genreid1) as 'genres' from movie m, genre g where m.genreid = g.genreid and movieid = ? ;  "
             dbConn.query(findUserByIDQuery, [movieid], (error, results) => {
               dbConn.end();

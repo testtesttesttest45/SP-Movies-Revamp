@@ -5,7 +5,7 @@ $(document).ready(function () {
     fetch('http://localhost:8085/movies')
         .then(response => response.json())
         .then(data => {
-            console.log("Total movies retrieved:" ,data);
+            console.log("Total movies retrieved:", data);
             for (let i = 0; i < data.length; i++) {
                 const { movieid, title, genre, time, thumbnail } = data[i];
                 homeHTML = `
@@ -34,9 +34,8 @@ $(document).ready(function () {
                         </div>
                     </div>
                 `;
-                // append to id = testing
+                // append to id = movieContainer
                 $('#movieContainer').append(homeHTML);
-
             }
         });
 });
