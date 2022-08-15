@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>SP Movies | Home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+    
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <div class="container">
+        <nav class="nav">
+            <a class="nav-link" href="/login.html">Log In</a>
+            <a class="nav-link" href="/profile.html">Log out</a>
+            <a class="nav-link" href="/addGenre.html">Add Genre</a>
+            <a class="nav-link" href="/addMovie.html">Add Movie</a>
+            <a class="nav-link" href="/addReview.html">Add Review</a>
+            
+        </nav>
+        <div class="search-container">
+            <form action="">
+              <input type="text" placeholder="Search.." name="search" id="title" >
+              <button type="submit" id="search"  class="fa fa-search"></button>
+            </form>
+          </div>
+
+        <div style="margin-top: 2rem;">
+            
+            <h1>Welcome to SP MOVIES</h1>
+            <!-- <a href="login.html"><img src="http://localhost:8085/image/GodzillaPoster.jpg" alt="HTML tutorial" style="width:160px;height:160px;"></a>
+            <h6>Godzilla Vs Kong</h6> -->
+
+            <div id="searchresults">
+
+            </div>
+
+            
+        </div>
+    </div>
+
+<script>
+   
+    $("#search").click(function (){
+        var title=$('#title').val();
+        console.log("title:", title);
+        var data ="";
+    $.ajax({
+      
+      url: `http://localhost:8085/searchtitle/${title}`,
+      type: 'GET',
+      data: data,
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function (data, textStatus, xhr) {
+        console.log("received data", data);
+         var postHtml = "";
+         $('#searchresults').html("");
+         if (data.length == 0) {
+             alert("No movie title matching your request is found");
+         } else {
+             for (let i=0; i<data.length; i++) {
+                 postHtml = `
+                <div>
+                   <h1 class = "header"><a href="/viewmovie.html?movieid=${data[i].movieid}">${data[i].title}</a></h1>
+                   <p><b>Description: </b>${data[i].description}</p>
+                   <p><b>Time: </b>${data[i].time}</p>
+                   <p><b>Opening Date: </b>${data[i].opening_date}</p>
+                   <p><b>Genres: </b>${data[i].genres}</p>
+                   </div>
+                   `;
+                   $('#searchresults').append(postHtml);
+                }
+         }
+        },     
+      error: function (xhr, textStatus, errorThrown) {
+        alert(xhr.status + "Server error detected in index.html")
+      }
+    });
+    return false;
+    });
+  </script>
+  <script>
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    const movieid = urlParams.get("movieid");
+    var data = "";
+    console.log("movieid from url params is", movieid);
+    $.ajax({
+      
+      url: `http://localhost:8085/movie/${movieid}`,
+      type: 'GET',
+      data: data,
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function (data, textStatus, xhr) {
+         
+          postHtml = `
+                     <div>
+                   <h1 class = "header">${data.title}</h1>
+                   <p class="content">${data.cast}</p>
+                   <p class="content">${data.opening_date}</p>
+                   <p class="content">${data.time}</p>
+                   <p class="content">${data.genres}</p>
+                   <p class="content">${data.description}</p>
+                   <h6 class = "header">Average Reviews</h6>
+                   </div>
+                   `;
+
+                $('#movie_details').append(postHtml);
+                },
+      error: function (xhr, textStatus, errorThrown) {
+        alert("Unsucessful in getting movie details");
+      }
+    });
+    return false;
+
+  </script>
+    
+</body>
+
+</html>

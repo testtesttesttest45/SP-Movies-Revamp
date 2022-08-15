@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="css/login.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+   
+</head>  
+<body>  
+
+    <div class="login-form">
+        <!--<form action="http://localhost:3001/profile.html"> -->
+        <form action=""> 
+            <h2 class="text-center">Add Genre</h2>       
+            <div class="form-group">
+                <input type="text" class="form-control" id="genre" placeholder="Genre" required="required">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="description" placeholder="Description" required="required">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block" id="addgenre">Add Genre</button>
+            </div>
+                 
+        </form> 
+    </div>
+
+    <script>  
+        $(document).ready(function () {  
+            $("#addgenre").click(function () {  
+               var genre=$('#genre').val();
+               var description=$('#description').val();
+               var tmpToken=localStorage.getItem("token");
+               var data = JSON.stringify({genre: genre, description:description});
+               console.log(data);
+               $.ajax({                  
+                   headers: {'authorization': 'Bearer '+tmpToken},                                             
+                    url: 'http://localhost:8085/genre' ,  
+                    type: 'POST', 
+                    data: data,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",  
+                    success: function (data, textStatus, xhr) {  
+                        if (data != null){                    
+                           localStorage.setItem('token',data.token);
+                           localStorage.setItem('userInfo',data.UserData);
+                        } else {
+                            alert("New Genre added");
+                            window.location.assign("http://localhost:3001/index.html");
+                        }                                                                 
+                    },  
+                    error: function (xhr, textStatus, errorThrown) {  
+                        console.log('Error in Operation');  
+                    }  
+               });  
+               return false;
+            });  
+        });  
+   </script>  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>  
+</html>

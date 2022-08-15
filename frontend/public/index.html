@@ -1,0 +1,219 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="icon" type="image/png" href="./icons/favicon.ico">
+    <title>SP Movies | Home</title>
+    <!-- CSS FILES -->
+    <link rel="stylesheet" href="css/lineicons.css">
+    <link rel="stylesheet" href="css/fancybox.min.css">
+    <link rel="stylesheet" href="css/swiper.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/homepage.css">
+    <link rel="stylesheet" type="text/css" href="./css/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <script src="./js/checkLogin.js"></script>
+</head>
+
+<body>
+    <nav class="mobile-menu">
+        <div class="inner">
+            <div class="mobile-search">
+                <h6>Type movie or tv show name to find it</h6>
+                <form>
+                    <input type="search" placeholder="Search here">
+                    <input type="submit" value="FIND">
+                </form>
+            </div>
+            <!-- end mobile-search -->
+            <a href="profile.html" class="button-account"><i class="fa fa-user"></i> ACCOUNT </a>
+            <!-- end button-account -->
+            <div class="site-menu">
+                <ul>
+                    <li><a href="index.html">HOME</a></li>
+                    <li><a href="index.html">MOVIES</a></li>
+                    <li><a href="index.html">TV SHOWS</a></li>
+                    <li><a href="index.html">TIPS</a></li>
+                </ul>
+            </div>
+            <!-- end site-menu -->
+        </div>
+        <!-- end inner -->
+    </nav>
+    <!-- end mobile-menu -->
+    <nav class="navbar">
+        <div class="logo"> <a href="index.html"> <img src="icons/icon.png" alt="Image"> </a> </div>
+        <!-- end logo -->
+        <div class="site-menu">
+            <ul>
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="index.html">MOVIES</a></li>
+                <li><a href="index.html">TV SHOWS</a></li>
+            </ul>
+        </div>
+        <!-- end site-menu -->
+        <div class="user-menu">
+            <div class="navbar-search"> <i class="fa fa-search"></i> </div>
+            <!-- end navbar-search -->
+            <div class="navbar-notify"> <i class="fa fa-bell"></i><b>2</b>
+                <div class="notify-dropdown">
+                    <div class="total-notify">
+                        <h6>Notification</h6>
+                        <span>2</span>
+                    </div>
+                    <!-- end total-notify -->
+                    <ul>
+                        <li>
+                            <p><u>Marcus</u> download 2000+ Simple Line Icons and Explore</p>
+                            <span>2 Days</span>
+                        </li>
+                        <li>
+                            <p>Added new movie <u>Afterlife</u> Cheatsheet to Start Using With Your Projects.</p>
+                            <span>3 Days</span>
+                        </li>
+                    </ul>
+                </div>
+                <!-- end notify-dropdown -->
+            </div>
+            <!-- end navbar-notify -->
+            <div class="navbar-account"> <a href="profile.html">
+                    <p id="thisusername">Tommy</p> <i class="fa fa-user"></i>
+                </a></div>
+            <!-- end navbar-account -->
+        </div>
+        <!-- end user-menu -->
+        <div class="hamburger-menu">
+            <button class="hamburger">
+                <svg width="45" height="45" viewBox="0 0 100 100">
+                    <path class="line line1"
+                        d="M 20,29.000046 H 80.000231 C 80.000231,29.000046 94.498839,28.817352 94.532987,66.711331 94.543142,77.980673 90.966081,81.670246 85.259173,81.668997 79.552261,81.667751 75.000211,74.999942 75.000211,74.999942 L 25.000021,25.000058" />
+                    <path class="line line2" d="M 20,50 H 80" />
+                    <path class="line line3"
+                        d="M 20,70.999954 H 80.000231 C 80.000231,70.999954 94.498839,71.182648 94.532987,33.288669 94.543142,22.019327 90.966081,18.329754 85.259173,18.331003 79.552261,18.332249 75.000211,25.000058 75.000211,25.000058 L 25.000021,74.999942" />
+                </svg>
+            </button>
+        </div>
+        <!-- end hamburger-menu -->
+    </nav>
+    <!-- end navbar -->
+    <section class="search-box">
+        <div class="container">
+            <h6>Type movie or tv show name to find it</h6>
+            <form>
+                <input type="search" placeholder="Search here">
+                <input type="submit" value="FIND">
+            </form>
+        </div>
+        <!-- end container -->
+    </section>
+    <header class="page-header">
+        <div class="container">
+            <h1>Movies</h1>
+        </div>
+    </header>
+    <!-- end page-header -->
+    <main>
+        <section class="content-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="section-title">
+                            <h6>FIND ANYWHERE ELSE</h6>
+                            <h2>Movies For You</h2>
+                        </div>
+                        <!-- end section-title -->
+                    </div>
+                    <!-- end col-12 -->
+                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6">
+                        <div class="video-thumb">
+                            <figure class="video-image"> <a href="#"><img src="icons/noImage.png" alt="Image"></a>
+                                <div class="circle-rate">
+                                    <svg class="circle-chart" viewBox="0 0 30 30" width="100" height="100"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <circle class="circle-chart__background" stroke="#2f3439" stroke-width="2"
+                                            fill="none" cx="15" cy="15" r="14"></circle>
+                                        <circle class="circle-chart__circle" stroke="#4eb04b" stroke-width="2"
+                                            stroke-dasharray="50,100" cx="15" cy="15" r="14"></circle>
+                                    </svg>
+                                    <b>5.7</b>
+                                </div>
+                                <!-- end circle-rate -->
+                                <div class="hd">1080 <b>HD</b></div>
+                                <!-- end hd -->
+                            </figure>
+                            <div class="video-content"> <small class="range">190 min,</small>
+                                <ul class="tags">
+                                    <li>Comedy</li>
+                                </ul>
+                                <div class="age">PG13</div>
+                                <!-- end age -->
+                                <h3 class="name"><a href="movie-single.html">Mr Bean</a></h3>
+                            </div>
+                            <!-- end video-content -->
+                        </div>
+                        <!-- end video-thumb -->
+                    </div>
+                    <!-- end col-2 -->
+                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6">
+                        <div class="video-thumb">
+                            <figure class="video-image"> <a href="#"><img src="icons/blackpanther.png" alt="Image"></a>
+                                <div class="circle-rate">
+                                    <svg class="circle-chart" viewBox="0 0 30 30" width="100" height="100"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <circle class="circle-chart__background" stroke="#2f3439" stroke-width="2"
+                                            fill="none" cx="15" cy="15" r="14"></circle>
+                                        <circle class="circle-chart__circle" stroke="yellow" stroke-width="2"
+                                            stroke-dasharray="100,100" cx="15" cy="15" r="14"></circle>
+                                    </svg>
+                                    <b>10.0</b>
+                                </div>
+                                <!-- end circle-rate -->
+                                <div class="hd">1080 <b>HD</b></div>
+                                <!-- end hd -->
+                            </figure>
+                            <div class="video-content"> <small class="range">190 min,</small>
+                                <ul class="tags">
+                                    <li>Action</li>
+                                </ul>
+                                <div class="age">PG13</div>
+                                <!-- end age -->
+                                <h3 class="name"><a href="">Black Panther</a></h3>
+                            </div>
+                            <!-- end video-content -->
+                        </div>
+                        <!-- end video-thumb -->
+                    </div>
+                    <!-- end col-2 -->
+                </div>
+            </div>
+            <!-- end container -->
+        </section>
+        <!-- end content-section -->
+
+
+    </main>
+    <script>
+        function jwt_decode(token) {
+            var base64Url = token.split('.')[1];
+            var base64 = base64Url.replace('-', '+').replace('_', '/');
+            return JSON.parse(window.atob(base64));
+        }
+        var token = localStorage.getItem('token');
+        var userInfo = localStorage.getItem('userInfo');
+        if (token) {
+            var decoded = jwt_decode(token);
+            $('#thisusername').text(decoded.role);
+        }
+    </script>
+    <!-- JS FILES -->
+    <script src="css/popper.js"></script>
+    <script src="css/jquery.min.js"></script>
+    <script src="css/bootstrap.min.js"></script>
+    <script src="css/swiper.min.js"></script>
+    <script src="css/fancybox.min.js"></script>
+    <script src="css/scripts.js"></script>
+</body>
+
+</html>
