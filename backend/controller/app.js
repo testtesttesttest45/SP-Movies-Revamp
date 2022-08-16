@@ -363,9 +363,8 @@ app.post('/comment/:movieID', function (req, res) {
                 // console.log("Error inserting comment");
                 return;
             }
-            res.status(201).send("Comment inserted");
-        }
-        );
+            res.send({ message: "Comment inserted" });
+        });
     })
 });
 

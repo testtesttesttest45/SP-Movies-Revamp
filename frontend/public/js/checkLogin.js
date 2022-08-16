@@ -5,10 +5,10 @@ $(document).ready(function () {
         return JSON.parse(window.atob(base64));
     }
     var token = localStorage.getItem('token');
-    var userInfo = localStorage.getItem('userInfo');
     if (token) {
         var decoded = jwt_decode(token);
         $('#thisusername').text(decoded.username);
+        localStorage.setItem('userId', decoded.userid);
     }
 });
 

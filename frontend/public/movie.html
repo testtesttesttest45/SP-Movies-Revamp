@@ -7,7 +7,9 @@
     <meta name="theme-color" content="#e90101" />
     <title>SP Movies | Movie</title>
     <link rel="icon" type="image/png" href="./icons/favicon.ico">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <link rel="stylesheet" href="css/lineicons.css">
     <link rel="stylesheet" href="css/fancybox.min.css">
@@ -187,11 +189,11 @@
                             <div class="comments-form">
                                 <h5>Leave a Reply</h5>
                                 <div class="form-group">
-                                    <textarea placeholder="Comment"></textarea>
+                                    <textarea placeholder="Comment" id="comment" style="color:black"></textarea>
                                 </div>
                                 <!-- end form-group -->
                                 <div class="form-group">
-                                    <input type="submit" value="Post Comment">
+                                    <button type="submit" id="commentButton" style="cursor:pointer;background-color:rgb(187, 169, 66)">Post Comment</button>
                                 </div>
                                 <!-- end form-group -->
                             </div>

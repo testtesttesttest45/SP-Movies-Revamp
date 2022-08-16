@@ -1,5 +1,6 @@
 // display out all movies in homepage , from the url http:localhost:8085/movie/:movieid
 
+
 $(document).ready(function () {
     let queryParams = new URLSearchParams(window.location.search); // or you can also use window.location.search.split('=')[1];
     let movieid = queryParams.get('movieid');
@@ -89,8 +90,55 @@ $(document).ready(function () {
 
                 }
             }
+            else {
+                let commentHTML = `
+                <li>
+                <div class="comment">
+                <h6>No comments yet</h6>
+                <p>Be the first to comment</p>
+                </div>
+            </li>
+                `;
+                $('.comments-list').append(commentHTML);
+            }
         })
+    document.getElementById('commentButton').addEventListener('click', function () {
+        // send a post request to add a comment to the movie
+        let comment = document.getElementById('comment').value;
+        // ensure the comment is not empty
+        if (comment == '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'You need to enter a comment',
+            })
+            return
+        }
+        let userId = localStorage.getItem('userId');
+        fetch(`http://localhost:8085/comment/${movieid}`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                comment: comment,
+                userID: userId
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                Swal.fire({
+                    title: 'Comment added',
+                    text: 'Your comment has been added!',
+                    icon: 'success',
+                    confirmButtonText: 'Reload'
+                }).then(() => {
+                    window.location.reload();
+                }).catch(err => alert(err));
+            })
+            .catch(err => alert(err));
+    })
 
+});
 
-
-})
