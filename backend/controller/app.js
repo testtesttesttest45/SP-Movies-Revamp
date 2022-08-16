@@ -11,6 +11,7 @@ var verifyToken = require('../auth/verifyToken.js');
 const jwt = require("jsonwebtoken");
 const JWT_SECRET = require("../config.js");
 const isLoggedInMiddleware = require("../auth/isLoggedInMiddleware");
+const db = require("../model/databaseConfig");
 
 app.use(express.static("public"));
 
@@ -344,6 +345,56 @@ app.get('/movie/:movieid/reviews', function (req, res) {
         });
     }
 });
+
+app.post('/comment/:movieID', function (req, res) {
+    const movieID = parseInt(req.params.movieID);
+    const { userID, comment } = req.body;
+    var dbConn = db.getConnection();
+    dbConn.connect(function (err) {
+        if (err) {
+            // console.log("Error connecting to Db");
+            return;
+        }
+        console.log("Connection established");
+        var sql = "INSERT INTO comments (movie_id, user_id, comment) VALUES (?, ?, ?)";
+        var params = [movieID, userID, comment];
+        dbConn.query(sql, params, function (err, result) {
+            if (err) {
+                // console.log("Error inserting comment");
+                return;
+            }
+            res.status(201).send("Comment inserted");
+        }
+        );
+    })
+});
+
+app.get('/comment/:movieID', function (req, res) {
+    const movieID = parseInt(req.params.movieID);
+    var dbConn = db.getConnection();
+    dbConn.connect(function (err) {
+        if (err) {
+            console.log("Error connecting to Db");
+            return;
+        }
+        console.log("Connection established");
+        // use inner join to change comment table user_id 1 to terry from user table
+        var sql = "SELECT c.comment, u.username, u.pic, c.created_on FROM comments c INNER JOIN user u ON c.user_id = u.userID WHERE c.movie_id = ?"
+        var params = [movieID];
+        dbConn.query(sql, params, function (err, result) {
+            if (err) {
+                console.log(err)
+                return;
+            }
+            // console.log(result.length)
+            res.status(200).send(result);
+        });
+    });
+});
+
+
+
+
 app.use((err, req, res, next) => {
     console.error(err);
     return res.status(err.status || 500).json({ error: err.message || `Unknown Error!` });

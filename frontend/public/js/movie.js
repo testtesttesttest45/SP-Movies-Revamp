@@ -67,7 +67,29 @@ $(document).ready(function () {
 
         })
         .catch(err => alert(err));
+    fetch(`http://localhost:8085/comment/${movieid}`)
+        .then(response => response.json(console.log("Comment status code: ", response.status)))
+        .then(data => {
+            console.log("Comments retrieved:", data);
+            if (data.length > 0) {
 
+                for (let i = 0; i < data.length; i++) {
+                    const { comment, username, created_on, pic } = data[i];
+                    let commentHTML = `
+                <li>
+                <figure class="avatar"><img src="http://localhost:8085/image/${pic}" alt="Image"></figure>
+                <div class="comment">
+                <h6>${username}</h6>
+                <p>${comment}</p>
+                <small>${created_on}</small>
+                </div>
+            </li>
+                `;
+                    $('.comments-list').append(commentHTML);
+
+                }
+            }
+        })
 
 
 
