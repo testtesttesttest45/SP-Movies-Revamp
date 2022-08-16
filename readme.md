@@ -5,3 +5,5 @@
 ![Completions](completion_screenshots/MoviePage.png)
 ![Completions](completion_screenshots/MoviePage2.png)
 ![Completions](completion_screenshots/Search.png)
+![Completions](completion_screenshots/Review1.png)
+![Completions](completion_screenshots/Review2.png)
