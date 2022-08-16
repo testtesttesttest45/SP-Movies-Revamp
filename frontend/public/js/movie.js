@@ -38,12 +38,40 @@ $(document).ready(function () {
                                 </li>
                             </ul>
                             <p class="description">${description}</p>
-                            <a href="#" class="add-btn">+ ADD YOUR LIST</a>
-
+                            <a href="" class="add-btn" style="background-color:green">+ ADD YOUR LIST</a>
+                            <a href="" class="add-btn" style="background-color:#63a4ff">+ ADD Review</a>
                             <div class="rate-box">
-                                <a href=""><i class="fa fa-thumbs-up"></i></a> <a href=""><i
-                                        class="fa fa-thumbs-down"></i></a> <strong>87% liked this film</strong>
+                            <a href=""><i class="fa fa-thumbs-up"></i></a> <a href=""><i
+                                    class="fa fa-thumbs-down"></i></a> <strong>87% liked this film</strong>
+                                    
+                        </div>
+                        
+                            <div style="border:1px solid black;margin:10px;width:50%" >
+                            <div class="comment" style="justify-content:center;">
+                            <figure class="avatar"><img src="http://localhost:8085/image/terry.jpg" style="width:50px;height:50px;float:left" alt="Image"></figure>
+                                <h3>Great Movie</h3>
+                                <h4 style="color:navy">-Tommy, 20 April 2022</h4>
+                                <h3>Rating: 5/5</h3>
                             </div>
+                        </div>
+                        <div style="border:1px solid black;margin:10px;width:50%" >
+                            <div class="comment" style="justify-content:center;">
+                            <figure class="avatar"><img src="http://localhost:8085/image/terry.jpg" style="width:50px;height:50px;float:left" alt="Image"></figure>
+                                <h3>Great Movie</h3>
+                                <h4 style="color:navy">-Tommy, 20 April 2022</h4>
+                                <h3>Rating: 5/5</h3>
+                            </div>
+                        </div>
+                        <div style="border:1px solid black;margin:10px;width:50%" >
+                            <div class="comment" style="justify-content:center;">
+                            <figure class="avatar"><img src="http://localhost:8085/image/terry.jpg" style="width:50px;height:50px;float:left" alt="Image"></figure>
+                                <h3>Great Movie</h3>
+                                <h4 style="color:navy">-Tommy, 20 April 2022</h4>
+                                <h3>Rating: 5/5</h3>
+                            </div>
+                        </div>
+
+                           
                         </div>
                         <!-- end movie-info-box -->
                     </div>
