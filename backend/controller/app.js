@@ -391,7 +391,48 @@ app.get('/comment/:movieID', function (req, res) {
     });
 });
 
+app.post('/review/:movieID', function (req, res) {
+    const movieID = parseInt(req.params.movieID);
+    const { userID, rating, review } = req.body;
+    var dbConn = db.getConnection();
+    dbConn.connect(function (err) {
+        if (err) {
+            // console.log("Error connecting to Db");
+            return;
+        }
+        console.log("Connection established");
+        var sql = "INSERT INTO reviews (movie_id, user_id, rating, review) VALUES (?, ?, ?, ?)";
+        var params = [movieID, userID, rating, review];
+        dbConn.query(sql, params, function (err, result) {
+            if (err) {
+                // console.log("Error inserting comment");
+                return;
+            }
+            res.send({ message: "Review inserted" });
+        });
+    })
+});
 
+app.get('/review/:movieID', function (req, res) {
+    const movieID = parseInt(req.params.movieID);
+    var dbConn = db.getConnection();
+    dbConn.connect(function (err) {
+        if (err) {
+            console.log("Error connecting to Db");
+            return;
+        }
+        console.log("Connection established"); // display latest 3 reviews
+        var sql = "SELECT r.rating, r.review, u.username, u.pic, r.created_on FROM reviews r INNER JOIN user u ON r.user_id = u.userID WHERE r.movie_id = ? ORDER BY review_id DESC LIMIT 3"
+        var params = [movieID];
+        dbConn.query(sql, params, function (err, result) {
+            if (err) {
+                console.log(err)
+                return;
+            }
+            res.status(200).send(result);
+        });
+    });
+});
 
 
 app.use((err, req, res, next) => {
