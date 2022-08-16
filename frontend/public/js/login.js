@@ -21,7 +21,7 @@ $(document).ready(function () {
                 if (xhr.status == 404) {
                     Swal.fire({
                         title: 'Error',
-                        text: 'User not found or password incorrect!s',
+                        text: 'User not found or password incorrect!',
                         icon: 'error',
                         confirmButtonText: 'OK'
                     });

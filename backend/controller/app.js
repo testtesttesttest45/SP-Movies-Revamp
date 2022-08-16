@@ -365,6 +365,7 @@ app.post('/comment/:movieID', function (req, res) {
             }
             res.send({ message: "Comment inserted" });
         });
+        dbConn.end();
     })
 });
 
@@ -388,6 +389,7 @@ app.get('/comment/:movieID', function (req, res) {
             // console.log(result.length)
             res.status(200).send(result);
         });
+        dbConn.end();
     });
 });
 
@@ -410,6 +412,7 @@ app.post('/review/:movieID', function (req, res) {
             }
             res.send({ message: "Review inserted" });
         });
+        dbConn.end();
     })
 });
 
@@ -422,7 +425,7 @@ app.get('/review/:movieID', function (req, res) {
             return;
         }
         console.log("Connection established"); // display latest 3 reviews
-        var sql = "SELECT r.rating, r.review, u.username, u.pic, r.created_on FROM reviews r INNER JOIN user u ON r.user_id = u.userID WHERE r.movie_id = ? ORDER BY review_id DESC LIMIT 3"
+        var sql = "SELECT r.user_id, r.rating, r.review, u.username, u.pic, r.created_on FROM reviews r INNER JOIN user u ON r.user_id = u.userID WHERE r.movie_id = ? ORDER BY review_id DESC LIMIT 3"
         var params = [movieID];
         dbConn.query(sql, params, function (err, result) {
             if (err) {
@@ -431,6 +434,8 @@ app.get('/review/:movieID', function (req, res) {
             }
             res.status(200).send(result);
         });
+        dbConn.end();
+        console.log("Connection closed");
     });
 });
 

@@ -45,10 +45,11 @@ $(document).ready(function () {
                                     class="fa fa-thumbs-down"></i></a> <strong>87% liked this film</strong>
                                     
                         </div>
+
+                        <h4 class="reviewStatus" style="margin-top:10px;color:red">Displaying lastest 3 reviews.</h4>
                         <div id="reviewWrapper"></div>
                         
-                        
-                           
+  
                         </div>
                         <!-- end movie-info-box -->
                     </div>
@@ -74,9 +75,23 @@ $(document).ready(function () {
                 let userId = localStorage.getItem('userId');
                 let movieId = movieid;
                 // when clicked, open the Swal form where user will enter a rating and a review
-                Swal.fire({
-                    title: 'Add Review',
-                    html: `
+                fetch(`http://localhost:8085/review/${movieId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // loop through the array and check the userid. if data[i].user_id == userId, show alert: You have already reviewed this movie, and dont show the form
+                        for (let i = 0; i < data.length; i++) {
+                            if (data[i].user_id == userId) {
+                                Swal.fire({
+                                    title: 'You have already reviewed this movie',
+                                    icon: 'warning',
+                                    confirmButtonText: 'OK'
+                                });
+                                return;
+                            }
+                        }
+                        Swal.fire({
+                            title: 'Add Review',
+                            html: `
                     <form id="reviewForm">
                         <div class="form-group">
                             <label for="rating">Rating</label>
@@ -88,51 +103,59 @@ $(document).ready(function () {
                         </div>
                     </form>
                     `,
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Submit',
-                    cancelButtonText: 'Cancel',
-                }).then((result) => {
-                    if (result.value) {
-                        console.log("clocied")
-                        // when user clicks submit, get the values of the form and send them to the server
-                        let rating = parseInt($('#rating').val());
-                        let review = $('#review').val();
-                        console.log(data);
-                        fetch(`http://localhost:8085/review/${movieId}`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                userID: userId,
-                                rating: rating,
-                                review: review
-                            })
-                        })
-                        .then(res => res.json())
-                        .then(data => {
-                            Swal.fire({
-                                title: 'Review Added',
-                                text: 'Your review has been added',
-                                icon: 'success',
-                                confirmButtonText: 'OK'
-                            })
-                            .then(() => {
-                                window.location.reload();
-                            })
-                        }).catch(err => {
-                            Swal.fire({
-                                title: 'Error',
-                                text: 'Something went wrong',
-                                icon: 'error',
-                                confirmButtonText: 'OK'
-                            })
-                        })
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Submit',
+                            cancelButtonText: 'Cancel',
+                        }).then((result) => {
+                            if (result.value) {
+                                console.log("clocied")
+                                // when user clicks submit, get the values of the form and send them to the server
+                                let rating = parseInt($('#rating').val());
+                                let review = $('#review').val();
+                                if (isNaN(rating) || rating < 0 || rating > 5 || review == '') {
+                                    Swal.fire({
+                                        title: 'Please enter a valid rating or review!',
+                                        icon: 'warning',
+                                        confirmButtonText: 'OK'
+                                    });
+                                    return;
+                                }
+                                fetch(`http://localhost:8085/review/${movieId}`, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({
+                                        userID: userId,
+                                        rating: rating,
+                                        review: review
+                                    })
+                                })
+                                    .then(res => res.json())
+                                    .then(data => {
+                                        Swal.fire({
+                                            title: 'Review Added',
+                                            text: 'Your review has been added',
+                                            icon: 'success',
+                                            confirmButtonText: 'OK'
+                                        })
+                                            .then(() => {
+                                                window.location.reload();
+                                            })
+                                    }).catch(err => {
+                                        Swal.fire({
+                                            title: 'Error',
+                                            text: 'Something went wrong',
+                                            icon: 'error',
+                                            confirmButtonText: 'OK'
+                                        })
+                                    })
 
-                    }
-                })
+                            }
+                        })
+                    })
             });
         })
         .catch(err => alert(err));
@@ -218,7 +241,7 @@ $(document).ready(function () {
                     <div style="border:1px solid black;margin:10px;width:50%;background:rgb(40, 42, 43);border-radius:10px">
                     <div class="comment" style="justify-content:center;">
                     <figure class="avatar"><img src="http://localhost:8085/image/${pic}" style="width:70px;height:70px;float:left" alt="Image"></figure>
-                        <h3 style="color:white;font-weight:bolder">${review}</h3>
+                        <h3 style="color:white;font-weight:bold">${review}</h3>
                         <h4 style="color:orange">-${username}, ${created_on}</h4>
                         <h4 style="color:white">Rating: <svg class="circle-chart" viewBox="0 0 30 30" margin-bottom="-15px" width="50" height="50"
                         xmlns="http://www.w3.org/2000/svg"   style="margin-bottom:-12px;">
@@ -238,18 +261,16 @@ $(document).ready(function () {
                 }
             }
             else {
-                let reviewHTML = `
-                <li>
-                <div class="comment">
-                <h6>No reviews yet</h6>
-                <p>Be the first to review</p>
-                </div>
-            </li>
-                `;
-                $('.reviews-list').append(reviewHTML);
+                
+               let x=  document.getElementsByClassName('reviewStatus')[0];
+               // x will have a font weight of 600 and innerhtml
+                x.style.fontWeight = "600";
+                x.style.marginTop = "30px";
+                x.innerHTML = "No reviews yet. Be the first to review!";
+               // $('#reviewWrapper').append(reviewHTML);
             }
         }).catch(err => alert(err));
-    
+
 
 });
 
