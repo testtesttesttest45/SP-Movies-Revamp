@@ -18,14 +18,14 @@ $(document).ready(function () {
                             <ul class="features">
                                 <li>
                                     <div class="rate">
-                                        <svg class="circle-chart" viewBox="0 0 30 30" width="40" height="40"
+                                        <svg class="circle-chart" viewBox="0 0 30 30"
                                             fill="transparent" xmlns="http://www.w3.org/2000/svg">
                                             <circle class="circle-chart__background" stroke="#eee" stroke-width="2"
                                                 fill="none" cx="15" cy="15" r="14"></circle>
                                             <circle class="circle-chart__circle" stroke="#4eb04b" stroke-width="2"
                                                 stroke-dasharray="87,100" cx="15" cy="15" r="14"></circle>
                                         </svg>
-                                        <b>8.7</b> Total rating
+                                        <b>4.7</b> Total rating
                                     </div>
                                     <!-- end rate -->
                                 </li>
@@ -38,22 +38,12 @@ $(document).ready(function () {
                                 </li>
                             </ul>
                             <p class="description">${description}</p>
-                            <a href="" class="add-btn" style="background-color:green">+ ADD YOUR LIST</a>
-                            <button id="reviewButton" type="button" class="add-btn" style="background-color:#63a4ff">+ ADD Review</button>
-                            <div class="rate-box">
-                            <a href=""><i class="fa fa-thumbs-up"></i></a> <a href=""><i
-                                    class="fa fa-thumbs-down"></i></a> <strong>87% liked this film</strong>
-                                    
-                        </div>
-
+                            <button id="favouriteButton" type="button" class="add-btn" style="background-color:green">+ ADD TO FAVOURITES</a>
+                            <button id="reviewButton" type="button" class="add-btn" style="background-color:#63a4ff">+ ADD REVIEW</button>
                         <h4 class="reviewStatus" style="margin-top:10px;color:red">Displaying lastest 3 reviews.</h4>
                         <div id="reviewWrapper"></div>
-                        
-  
                         </div>
-                        <!-- end movie-info-box -->
                     </div>
-                    <!-- end col-8 -->
                     <div class="col-lg-4">
                         <div class="movie-side-info-box">
                             <figure><img src="http://localhost:8085/image/movies/${thumbnail}" alt="Image"></figure>
@@ -64,7 +54,6 @@ $(document).ready(function () {
                                 <li><strong>Duration:</strong> ${time}</li>
                             </ul>
                         </div>
-                        <!-- end movie-side-info-box -->
                     </div>
                 `;
             // append to id = movieContainer
@@ -157,6 +146,85 @@ $(document).ready(function () {
                         })
                     })
             });
+            const favouriteButton = document.getElementById('favouriteButton');
+            fetch(`http://localhost:8085/favourite/${movieid}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log("isFavourite?", data);
+                    if (data.length > 0) {
+                        favouriteButton.textContent = '- REMOVE FROM FAVOURITES';
+                        favouriteButton.style.backgroundColor = '#ff5776'; // pink
+                        favouriteButton.addEventListener('click', function () {
+                            // when clicked, remove the movie from the favourites list by using the delete api
+                            fetch(`http://localhost:8085/favourite/${movieid}`, {
+                                method: 'DELETE',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    userId: localStorage.getItem('userId')
+                                })
+                            })
+                                .then(res => res.json())
+                                .then(data => {
+                                    Swal.fire({
+                                        title: 'Removed from Favourites',
+                                        text: 'This movie has been removed from your favourites',
+                                        icon: 'success',
+                                        confirmButtonText: 'OK'
+                                    })
+                                        .then(() => {
+                                            window.location.reload();
+                                        })
+                                }).catch(err => {
+                                    Swal.fire({
+                                        title: 'Error',
+                                        text: 'Something went wrong',
+                                        icon: 'error',
+                                        confirmButtonText: 'OK'
+                                    })
+                                })
+
+                        });
+                    }
+                    else {
+                        favouriteButton.addEventListener('click', function () {
+                            console.log("par2")
+                            fetch(`http://localhost:8085/favourite/${movieid}`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    userId: localStorage.getItem('userId'),
+                                    favourite: 1,
+                                })
+                            })
+                                .then(res => res.json())
+                                .then(data => {
+                                    Swal.fire({
+                                        title: 'Added to favourites',
+                                        text: 'This movie has been added to your favourites',
+                                        icon: 'success',
+                                        confirmButtonText: 'OK'
+                                    })
+                                        .then(() => {
+                                            window.location.reload();
+                                        })
+                                }).catch(err => {
+                                    Swal.fire({
+                                        title: 'Error',
+                                        text: 'Something went wrong',
+                                        icon: 'error',
+                                        confirmButtonText: 'OK'
+                                    })
+                                })
+                        });
+                    }
+                }).catch(err => {
+                    console.log(err);
+                })
+            
         })
         .catch(err => alert(err));
     fetch(`http://localhost:8085/comment/${movieid}`)

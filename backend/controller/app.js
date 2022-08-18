@@ -439,6 +439,69 @@ app.get('/review/:movieID', function (req, res) {
     });
 });
 
+app.post("/favourite/:movieId", function (req, res) {
+    const movieId = parseInt(req.params.movieId);
+    const { userId, favourite } = req.body;
+    var dbConn = db.getConnection();
+    dbConn.connect(function (err) {
+        if (err) {
+            // console.log("Error connecting to Db");
+            return;
+        }
+        // PUT request to update column isFavourite to 1(true)
+        var sql = "INSERT INTO favourites (movie_id, user_id, isFavourite) VALUES (?, ?, ?)";
+        var params = [movieId, userId, favourite];
+        dbConn.query(sql, params, function (err, result) {
+            if (err) {
+                return;
+            }
+            res.status(201).send({ message: "Added to favourites" });
+        });
+        dbConn.end();
+    })
+});
+
+app.get("/favourite/:movieId", function (req, res) {
+    const movieId = parseInt(req.params.movieId);
+    var dbConn = db.getConnection();
+    dbConn.connect(function (err) {
+        if (err) {
+            console.log("Error connecting to Db");
+            return;
+        }
+        console.log("Connection established");
+        var sql = "SELECT * FROM favourites WHERE movie_id = ?";
+        var params = [movieId];
+        dbConn.query(sql, params, function (err, result) {
+            if (err) {
+                return;
+            }
+            res.status(200).send(result);
+        })
+        dbConn.end();
+    })
+});
+
+app.delete("/favourite/:movieId", function (req, res) {
+    const movieId = parseInt(req.params.movieId);
+    const { userId } = req.body;
+    var dbConn = db.getConnection();
+    dbConn.connect(function (err) {
+        if (err) {
+            return;
+        }
+        var sql = "DELETE FROM favourites WHERE movie_id = ? AND user_id = ?";
+        var params = [movieId, userId];
+        dbConn.query(sql, params, function (err, result) {
+            if (err) {
+                return;
+            }
+            res.status(200).send({ message: "Removed from favourites" });
+        });
+        dbConn.end();
+    })
+});
+
 
 app.use((err, req, res, next) => {
     console.error(err);

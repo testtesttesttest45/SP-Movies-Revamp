@@ -972,7 +972,7 @@ button[type="submit"] i {
   color: #fff;
   text-align: center;
   border: 2px solid rgba(255, 255, 255, 0.4);
-  border-radius: 50%;
+  border-radius: 40%;
   font-size: 32px;
 }
 .slider .main-slider .swiper-slide .container .add-btn:hover {
@@ -1251,7 +1251,7 @@ button[type="submit"] i {
   color: #fff;
   background: #111111;
   text-align: center;
-  border-radius: 66px;
+  border-radius: 30px;
   font-size: 15px;
   padding: 0 35px;
   font-weight: 600;
