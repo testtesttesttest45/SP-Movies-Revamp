@@ -11,7 +11,7 @@ $(document).ready(function () {
                 homeHTML = `
                 <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6" id="container">
                     <div class="video-thumb">
-                    <figure class="video-image"><a href="#"><img src="http://localhost:8085/image/movies/${data[i].thumbnail}" alt="Image"></a>
+                    <figure class="video-image"><a href="#"><img src="http://localhost:8085/image/movies/${data[i].thumbnail}" class="movieBanner" alt="Image"></a>
                     <div class="circle-rate">
                                     <svg class="circle-chart" viewBox="0 0 30 30" width="100" height="100"
                                         xmlns="http://www.w3.org/2000/svg">

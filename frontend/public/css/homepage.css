@@ -3336,6 +3336,6 @@ main {
 .add-btn:hover {
   transform:scale(1.05);
 }
-img {
+.movieBanner {
   height: 300px;
 }
