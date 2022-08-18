@@ -139,10 +139,10 @@ module.exports = {
                         console.log("In user.js findAll QueryError:", err);
                         return callback(error, null);
                     } else if (!error && results.length == 0) {
-                        console.log("In user.js findAll Results:", results);
+                        // console.log("In user.js findAll Results:", results);
                         return callback(null, null);
                     } else {
-                        console.log("In user.js findByID Results:", results);
+                        // console.log("In user.js findByID Results:", results);
                         return callback(null, results);
                     }
                 });
@@ -160,7 +160,7 @@ module.exports = {
                 console.log(err);
                 return callback(err, null);
             } else {
-                const findUserByIDQuery = "SELECT userid, username, email, contact, role, pic, created_at FROM user WHERE userID = ?;";
+                const findUserByIDQuery = "SELECT userid, username, email, password, contact, role, pic, created_at FROM user WHERE userID = ?;";
                 dbConn.query(findUserByIDQuery, [userID], (error, results) => {
                     dbConn.end();
                     if (error) {

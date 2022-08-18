@@ -105,6 +105,18 @@ $(document).ready(function () {
                             <label for="phone">Phone</label>
                             <input type="text" class="form-control" id="phone" placeholder="Enter phone" value="${phoneMain.innerHTML}">
                         </div>
+                        <div class="form-group">
+                            <label for="password">Old Password</label>
+                            <input type="password" class="form-control" id="oldPassword" placeholder="Enter old password" value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">New Password</label>
+                            <input type="password" class="form-control" id="newPassword" placeholder="Confirm password" value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Confirm New Password</label>
+                            <input type="password" class="form-control" id="confirmNewPassword" placeholder="Confirm new password" value="">
+                        </div>
                     </form>`,
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -116,48 +128,79 @@ $(document).ready(function () {
                     const username = document.getElementById('username').value;
                     const email = document.getElementById('email').value;
                     const phone = document.getElementById('phone').value;
+                    const oldPassword = document.getElementById('oldPassword').value;
+                    const newPassword = document.getElementById('newPassword').value;
+                    const confirmNewPassword = document.getElementById('confirmNewPassword').value;
                     const data = {
                         username: username,
                         email: email,
-                        contact: phone
+                        contact: phone,
+                        password: newPassword,
                     };
-                    fetch(`http://localhost:8085/user/${userId}`, {
-                        method: 'PUT',
-                        // application json
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(data)
-                    })
-                        .then(response => response.json(console.log("Updating profile status: " ,response.status)))
-                        .then(data => {
-                            console.log(data.status)
-                            if (data.status === 200) { // to access the status , ensure to send back message + status like so: res.send({ message: "Username or email already exists", status: 409 });
-                                Swal.fire({
-                                    title: 'Profile updated!',
-                                    text: 'Reload now.',
-                                    icon: 'success',
-                                    confirmButtonColor: '#3085d6',
-                                    confirmButtonText: 'OK'
-                                }).then((result) => {
-                                    if (result.value) {
-                                        window.location.href = "profile.html";
-                                    }
-                                })
-                            }
-                            else {
+                    fetch(`http://localhost:8085/users/${userId}`)
+                        .then(response => response.json())
+                        .then(doggy => {
+                            console.log("User password:", doggy.password);
+                            if ( oldPassword === '' || newPassword === '' || confirmNewPassword === '' || username === '' || email === '' || phone === '') {
                                 Swal.fire({
                                     title: 'Error!',
-                                    text: data.message,  // show the error message, same as the one in the backend
+                                    text: 'Please fill in all fields.',
                                     icon: 'error',
                                     confirmButtonColor: '#3085d6',
                                     confirmButtonText: 'OK'
                                 })
+                                return;
+                            } else if (oldPassword !== doggy.password || newPassword !== confirmNewPassword) {
+                                Swal.fire({
+                                    title: 'Error!',
+                                    text: 'Password does not match!',
+                                    icon: 'error',
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'OK'
+                                })
+                                return;
                             }
-                           
+                            else {
+                                fetch(`http://localhost:8085/user/${userId}`, {
+                                    method: 'PUT',
+                                    headers: {
+                                        'Content-Type': 'application/json' // Without using this, the server will not understand the data. maybe 415 error(unsupported media type)
+                                    },
+                                    body: JSON.stringify(data)
+                                })
+                                    .then(response => response.json(console.log("Updating profile status: ", response.status)))
+                                    .then(data => {
+                                        console.log(data.status)
+                                        if (data.status === 200) { // to access the status , ensure to send back from backend the (message + status) like so: res.send({ message: "Username or email already exists", status: 409 });
+                                            Swal.fire({
+                                                title: 'Profile updated!',
+                                                text: 'Reload now.',
+                                                icon: 'success',
+                                                confirmButtonColor: '#3085d6',
+                                                confirmButtonText: 'OK'
+                                            }).then((result) => {
+                                                if (result.value) {
+                                                    window.location.href = "profile.html";
+                                                }
+                                            })
+                                        }
+                                        else {
+                                            Swal.fire({
+                                                title: 'Error!',
+                                                text: data.message,  // show the error message, exact same as the one in the backend
+                                                icon: 'error',
+                                                confirmButtonColor: '#3085d6',
+                                                confirmButtonText: 'OK'
+                                            })
+                                        }
+
+                                    })
+                            }
                         })
+                        .catch(err => console.log(err));
+
                 }
-                
+
             })
         })
     }
