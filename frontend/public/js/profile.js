@@ -16,6 +16,7 @@ $(document).ready(function () {
             .then(response => response.json())
             .then(data => {
                 console.log("User details:", data);
+                $('title').text(`SP Movies | ${data.username}`); // replace the title of the page with the title of the movie
                 nameSide.innerHTML = data.username;
                 profilePhoto.src = `http://localhost:8085/image/${data.pic}`;
                 nameMain.innerHTML = data.username;
@@ -117,6 +118,11 @@ $(document).ready(function () {
                             <label for="password">Confirm New Password</label>
                             <input type="password" class="form-control" id="confirmNewPassword" placeholder="Confirm new password" value="">
                         </div>
+                        <div class="form-group">
+                            <label for="profilePicture">Profile Picture</label>
+                            <input type="file" class="form-control" id="profilePicture" placeholder="Upload profile picture" value="">
+                        </div>
+
                     </form>`,
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -131,6 +137,9 @@ $(document).ready(function () {
                     const oldPassword = document.getElementById('oldPassword').value;
                     const newPassword = document.getElementById('newPassword').value;
                     const confirmNewPassword = document.getElementById('confirmNewPassword').value;
+                    const profilePicture = document.getElementById('profilePicture').value;
+                    // profilePicture is a file object, need to convert it to a form data object, then save it to the http://localhost:8085/image folder
+
                     const data = {
                         username: username,
                         email: email,

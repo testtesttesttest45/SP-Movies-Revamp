@@ -12,6 +12,10 @@ const jwt = require("jsonwebtoken");
 const JWT_SECRET = require("../config.js");
 const isLoggedInMiddleware = require("../auth/isLoggedInMiddleware");
 const db = require("../model/databaseConfig");
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
+
+// allow form data body
 
 app.use(express.static("public"));
 
@@ -393,9 +397,11 @@ app.get('/comment/:movieID', function (req, res) {
     });
 });
 
-app.post('/review/:movieID', function (req, res) {
+app.post('/review/:movieID', upload.single('image'), function (req, res) {
+
     const movieID = parseInt(req.params.movieID);
     const { userID, rating, review } = req.body;
+    // convert
     var dbConn = db.getConnection();
     dbConn.connect(function (err) {
         if (err) {
@@ -407,6 +413,8 @@ app.post('/review/:movieID', function (req, res) {
         var params = [movieID, userID, rating, review];
         dbConn.query(sql, params, function (err, result) {
             if (err) {
+                
+            console.log(err)
                 // console.log("Error inserting comment");
                 return;
             }
@@ -521,7 +529,8 @@ app.delete("/user/:userId", function (req, res) {
     })
 });
 
-app.put("/user/:userId", function (req, res) {
+app.put("/user/:userId",  function (req, res) {
+    console.log(req.file);
     const userId = parseInt(req.params.userId);
     const { username, email, contact, password } = req.body;
     var dbConn = db.getConnection();

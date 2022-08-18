@@ -7,3 +7,6 @@
 ![Completions](completion_screenshots/Search.png)
 ![Completions](completion_screenshots/Review1.png)
 ![Completions](completion_screenshots/Review2.png)
+![Completions](completion_screenshots/Profile1.png)
+![Completions](completion_screenshots/Profile2.png)
+![Completions](completion_screenshots/Profile3.png)
