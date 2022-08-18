@@ -9,6 +9,10 @@ $(document).ready(function () {
         var decoded = jwt_decode(token);
         $('#thisusername').text(decoded.username);
         localStorage.setItem('userId', decoded.userid);
+        document.getElementById('thisusername').setAttribute('href', 'profile.html'); // or $('#thisusername').attr('href', 'login.html');
+    }
+    else {
+        document.getElementById('thisusername').setAttribute('href', 'login.html'); // or $('#thisusername').attr('href', 'login.html');
     }
 });
 

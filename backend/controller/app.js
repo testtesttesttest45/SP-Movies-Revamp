@@ -502,6 +502,24 @@ app.delete("/favourite/:movieId", function (req, res) {
     })
 });
 
+app.delete("/user/:userId", function (req, res) {
+    const userId = parseInt(req.params.userId);
+    var dbConn = db.getConnection();
+    dbConn.connect(function (err) {
+        if (err) {
+            return;
+        }
+        var sql = "DELETE FROM user WHERE userID = ?";
+        var params = [userId];
+        dbConn.query(sql, params, function (err, result) {
+            if (err) {
+                return;
+            }
+            res.status(200).send({ message: "User deleted" });
+        });
+        dbConn.end();
+    })
+});
 
 app.use((err, req, res, next) => {
     console.error(err);
