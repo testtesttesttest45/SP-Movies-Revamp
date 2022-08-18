@@ -153,12 +153,12 @@ app.get('/users/:userID', /* verifyToken*/ function (req, res) {
 // Enpoint : PUT /user/:userID
 app.put('/users/:userID', function (req, res) {
     // const userID = parseInt(req.params.userID);
-    const userID = req.params.userID;
-    if (isNaN(userID)) {
+    const userid = parseInt(req.params.userID);
+    if (isNaN(userid)) {
         res.status(400).send("Unacceptable format for user specification");
         return;
     } else {
-        user.edit(userID, req.body, function (err, result) {
+        user.edit(userid, req.body, function (err, result) {
             if (err) {
                 if (err.code == "ER_DUP_ENTRY") {
                     res.status(422).send("The new username provided already exists.");
@@ -516,6 +516,32 @@ app.delete("/user/:userId", function (req, res) {
                 return;
             }
             res.status(200).send({ message: "User deleted" });
+        });
+        dbConn.end();
+    })
+});
+
+app.put("/user/:userId", function (req, res) {
+    const userId = parseInt(req.params.userId);
+    const { username, email, contact  } = req.body;
+    var dbConn = db.getConnection();
+    dbConn.connect(function (err) {
+        if (err) {
+            return;
+        }
+        var sql = "UPDATE user SET username = ?, email = ?, contact = ? WHERE userID = ?";
+        var params = [username, email, contact, userId];
+        dbConn.query(sql, params, function (err, result) {
+            // if error is conflict, show this message
+            if (err && err.code === "ER_DUP_ENTRY") {
+                res.send({ message: "Username or email already exists", status: 409 });
+                return;
+            }
+            else if (err) {
+                return;
+            }
+            res.send({ message: "User updated", status: 200 });
+
         });
         dbConn.end();
     })

@@ -195,15 +195,13 @@ module.exports = {
                     username = ?,
                     email = ?,
                     contact = ?,
-                    password = ?,
-                    role = ?,
-                    pic= ?
                 WHERE userID = ?;
                 `;
-                dbConn.query(editUserQuery, [user.username, user.email, user.contact, user.password, user.role, user.pic, userID], (error, results) => {
+                dbConn.query(editUserQuery, [user.username, user.email, user.contact, userID], (error, results) => {
                     dbConn.end();
-                    console.log("New values:", user.username, user.email, user.contact, user.password, user.role, user.pic, userID)
+                    // console.log("New values:", user.username, user.email, user.contact, user.password, user.role, user.pic, userID)
                     if (error) {
+                        console.log(error)
                         return callback(error, null);
                     } else {
                         console.log("Results:", results.affectedRows)

@@ -56,10 +56,10 @@ module.exports = {
                         console.log("In moovie.js findAll QueryError:", err);
                         return callback(error, null);
                     } else if (!error && results.length == 0) {
-                        console.log("In movie.js findAll Results:",results);
+                        // console.log("In movie.js findAll Results:",results);
                         return callback(null, null);
                     } else {
-                        console.log("In movie.js findByID Results:",results);
+                        // console.log("In movie.js findByID Results:",results);
                         return callback(null, results);
                     }
                 });
@@ -67,7 +67,7 @@ module.exports = {
         });
     },   
     searchMovieByTitle: function(title, callback){
-    console.log("In movie.js searchmovietitle" , title);
+    // console.log("In movie.js searchmovietitle" , title);
     var dbConn = db.getConnection();
     dbConn.connect(function (err){
         if(err) {
@@ -83,10 +83,10 @@ module.exports = {
                     console.log("In movie.js searchmoviebytitle QueryError:", error);
                     return callback(error, null);
                 } else if (!error && results.length == 0) {
-                    console.log("In movie.js searchmoviebytitle Results:",results);
+                    // console.log("In movie.js searchmoviebytitle Results:",results);
                     return callback(null, null);
                 } else {
-                    console.log("In movie.js searchmoviebytitle Results:",results);
+                    // console.log("In movie.js searchmoviebytitle Results:",results);
                     return callback(null, results);
                 }
             });
@@ -110,10 +110,10 @@ module.exports = {
                 console.log("In movie.js findByID QueryError:",err);
                 return callback(error, null); 
               } else if (!error && results.length == 0) {
-                  console.log("In movie.js findByID Results: ",results);
+                  // console.log("In movie.js findByID Results: ",results);
                   return callback(null, null);
               } else {
-                  console.log("In movie.js findByID Results: ",results);
+                  // console.log("In movie.js findByID Results: ",results);
                   return callback(null, results[0]);
               }
             });

@@ -89,7 +89,79 @@ $(document).ready(function () {
                 })
 
         });
+        editButton.addEventListener('click', function () {
+            Swal.fire({
+                title: 'Edit your profile',
+                html: `<form id="editForm">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control" id="username" placeholder="Enter username" value="${nameMain.innerHTML}">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email" placeholder="Enter email" value="${emailMain.innerHTML}">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <input type="text" class="form-control" id="phone" placeholder="Enter phone" value="${phoneMain.innerHTML}">
+                        </div>
+                    </form>`,
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: 'lightsalmon',
+                cancelButtonText: 'Cancel',
+                confirmButtonText: 'Save'
+            }).then((result) => {
+                if (result.value) {
+                    const username = document.getElementById('username').value;
+                    const email = document.getElementById('email').value;
+                    const phone = document.getElementById('phone').value;
+                    const data = {
+                        username: username,
+                        email: email,
+                        contact: phone
+                    };
+                    fetch(`http://localhost:8085/user/${userId}`, {
+                        method: 'PUT',
+                        // application json
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    })
+                        .then(response => response.json(console.log("Updating profile status: " ,response.status)))
+                        .then(data => {
+                            console.log(data.status)
+                            if (data.status === 200) { // to access the status , ensure to send back message + status like so: res.send({ message: "Username or email already exists", status: 409 });
+                                Swal.fire({
+                                    title: 'Profile updated!',
+                                    text: 'Reload now.',
+                                    icon: 'success',
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'OK'
+                                }).then((result) => {
+                                    if (result.value) {
+                                        window.location.href = "profile.html";
+                                    }
+                                })
+                            }
+                            else {
+                                Swal.fire({
+                                    title: 'Error!',
+                                    text: data.message,  // show the error message, same as the one in the backend
+                                    icon: 'error',
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'OK'
+                                })
+                            }
+                           
+                        })
+                }
+                
+            })
+        })
     }
+
     else {
         alert("Siam")
         window.location.href = "login.html";
