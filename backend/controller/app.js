@@ -398,10 +398,8 @@ app.get('/comment/:movieID', function (req, res) {
 });
 
 app.post('/review/:movieID', upload.single('image'), function (req, res) {
-
     const movieID = parseInt(req.params.movieID);
     const { userID, rating, review } = req.body;
-    // convert
     var dbConn = db.getConnection();
     dbConn.connect(function (err) {
         if (err) {
@@ -413,7 +411,6 @@ app.post('/review/:movieID', upload.single('image'), function (req, res) {
         var params = [movieID, userID, rating, review];
         dbConn.query(sql, params, function (err, result) {
             if (err) {
-                
             console.log(err)
                 // console.log("Error inserting comment");
                 return;
@@ -552,6 +549,28 @@ app.put("/user/:userId",  function (req, res) {
             res.send({ message: "User updated", status: 200 });
 
         });
+        dbConn.end();
+    })
+});
+
+app.get("/userFavourite/:userId", function (req, res) {
+    const userId = parseInt(req.params.userId);
+    var dbConn = db.getConnection();
+    dbConn.connect(function (err) {
+        if (err) {
+            console.log("Error connecting to Db");
+            return;
+        }
+        console.log("Connection established");
+        // select from favourites where user_id = ? and will also look at movie_id to reference movie table and take the title where movie_id = movie_id in favourites
+        var sql = "SELECT m.movieid, m.title, m.thumbnail, m.opening_date FROM favourites f INNER JOIN movie m ON f.movie_id = m.movieid WHERE f.user_id = ?";
+        var params = [userId];
+        dbConn.query(sql, params, function (err, result) {
+            if (err) {
+                return;
+            }
+            res.status(200).send(result);
+        })
         dbConn.end();
     })
 });

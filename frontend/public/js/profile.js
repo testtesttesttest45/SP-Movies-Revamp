@@ -11,6 +11,7 @@ $(document).ready(function () {
     const requestAdminButton = document.getElementById('requestAdminButton');
     const deleteButton = document.getElementById('deleteButton');
     const userId = localStorage.getItem('userId');
+    let favouriteHTML = '';
     if (userId) {
         fetch(`http://localhost:8085/users/${userId}`)
             .then(response => response.json())
@@ -150,7 +151,7 @@ $(document).ready(function () {
                         .then(response => response.json())
                         .then(doggy => {
                             console.log("User password:", doggy.password);
-                            if ( oldPassword === '' || newPassword === '' || confirmNewPassword === '' || username === '' || email === '' || phone === '') {
+                            if (oldPassword === '' || newPassword === '' || confirmNewPassword === '' || username === '' || email === '' || phone === '') {
                                 Swal.fire({
                                     title: 'Error!',
                                     text: 'Please fill in all fields.',
@@ -212,6 +213,34 @@ $(document).ready(function () {
 
             })
         })
+        // fetch and display all favourites of the user
+        fetch(`http://localhost:8085/userFavourite/${userId}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log("You favourite these: ", data);
+                if (data.length > 0) {
+                    for (let i = 0; i < data.length; i++) {
+                        const { title, thumbnail, opening_date } = data[i];
+                        favouriteHTML = `
+                        <div class="col-12 col-sm-6 col-lg-3" style="padding-top:40px">
+                        <div class="single_advisor_profile wow fadeInUp" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;max-width: 100%;
+                            max-height: 300px;">
+                        <div class="advisor_thumb"><img src="http://localhost:8085/image/movies/${thumbnail}"
+                                class="movieBanner">
+                        </div>
+                        <div class="single_advisor_details_info">
+                            <h6>${title}</h6>
+                            <p class="designation">Release date: ${opening_date}</p>
+                        </div>
+                        </div>
+                        </div>
+                        `;
+                        $('#favouriteContainer').append(favouriteHTML);
+                    }
+                    
+                }
+            })
+            .catch(err => console.log(err));
     }
 
     else {
