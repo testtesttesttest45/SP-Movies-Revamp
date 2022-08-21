@@ -1673,7 +1673,7 @@ main {
   line-height: 18px;
   font-size: 12px;
   padding: 0 4px;
-  border: 1px solid #fff;
+  border: 1px solid greenyellow;
   opacity: 0.7;
 }
 .video-thumb .video-content .name {

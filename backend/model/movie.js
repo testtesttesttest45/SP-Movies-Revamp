@@ -49,7 +49,10 @@ module.exports = {
                 return callback(err, null);
             } else {
                 // const findAllUsersQuery = "SELECT movieid, title, description, cast, time, opening_date  from movie ;";
-                const findAllUsersQuery = "SELECT m.movieid, m.title, m.description, m.cast, m.time, m.opening_date , CONCAT(g.genre) as 'genre', thumbnail from movie m, genre g where m.genreid = g.genreid";
+                // every movie has 2 columns of genreid. Reference both of them to get the genre of the movie.
+                // var sql = "SELECT m.title, m.description, m.cast, m.time, m.opening_date, g1.genre, g2.genre FROM movie m LEFT JOIN genre g1 ON m.genreid = g1.genreid LEFT JOIN genre g2 ON m.genreid1 = g2.genreid;"
+                // concat the two genre columns into one column called genre.
+                var findAllUsersQuery = `SELECT m.movieid, m.title, m.time, m.opening_date, IFNULL(ROUND(AVG(r.rating),1),0) AS score, m.thumbnail, CONCAT(g1.genre, ", " ,g2.genre) AS genre, m.description, m.cast FROM movie m LEFT JOIN reviews r ON m.movieid = r.movie_id LEFT JOIN genre g1 ON m.genreid = g1.genreID LEFT JOIN genre g2 ON m.genreid1 = g2.genreID GROUP BY m.movieid;`
                 dbConn.query(findAllUsersQuery, (error, results) => {
                     dbConn.end();
                     if (error) {
