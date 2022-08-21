@@ -102,8 +102,8 @@
         .single_advisor_profile .single_advisor_details_info {
             position: relative;
             z-index: 1;
-            padding: 30px;
-            text-align: right;
+            padding: 10px;
+            text-align: left;
             -webkit-transition-duration: 500ms;
             transition-duration: 500ms;
             border-radius: 0 0 15px 15px;
@@ -115,12 +115,12 @@
             transition-duration: 500ms;
             position: absolute;
             z-index: 1;
-            width: 50px;
+            width: 80px;
             height: 3px;
             background-color: greenyellow;
             content: "";
-            top: 12px;
-            right: 30px;
+            top: 5px;
+            right: 10px;
         }
 
         .single_advisor_profile .single_advisor_details_info h6 {
@@ -150,12 +150,15 @@
 
         .single_advisor_profile:hover .advisor_thumb::after,
         .single_advisor_profile:focus .advisor_thumb::after {
-            background-color: #070a57;
+            background-color: #5358d7;
         }
 
+        .single_advisor_profile:hover .advisor_thumb .social-info button,
+        .single_advisor_profile:focus .advisor_thumb .social-info button,
         .single_advisor_profile:hover .advisor_thumb .social-info a,
         .single_advisor_profile:focus .advisor_thumb .social-info a {
             color: #ffffff;
+            cursor: pointer;
         }
 
         .single_advisor_profile:hover .advisor_thumb .social-info a:hover,
@@ -167,12 +170,12 @@
 
         .single_advisor_profile:hover .single_advisor_details_info,
         .single_advisor_profile:focus .single_advisor_details_info {
-            background-color: #070a57;
+            background-color: #5358d7;
         }
 
         .single_advisor_profile:hover .single_advisor_details_info::after,
         .single_advisor_profile:focus .single_advisor_details_info::after {
-            background-color: #ffffff;
+            background-color: gold;
         }
 
         .single_advisor_profile:hover .single_advisor_details_info h6,

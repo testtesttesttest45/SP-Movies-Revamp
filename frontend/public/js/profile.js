@@ -220,24 +220,27 @@ $(document).ready(function () {
                 console.log("You favourite these: ", data);
                 if (data.length > 0) {
                     for (let i = 0; i < data.length; i++) {
-                        const { title, thumbnail, opening_date } = data[i];
+                        const { movieid, title, thumbnail, opening_date } = data[i];
                         favouriteHTML = `
-                        <div class="col-12 col-sm-6 col-lg-3" style="padding-top:40px">
+                        <div class="col-12 col-sm-6 col-lg-3">
                         <div class="single_advisor_profile wow fadeInUp" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;max-width: 100%;
                             max-height: 300px;">
                         <div class="advisor_thumb"><img src="http://localhost:8085/image/movies/${thumbnail}"
                                 class="movieBanner">
-                        </div>
+                                <!-- Delete from favourites/Go to the movie -->
+                                <div class="social-info"><button type="button" title="Remove from Favourites" onclick=DeleteFromFavourites(${movieid}); style="border:none;background:transparent"><i class="fa fa-trash"></i></button><a title="Go To" href="http://localhost:3001/movie.html?movieid=${movieid}"><i class="fa fa-external-link"></i></a></div>
+                              </div>
+                        
                         <div class="single_advisor_details_info">
                             <h6>${title}</h6>
-                            <p class="designation">Release date: ${opening_date}</p>
+                            <p class="designation">Released: ${opening_date}</p>
                         </div>
                         </div>
                         </div>
                         `;
-                        $('#favouriteContainer').append(favouriteHTML);
+                        $('#favouriteContainer').append(favouriteHTML);  // or document.getElementById('favouriteContainer').innerHTML += favouriteHTML;
+                        
                     }
-                    
                 }
             })
             .catch(err => console.log(err));
@@ -247,4 +250,38 @@ $(document).ready(function () {
         alert("Siam")
         window.location.href = "login.html";
     }
+        
+
 })
+
+function DeleteFromFavourites(movieid) {
+    // when clicked, remove the movie from the favourites list by using the delete api
+    fetch(`http://localhost:8085/favourite/${movieid}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            userId: localStorage.getItem('userId')
+        })
+    })
+        .then(res => res.json())
+        .then(data => {
+            Swal.fire({
+                title: 'Removed from Favourites',
+                text: 'This movie has been removed from your favourites',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            })
+                .then(() => {
+                    window.location.reload();
+                })
+        }).catch(err => {
+            Swal.fire({
+                title: 'Error',
+                text: 'Something went wrong',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            })
+        })
+}
