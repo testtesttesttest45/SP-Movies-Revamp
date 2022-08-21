@@ -10,3 +10,6 @@
 ![Completions](completion_screenshots/Profile1.png)
 ![Completions](completion_screenshots/Profile2.png)
 ![Completions](completion_screenshots/Profile3.png)
+![Completions](completion_screenshots/HomePageScoring.png)
+![Completions](completion_screenshots/Profile4.png)
+![Completions](completion_screenshots/Query.png)
