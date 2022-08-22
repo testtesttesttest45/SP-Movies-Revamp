@@ -575,7 +575,32 @@ app.get("/userFavourite/:userId", function (req, res) {
     })
 });
 
-
+// create an appget request with the search text in the query params
+app.get("/search", function (req, res) {
+    const searchText = req.query.searchText;
+    // so the backend will look like this: http://localhost:8085/search?searchText=avengers
+    var dbConn = db.getConnection();
+    dbConn.connect(function (err) {
+        if (err) {
+            console.log("Error connecting to Db");
+            return;
+        }
+        console.log("Connection established");
+        var sql = `SELECT m.movieid, m.title, m.time, m.opening_date, 
+        IFNULL(ROUND(AVG(r.rating),1),0) AS score, m.thumbnail, CONCAT(g1.genre, ", " ,g2.genre) AS genre, m.description, m.cast 
+        FROM movie m LEFT JOIN reviews r ON m.movieid = r.movie_id 
+        LEFT JOIN genre g1 ON m.genreid = g1.genreID 
+        LEFT JOIN genre g2 ON m.genreid1 = g2.genreID WHERE m.title LIKE ? GROUP BY m.movieid`;
+        var params = ["%" + searchText + "%"];
+        dbConn.query(sql, params, function (err, result) {
+            if (err) {
+                return;
+            }
+            res.status(200).send(result);
+        })
+        dbConn.end();
+    })
+});
 
 app.use((err, req, res, next) => {
     console.error(err);
