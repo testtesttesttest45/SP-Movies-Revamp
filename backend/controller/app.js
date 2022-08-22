@@ -411,7 +411,7 @@ app.post('/review/:movieID', upload.single('image'), function (req, res) {
         var params = [movieID, userID, rating, review];
         dbConn.query(sql, params, function (err, result) {
             if (err) {
-            console.log(err)
+                console.log(err)
                 // console.log("Error inserting comment");
                 return;
             }
@@ -468,6 +468,7 @@ app.post("/favourite/:movieId", function (req, res) {
 
 app.get("/favourite/:movieId", function (req, res) {
     const movieId = parseInt(req.params.movieId);
+    const userID = req.query.userId;
     var dbConn = db.getConnection();
     dbConn.connect(function (err) {
         if (err) {
@@ -475,8 +476,8 @@ app.get("/favourite/:movieId", function (req, res) {
             return;
         }
         console.log("Connection established");
-        var sql = "SELECT * FROM favourites WHERE movie_id = ?";
-        var params = [movieId];
+        var sql = "SELECT * FROM favourites WHERE movie_id = ? and user_id = ?";
+        var params = [movieId, userID];
         dbConn.query(sql, params, function (err, result) {
             if (err) {
                 return;
@@ -526,7 +527,7 @@ app.delete("/user/:userId", function (req, res) {
     })
 });
 
-app.put("/user/:userId",  function (req, res) {
+app.put("/user/:userId", function (req, res) {
     console.log(req.file);
     const userId = parseInt(req.params.userId);
     const { username, email, contact, password } = req.body;

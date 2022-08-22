@@ -5,6 +5,9 @@ $(document).ready(function () {
     let queryParams = new URLSearchParams(window.location.search); // or you can also use window.location.search.split('=')[1];
     let movieid = queryParams.get('movieid');
     let movieHTML = '';
+    let userId = localStorage.getItem('userId');
+    let commentButton = document.getElementById('commentButton');
+
     fetch(`http://localhost:8085/movie/${movieid}`)
         .then(response => response.json())
         .then(data => {
@@ -60,9 +63,17 @@ $(document).ready(function () {
             $('#movieContainer').append(movieHTML);
             $('title').text(`SP Movies | ${title}`); // replace the title of the page with the title of the movie
             $('#movie-poster').attr('poster', `http://localhost:8085/image/movies/${thumbnail}`); // replace the poster of the page with the poster of the movie
-            document.getElementById('reviewButton').addEventListener('click', function () {
-                let userId = localStorage.getItem('userId');
+            const reviewButton = document.getElementById('reviewButton');
+            reviewButton.addEventListener('click', function () {
                 let movieId = movieid;
+                if (!userId) {
+                    Swal.fire({
+                        title: 'Please login first to add review',
+                        icon: 'warning',
+                        confirmButtonText: 'OK'
+                    })
+                    return;
+                }
                 // when clicked, open the Swal form where user will enter a rating and a review
                 fetch(`http://localhost:8085/review/${movieId}`)
                     .then(response => response.json())
@@ -147,7 +158,7 @@ $(document).ready(function () {
                     })
             });
             const favouriteButton = document.getElementById('favouriteButton');
-            fetch(`http://localhost:8085/favourite/${movieid}`)
+            fetch(`http://localhost:8085/favourite/${movieid}?userId=${userId}`)
                 .then(response => response.json())
                 .then(data => {
                     console.log("isFavourite?", data);
@@ -155,6 +166,14 @@ $(document).ready(function () {
                         favouriteButton.textContent = '- REMOVE FROM FAVOURITES';
                         favouriteButton.style.backgroundColor = '#ff5776'; // pink
                         favouriteButton.addEventListener('click', function () {
+                            if (!userId) {
+                                Swal.fire({
+                                    title: 'Please login first to add to favourites',
+                                    icon: 'warning',
+                                    confirmButtonText: 'OK'
+                                })
+                                return;
+                            }
                             // when clicked, remove the movie from the favourites list by using the delete api
                             fetch(`http://localhost:8085/favourite/${movieid}`, {
                                 method: 'DELETE',
@@ -189,7 +208,14 @@ $(document).ready(function () {
                     }
                     else {
                         favouriteButton.addEventListener('click', function () {
-                            console.log("par2")
+                            if (!userId) {
+                                Swal.fire({
+                                    title: 'Please login first to add to favourites',
+                                    icon: 'warning',
+                                    confirmButtonText: 'OK'
+                                })
+                                return;
+                            }
                             fetch(`http://localhost:8085/favourite/${movieid}`, {
                                 method: 'POST',
                                 headers: {
@@ -224,7 +250,7 @@ $(document).ready(function () {
                 }).catch(err => {
                     console.log(err);
                 })
-            
+
         })
         .catch(err => alert(err));
     fetch(`http://localhost:8085/comment/${movieid}`)
@@ -260,7 +286,7 @@ $(document).ready(function () {
                 $('.comments-list').append(commentHTML);
             }
         })
-    document.getElementById('commentButton').addEventListener('click', function () {
+    commentButton.addEventListener('click', function () {
         // send a post request to add a comment to the movie
         let comment = document.getElementById('comment').value;
         // ensure the comment is not empty
@@ -329,13 +355,13 @@ $(document).ready(function () {
                 }
             }
             else {
-                
-               let x=  document.getElementsByClassName('reviewStatus')[0];
-               // x will have a font weight of 600 and innerhtml
+
+                let x = document.getElementsByClassName('reviewStatus')[0];
+                // x will have a font weight of 600 and innerhtml
                 x.style.fontWeight = "600";
                 x.style.marginTop = "30px";
                 x.innerHTML = "No reviews yet. Be the first to review!";
-               // $('#reviewWrapper').append(reviewHTML);
+                // $('#reviewWrapper').append(reviewHTML);
             }
         }).catch(err => alert(err));
 
