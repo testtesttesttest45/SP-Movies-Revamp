@@ -13,3 +13,4 @@
 ![Completions](completion_screenshots/HomePageScoring.png)
 ![Completions](completion_screenshots/Profile4.png)
 ![Completions](completion_screenshots/Query.png)
+![Completions](completion_screenshots/GuestMode.png)
