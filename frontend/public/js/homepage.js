@@ -67,7 +67,7 @@ $(document).ready(function () {
                     movieContainer.innerHTML = `<h1 style="color:red">No results found</h1>`;
                     return;
                 }
-                console.log("Total movies retrieved:", data);
+                console.log("Total movies retrieved after Search:", data);
                 // loop through the data and display the movies
                 for (let i = 0; i < data.length; i++) {
                     const { movieid, title, genre, time, thumbnail, score } = data[i];
