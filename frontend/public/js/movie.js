@@ -110,7 +110,6 @@ $(document).ready(function () {
                             cancelButtonText: 'Cancel',
                         }).then((result) => {
                             if (result.value) {
-                                console.log("clocied")
                                 // when user clicks submit, get the values of the form and send them to the server
                                 let rating = parseInt($('#rating').val());
                                 let review = $('#review').val();
@@ -262,7 +261,7 @@ $(document).ready(function () {
                     const { comment, username, created_on, pic } = data[i];
                     let commentHTML = `
                 <li>
-                <figure class="avatar"><img src="http://localhost:8085/image/${pic}" alt="Image"></figure>
+                <figure class="avatar"><img src="http://localhost:8085/image/${pic}" alt="Image"  class="rounded-circle"></figure>
                 <div class="comment">
                 <h6>${username}</h6>
                 <p>${comment}</p>
@@ -334,7 +333,7 @@ $(document).ready(function () {
                     let reviewHTML = `
                     <div style="border:1px solid black;margin:10px;width:50%;background:rgb(40, 42, 43);border-radius:10px">
                     <div class="comment" style="justify-content:center;">
-                    <figure class="avatar"><img src="http://localhost:8085/image/${pic}" style="width:70px;height:70px;float:left" alt="Image"></figure>
+                    <figure class="avatar"><img src="http://localhost:8085/image/${pic}"  class="rounded-circle" style="width:70px;height:70px;float:left" alt="Image"></figure>
                         <h3 style="color:white;font-weight:bold">${review}</h3>
                         <h4 style="color:orange">-${username}, ${created_on}</h4>
                         <h4 style="color:white">Rating: <svg class="circle-chart" viewBox="0 0 30 30" margin-bottom="-15px" width="50" height="50"

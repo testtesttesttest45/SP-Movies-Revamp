@@ -587,6 +587,8 @@ app.get("/search", function (req, res) {
             return;
         }
         console.log("Connection established");
+        // for IFNULL, I also experimented:  SELECT  title, IF(cast = "" ,'empty' ,cast)  as cast FROM movie
+        // NULL and 0 and "" are not the same thing
         var sql = `SELECT m.movieid, m.title, m.time, m.opening_date, 
         IFNULL(ROUND(AVG(r.rating),1),0) AS score, m.thumbnail, CONCAT(g1.genre, ", " ,g2.genre) AS genre, m.description, m.cast 
         FROM movie m LEFT JOIN reviews r ON m.movieid = r.movie_id 
