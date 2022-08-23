@@ -94,7 +94,9 @@ $(document).ready(function () {
         editButton.addEventListener('click', function () {
             Swal.fire({
                 title: 'Edit your profile',
-                html: `<form id="editForm">
+                html: `
+                    <img src="${profilePhoto.src}" alt="Image" class="rounded-circle" width="150" height="150">
+                    <form id="editForm">
                         <div class="form-group">
                             <label for="username">Username</label>
                             <input type="text" class="form-control" id="username" placeholder="Enter username" value="${nameMain.innerHTML}">
@@ -120,16 +122,21 @@ $(document).ready(function () {
                             <input type="password" class="form-control" id="confirmNewPassword" placeholder="Confirm new password" value="">
                         </div>
                         <div class="form-group">
-                            <label for="profilePicture">Profile Picture</label>
-                            <input type="file" class="form-control" id="profilePicture" placeholder="Upload profile picture" value="">
+                            <label for="profileSelector">Profile Picture</label>
+                            <!-- dropdown menu to select some options -->
+                            <select class="form-control" id="profileSelector">
+                                <option value="boy.png">Boy Image</option>
+                                <option value="girl.png">Girl Image</option>
+                                <option value="cat.png">Cat Image</option>
+                                <option value="dog.png">Dog Image</option>
+                            </select>
                         </div>
-
                     </form>`,
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: 'lightsalmon',
                 cancelButtonText: 'Cancel',
-                confirmButtonText: 'Save'
+                confirmButtonText: 'Save',
             }).then((result) => {
                 if (result.value) {
                     const username = document.getElementById('username').value;
@@ -138,14 +145,14 @@ $(document).ready(function () {
                     const oldPassword = document.getElementById('oldPassword').value;
                     const newPassword = document.getElementById('newPassword').value;
                     const confirmNewPassword = document.getElementById('confirmNewPassword').value;
-                    const profilePicture = document.getElementById('profilePicture').value;
-                    // profilePicture is a file object, need to convert it to a form data object, then save it to the http://localhost:8085/image folder
-
+                    const picture = document.querySelector('select').value;
+                    // Ignore: profileSelector is a file object, need to convert it to a form data object, then save it to the http://localhost:8085/image folder
                     const data = {
                         username: username,
                         email: email,
                         contact: phone,
                         password: newPassword,
+                        picture: picture
                     };
                     fetch(`http://localhost:8085/users/${userId}`)
                         .then(response => response.json())

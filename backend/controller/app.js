@@ -530,14 +530,14 @@ app.delete("/user/:userId", function (req, res) {
 app.put("/user/:userId", function (req, res) {
     console.log(req.file);
     const userId = parseInt(req.params.userId);
-    const { username, email, contact, password } = req.body;
+    const { username, email, contact, password, picture } = req.body;
     var dbConn = db.getConnection();
     dbConn.connect(function (err) {
         if (err) {
             return;
         }
-        var sql = "UPDATE user SET username = ?, email = ?, contact = ?, password = ? WHERE userID = ?";
-        var params = [username, email, contact, password, userId];
+        var sql = "UPDATE user SET username = ?, email = ?, contact = ?, password = ?, pic = ? WHERE userID = ?";
+        var params = [username, email, contact, password, picture, userId];
         dbConn.query(sql, params, function (err, result) {
             // if error is conflict, show this message
             if (err && err.code === "ER_DUP_ENTRY") {
