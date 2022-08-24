@@ -41,9 +41,109 @@ function DeleteMovie(thisMovieId) {
 }
 
 function EditMovie(thisMovieId) {
-
+    // thisMovieId is the id of the movie that is being edited, display the movie details in the form
+    console.log(thisMovieId);
+    fetch("http://localhost:8085/movie/" + thisMovieId)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            Swal.fire({
+                title: 'Edit Movie',
+                html:
+                    '<form id="editMovieForm">' +
+                    '<div class="form-group">' +
+                    '<label for="title">Title</label>' +
+                    '<input type="text" class="form-control" id="title" placeholder="Enter title" value="' + data.title + '">' + // using `${data.title}` wont work and some words are not displayed correctly because of the html tags
+                    '</div>' +
+                    '<div class="form-group">' +
+                    '<label for="description">Description</label>' +
+                    '<textarea class="form-control" id="description" rows="3">' + data.description + '</textarea>' +
+                    '</div>' +
+                    // select genre
+                    '<div class="form-group">' +
+                    '<label for="genre">Genre</label>' +
+                    '<select class="form-control" id="genre">' +
+                    '<option>' + data.genre + '</option>' +
+                    '</select>' +
+                    '<div class="form-group">' +
+                    '<label for="genre">Sub-Genre</label>' +
+                    // select sub-genre
+                    '<select class="form-control" id="subgenre">' +
+                    // the selected sub-genre is the one that is already in the database
+                    '<option>' + data.subgenre + '</option>' +
+                    '</select>' +
+                    '</div>' +
+                    '<div class="form-group">' +
+                    '<label for="cast">Cast</label>' +
+                    '<input type="text" class="form-control" id="cast" placeholder="Enter cast" value="' + data.cast + '">' +
+                    '</div>' +
+                    '<div class="form-group">' +
+                    '<label for="releaseDate">Released date</label>' +
+                    '<input type="text" class="form-control" id="releaseDate" placeholder="Enter release date" value="' + data.opening_date + '">' +
+                    '</div>' +
+                    '<div class="form-group">' +
+                    '<label for="duration">Duration</label>' +
+                    '<input type="text" class="form-control" id="duration" placeholder="Enter duration" value="' + data.time + '">' +
+                    '</div>',
+                showCancelButton: true,
+                confirmButtonText: 'Save',
+                cancelButtonText: 'Cancel',
+            })
+                .then(function (result) {
+                    if (result.value) {
+                        // get the values from the form
+                        var title = $('#title').val();
+                        // send the values to the server
+                        $.ajax({
+                            url: "http://localhost:8085/movie/" + thisMovieId,
+                            type: "PUT",
+                            data: {
+                                title: title
+                            },
+                            success: function (data) {
+                                Swal.fire({
+                                    title: 'Saved!',
+                                    text: "The movie has been saved.",
+                                    icon: 'success'
+                                })
+                                    // when ok is clicked, reload the page
+                                    .then(function () {
+                                        window.location.reload();
+                                    });
+                            }
+                        });
+                    }
+                    else {
+                        Swal.fire({
+                            title: 'Save cancelled!',
+                            text: "The movie not been saved.",
+                            icon: 'info'
+                        })
+                    }
+                })
+                .catch(function (err) {
+                    Swal.fire({
+                        title: 'Error',
+                        text: err,
+                        icon: 'error'
+                    })
+                });
+        })
+        .catch(error => console.error(error));
+        // this will be used to populate the select dropdown with the genres that are in the database
+        setTimeout(function () {
+        fetch("http://localhost:8085/genre")
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                for (var i = 0; i < data.length; i++) {
+                    $('#genre').append('<option>' + data[i].genre + '</option>');
+                    $('#subgenre').append('<option>' + data[i].genre + '</option>');
+                }
+            })
+            .catch(error => console.error(error));
+        }, 0);
 }
-
 
 $(document).ready(function () {
     let homeHTML = '';
@@ -55,7 +155,7 @@ $(document).ready(function () {
         .then(data => {
             console.log("Total movies retrieved:", data);
             for (let i = 0; i < data.length; i++) {
-                const { movieid, title, genre, time, thumbnail, score } = data[i];
+                const { movieid, title, genre, time, thumbnail, score, opening_date, description, cast } = data[i];
                 homeHTML = `
                 <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6" id="container">
                     <div class="video-thumb">
