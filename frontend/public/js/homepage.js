@@ -53,7 +53,7 @@ function EditMovie(thisMovieId) {
                     '<form id="editMovieForm">' +
                     '<div class="form-group">' +
                     '<label for="title">Title</label>' +
-                    '<input type="text" class="form-control" id="title" placeholder="Enter title" value="' + data.title + '">' + // using `${data.title}` wont work and some words are not displayed correctly because of the html tags
+                    `<input type="text" class="form-control" id="title" placeholder="Enter title" value="${data.title}">` +
                     '</div>' +
                     '<div class="form-group">' +
                     '<label for="description">Description</label>' +
@@ -63,14 +63,14 @@ function EditMovie(thisMovieId) {
                     '<div class="form-group">' +
                     '<label for="genre">Genre</label>' +
                     '<select class="form-control" id="genre">' +
-                    '<option>' + data.genre + '</option>' +
+                    `<option value="${data.genre}">` + data.genre + '</option>' +
                     '</select>' +
                     '<div class="form-group">' +
                     '<label for="genre">Sub-Genre</label>' +
                     // select sub-genre
                     '<select class="form-control" id="subgenre">' +
                     // the selected sub-genre is the one that is already in the database
-                    '<option>' + data.subgenre + '</option>' +
+                    `<option value="${data.subgenre}">` + data.subgenre + '</option>' +
                     '</select>' +
                     '</div>' +
                     '<div class="form-group">' +
@@ -93,13 +93,29 @@ function EditMovie(thisMovieId) {
                     if (result.value) {
                         // get the values from the form
                         var title = $('#title').val();
+                        var description = $('#description').val();
+                        var genre = $('#genre').val();
+                        var subgenre = $('#subgenre').val();
+                        var cast = $('#cast').val();
+                        var releaseDate = $('#releaseDate').val();
+                        var duration = $('#duration').val();
+                        // create a json object with the values
+                        var movie = {
+                            "title": title,
+                            "description": description,
+                            "genreid": genre,
+                            "genreid1": subgenre,
+                            "cast": cast,
+                            "opening_date": releaseDate,
+                            "time": duration
+                        };
+                        console.log(movie);
                         // send the values to the server
                         $.ajax({
                             url: "http://localhost:8085/movie/" + thisMovieId,
+                            contentType: "application/json", // ensure the datatype is application json and can be parsed to be sent to the server
                             type: "PUT",
-                            data: {
-                                title: title
-                            },
+                            data: JSON.stringify(movie),
                             success: function (data) {
                                 Swal.fire({
                                     title: 'Saved!',
@@ -112,6 +128,7 @@ function EditMovie(thisMovieId) {
                                     });
                             }
                         });
+                        console.log(movie);
                     }
                     else {
                         Swal.fire({
@@ -130,19 +147,61 @@ function EditMovie(thisMovieId) {
                 });
         })
         .catch(error => console.error(error));
-        // this will be used to populate the select dropdown with the genres that are in the database
-        setTimeout(function () {
+    // this will be used to populate the select dropdown with the genres that are in the database
+    setTimeout(function () {
         fetch("http://localhost:8085/genre")
             .then(response => response.json())
             .then(data => {
                 console.log(data)
+                // remove the genre that is in #genre.val() from the list of genres
+                var genreInput = document.getElementById("genre").textContent;
+                var subgenreInput = document.getElementById("subgenre").textContent;
+                // append all the genres to the select dropdown list.       
                 for (var i = 0; i < data.length; i++) {
-                    $('#genre').append('<option>' + data[i].genre + '</option>');
-                    $('#subgenre').append('<option>' + data[i].genre + '</option>');
+                    // dont display genre that is in genreInput, dont display genre that is in subgenreInput,
+                    if (data[i].genre != genreInput && data[i].genre != subgenreInput) {
+                        $('#genre').append(`<option value="${data[i].genre}">${data[i].genre}</option>`);
+                    }
                 }
+                for (var i = 0; i < data.length; i++) {
+                    if (genreInput != data[i].genre && genreInput != subgenreInput) {
+                        $('#subgenre').append(`<option value="${data[i].genre}">` + data[i].genre + '</option>');
+                    }
+                }
+                // write a loop, document.getElementById("subgenre") will clear away its options and replace it with the new ones when an option in document.getElementById("genre") is selected
+                $('#genre').change(function () {
+                    const X = document.getElementById("subgenre").value;
+                    $('#subgenre').empty();
+                    for (var i = 0; i < data.length; i++) {
+                        // update genreInput to the selected genre
+                        genreInput = document.getElementById("genre").value;
+                        document.getElementById("subgenre").value = X;
+                        if (data[i].genre != genreInput) {
+                            $('#subgenre').append(`<option value="${data[i].genre}">` + data[i].genre + '</option>');
+                        }
+                    }
+                })
+                $('#subgenre').change(function () {
+                    const Y = document.getElementById("genre").value;
+                    $('#genre').empty();
+                    for (var i = 0; i < data.length; i++) {
+                        // update genreInput to the selected genre
+                        subgenreInput = document.getElementById("subgenre").value;
+                        document.getElementById("genre").value = Y;
+                        if (data[i].genre != subgenreInput) {
+                            $('#genre').append(`<option value="${data[i].genre}">` + data[i].genre + '</option>');
+                        }
+                    }
+                })
+
+
+
+
+
+
             })
             .catch(error => console.error(error));
-        }, 0);
+    }, 0);
 }
 
 $(document).ready(function () {

@@ -54,10 +54,10 @@ module.exports = {
                         console.log("In genre.js findAll QueryError:", err);
                         return callback(error, null);
                     } else if (!error && results.length == 0) {
-                        console.log("In genre.js findAll Results:",results);
+                        // console.log("In genre.js findAll Results:",results);
                         return callback(null, null);
                     } else {
-                        console.log("In genre.js findByID Results:",results);
+                        // console.log("In genre.js findByID Results:",results);
                         return callback(null, results);
                     }
                 });

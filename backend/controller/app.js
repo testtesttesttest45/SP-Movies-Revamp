@@ -605,6 +605,33 @@ app.get("/search", function (req, res) {
     })
 });
 
+app.put("/movie/:movieId", function (req, res) {
+    const movieId = parseInt(req.params.movieId);
+    const { title, time, opening_date, genreid, genreid1, description, cast } = req.body;
+    var dbConn = db.getConnection();
+    dbConn.connect(function (err) {
+        if (err) {
+            console.log(err)
+            return;
+        }
+        // var sql = "UPDATE movie SET title = ?, time = ?, opening_date = ?, genreid = ?, genreid1 = ?, description = ?, cast = ? WHERE movieid = ?";
+        // the sql query will convert genreid and genreid1 from text to genre id with reference to genre table. I will be using inbar statement to do this
+        var sql = `UPDATE movie SET title = ?, time = ?, opening_date = ?, genreid = (SELECT genreID FROM genre WHERE genre = ?), 
+        genreid1 = (SELECT genreID FROM genre WHERE genre = ?), description = ?, cast = ? WHERE movieid = ?`;
+        var params = [title, time, opening_date, genreid, genreid1, description, cast, movieId];
+        dbConn.query(sql, params, function (err, result) {
+            if (err) {
+                console.log(err)
+                res.status(500).send({ message: "Error updating movie" + err, status: 500 });
+                return;
+            }
+            res.status(200).send({ message: "Movie updated", status: 200 });
+        });
+        dbConn.end();
+    })
+});
+
+
 app.use((err, req, res, next) => {
     console.error(err);
     return res.status(err.status || 500).json({ error: err.message || `Unknown Error!` });
