@@ -620,12 +620,17 @@ app.put("/movie/:movieId", function (req, res) {
         genreid1 = (SELECT genreID FROM genre WHERE genre = ?), description = ?, cast = ? WHERE movieid = ?`;
         var params = [title, time, opening_date, genreid, genreid1, description, cast, movieId];
         dbConn.query(sql, params, function (err, result) {
-            if (err) {
+            if (err && err.code === "ER_DUP_ENTRY") {
+                res.status(409).send({ message: "Title already exists", status: 409 });
+                return;
+            }
+            else if (err) {
                 console.log(err)
                 res.status(500).send({ message: "Error updating movie" + err, status: 500 });
                 return;
+            } else {
+                res.status(200).send({ message: "Movie updated", status: 200 });
             }
-            res.status(200).send({ message: "Movie updated", status: 200 });
         });
         dbConn.end();
     })

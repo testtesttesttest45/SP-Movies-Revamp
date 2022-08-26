@@ -42,7 +42,7 @@ function DeleteMovie(thisMovieId) {
 
 function EditMovie(thisMovieId) {
     // thisMovieId is the id of the movie that is being edited, display the movie details in the form
-    console.log(thisMovieId);
+    console.log("Movie Id: ", thisMovieId);
     fetch("http://localhost:8085/movie/" + thisMovieId)
         .then(response => response.json())
         .then(data => {
@@ -110,7 +110,6 @@ function EditMovie(thisMovieId) {
                             "time": duration
                         };
                         console.log(movie);
-                        // send the values to the server
                         $.ajax({
                             url: "http://localhost:8085/movie/" + thisMovieId,
                             contentType: "application/json", // ensure the datatype is application json and can be parsed to be sent to the server
@@ -119,21 +118,47 @@ function EditMovie(thisMovieId) {
                             success: function (data) {
                                 Swal.fire({
                                     title: 'Saved!',
-                                    text: "The movie has been saved.",
+                                    html : `<div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="alert alert-success alert-dismissable">
+                                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                                                        &times;
+                                                    </button>Movie updated. Reloading...
+                                                </div>
+                                                </div>
+                                            </div>
+                                        </div>`,
                                     icon: 'success'
                                 })
-                                    // when ok is clicked, reload the page
-                                    .then(function () {
+                                    .then(function () { // when ok is clicked, reload the page
                                         window.location.reload();
                                     });
+                            },
+                            error: function (jqXHR) {
+                                Swal.fire({
+                                    title: 'Error',
+                                    // send back the error message from the server
+                                    text: jqXHR.responseJSON.message,
+                                    icon: 'error'
+                                })
                             }
                         });
-                        console.log(movie);
                     }
                     else {
                         Swal.fire({
                             title: 'Save cancelled!',
-                            text: "The movie not been saved.",
+                            html : `<div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="alert alert-info alert-dismissable">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                                            &times;
+                                        </button>Movie not updated.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`,
                             icon: 'info'
                         })
                     }
@@ -145,63 +170,55 @@ function EditMovie(thisMovieId) {
                         icon: 'error'
                     })
                 });
-        })
-        .catch(error => console.error(error));
-    // this will be used to populate the select dropdown with the genres that are in the database
-    setTimeout(function () {
-        fetch("http://localhost:8085/genre")
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                // remove the genre that is in #genre.val() from the list of genres
-                var genreInput = document.getElementById("genre").textContent;
-                var subgenreInput = document.getElementById("subgenre").textContent;
-                // append all the genres to the select dropdown list.       
-                for (var i = 0; i < data.length; i++) {
-                    // dont display genre that is in genreInput, dont display genre that is in subgenreInput,
-                    if (data[i].genre != genreInput && data[i].genre != subgenreInput) {
-                        $('#genre').append(`<option value="${data[i].genre}">${data[i].genre}</option>`);
-                    }
-                }
-                for (var i = 0; i < data.length; i++) {
-                    if (genreInput != data[i].genre && genreInput != subgenreInput) {
-                        $('#subgenre').append(`<option value="${data[i].genre}">` + data[i].genre + '</option>');
-                    }
-                }
-                // write a loop, document.getElementById("subgenre") will clear away its options and replace it with the new ones when an option in document.getElementById("genre") is selected
-                $('#genre').change(function () {
-                    const X = document.getElementById("subgenre").value;
-                    $('#subgenre').empty();
+            // this will be used to populate the select dropdown with the genres that are in the database
+            fetch("http://localhost:8085/genre")
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    // remove the genre that is in #genre.val() from the list of genres
+                    var genreInput = document.getElementById("genre").textContent;
+                    var subgenreInput = document.getElementById("subgenre").textContent;
+                    // append all the genres to the select dropdown list.       
                     for (var i = 0; i < data.length; i++) {
-                        // update genreInput to the selected genre
-                        genreInput = document.getElementById("genre").value;
-                        document.getElementById("subgenre").value = X;
-                        if (data[i].genre != genreInput) {
+                        // dont display genre that is in genreInput, dont display genre that is in subgenreInput,
+                        if (data[i].genre != genreInput && data[i].genre != subgenreInput) {
+                            $('#genre').append(`<option value="${data[i].genre}">${data[i].genre}</option>`);
+                        }
+                    }
+                    for (var i = 0; i < data.length; i++) {
+                        if (genreInput != data[i].genre && genreInput != subgenreInput) {
                             $('#subgenre').append(`<option value="${data[i].genre}">` + data[i].genre + '</option>');
                         }
                     }
-                })
-                $('#subgenre').change(function () {
-                    const Y = document.getElementById("genre").value;
-                    $('#genre').empty();
-                    for (var i = 0; i < data.length; i++) {
-                        // update genreInput to the selected genre
-                        subgenreInput = document.getElementById("subgenre").value;
-                        document.getElementById("genre").value = Y;
-                        if (data[i].genre != subgenreInput) {
-                            $('#genre').append(`<option value="${data[i].genre}">` + data[i].genre + '</option>');
+                    // write a loop, document.getElementById("subgenre") will clear away its options and replace it with the new ones when an option in document.getElementById("genre") is selected
+                    $('#genre').change(function () {
+                        const X = document.getElementById("subgenre").value;
+                        $('#subgenre').empty();
+                        for (var i = 0; i < data.length; i++) {
+                            // update genreInput to the selected genre
+                            genreInput = document.getElementById("genre").value;
+                            document.getElementById("subgenre").value = X;
+                            if (data[i].genre != genreInput) {
+                                $('#subgenre').append(`<option value="${data[i].genre}">` + data[i].genre + '</option>');
+                            }
                         }
-                    }
+                    })
+                    $('#subgenre').change(function () {
+                        const Y = document.getElementById("genre").value;
+                        $('#genre').empty();
+                        for (var i = 0; i < data.length; i++) {
+                            // update genreInput to the selected genre
+                            subgenreInput = document.getElementById("subgenre").value;
+                            document.getElementById("genre").value = Y;
+                            if (data[i].genre != subgenreInput) {
+                                $('#genre').append(`<option value="${data[i].genre}">` + data[i].genre + '</option>');
+                            }
+                        }
+                    })
                 })
-
-
-
-
-
-
-            })
-            .catch(error => console.error(error));
-    }, 0);
+                .catch(error => console.error(error));
+        })
+        .catch(error => console.error(error));
 }
 
 $(document).ready(function () {
