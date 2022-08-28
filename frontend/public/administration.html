@@ -32,7 +32,9 @@
             <a class="active" href="profile.html" id="thisusername" style="float:right">Login</a>
         </div>
         <div class="container">
-            <h1>SP Movies Adminstrator Dashboard<pre>Bird Watch</pre></h1>
+            <h1>SP Movies Adminstrator Dashboard
+                <pre>Bird Watch</pre>
+            </h1>
             <div class="bird-container bird-container--one" style="animation-play-state: running;">
                 <div class="bird bird--one" style="animation-name: fly-cycle;"></div>
             </div>
@@ -70,6 +72,17 @@
                             </li>
                         </ol>
                     </nav>
+                    <div class="col-md-12" style="display:none" id="ErrorAlert">
+                        <div class="alert alert-danger alert-dismissable">
+                            <button type="button" class="close" aria-hidden="true" onclick="$('#ErrorAlert').hide()">
+                                &times;
+                            </button>
+                            <h4>
+                                <i class="icon fa fa-warning"></i>
+                            </h4> <strong> Error fetching/sending data. </strong><a href="administration.html"
+                                class="alert-link">Try reloading</a>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row">
@@ -98,8 +111,8 @@
                                     </div>
                                     <div class="modal-body">
                                         <form>
-                                            <button type="button" style="float:right;margin-bottom:10px" class="btn btn-warning btn-large"
-                                            id="clearMovieModal">Reset</button>
+                                            <button type="button" style="float:right;margin-bottom:10px"
+                                                class="btn btn-warning btn-large" id="clearMovieModal">Reset</button>
                                             <div class="form-group">
                                                 <label for="new-movie-title" class="col-form-label">Title:</label>
                                                 <input type="text" class="form-control" id="new-movie-title"
@@ -130,30 +143,14 @@
                                             <div class="form-group">
                                                 <label for="new-movie-genre" class="col-form-label">Genre:</label>
                                                 <select class="form-control" id="new-movie-genre">
-                                                    <option>Action</option>
-                                                    <option>Adventure</option>
-                                                    <option>Comedy</option>
-                                                    <option>Drama</option>
-                                                    <option>Fantasy</option>
-                                                    <option>Horror</option>
-                                                    <option>Romance</option>
-                                                    <option>Thriller</option>
-                                                    <option>Western</option>
+                                                    <!-- Fetched genres comes here -->
                                                 </select>
                                             </div>
                                             <div class="form-group">
                                                 <label for="new-movie-subgenre"
                                                     class="col-form-label">Sub-genre:</label>
                                                 <select class="form-control" id="new-movie-subgenre">
-                                                    <option>Action</option>
-                                                    <option>Adventure</option>
-                                                    <option>Comedy</option>
-                                                    <option>Drama</option>
-                                                    <option>Fantasy</option>
-                                                    <option>Horror</option>
-                                                    <option>Romance</option>
-                                                    <option>Thriller</option>
-                                                    <option>Western</option>
+                                                    <!-- Fetched genres comes here -->
                                                 </select>
                                             </div>
                                         </form>
@@ -174,15 +171,54 @@
                 <div class="col-md-3">
                     <div class="jumbotron card card-block">
                         <h2>
-                            Create New Genre
+                            Add New Genre
                         </h2>
                         <p>
-                            Create a new genre. Genre is a category that a movie can be assigned to. Genre names must be
+                            Add a new genre. Genre is a category that a movie can be assigned to. Genre names must be
                             unique.
                         </p>
                         <p>
-                            <button class="btn btn-primary btn-large">Create Genre</button>
+                            <button class="btn btn-primary btn-large" type="button" data-toggle="modal"
+                                data-target="#exampleModal2" id="openMovieModal">Add Genre</button>
                         </p>
+                        <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header" style="text-align:center;display:inline-block">
+                                        <h5 class="modal-title" id="exampleModalLabel">Add Genre</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                                            style="margin-top: -30px;">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form>
+                                            <button type="button" style="float:right;margin-bottom:10px"
+                                                class="btn btn-warning btn-large" id="clearGenreModal">Reset</button>
+                                            <div class="form-group">
+                                                <label for="new-genre-title" class="col-form-label">Genre:</label>
+                                                <input type="text" class="form-control" id="new-genre-title"
+                                                    placeholder="Name of genre.">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="new-genre-description"
+                                                    class="col-form-label">Description:</label>
+                                                <textarea class="form-control" id="new-genre-description"
+                                                    placeholder="Give a brief description of this genre."></textarea>
+                                            </div>
+                                            
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" id="addGenre">Add
+                                            genre</button>
+                                        <button type="button" class="btn btn-secondary" id="closeGenreModal"
+                                            data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-3">

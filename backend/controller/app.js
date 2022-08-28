@@ -178,21 +178,19 @@ app.put('/users/:userID', function (req, res) {
 
 //Endpoint 5
 // POST /genre/
-app.post('/genre', verifyToken, function (req, res) {
-    console.log("Logged in as: ", req.role);
-    if (req.role == "Admin") {
-        genre.insert(req.body, function (err, result) {
-            if (err) {
-                if (err.code == "ER_DUP_ENTRY") {
-                    res.status(422).send("The genre name provided already exists.");
-                } else {
-                    res.status(500).send("Unknown error");
-                }
+// app.post('/genre', verifyToken, function (req, res) {
+app.post('/genre', function (req, res) {
+    genre.insert(req.body, function (err, result) {
+        if (err) {
+            if (err.code == "ER_DUP_ENTRY") {
+                res.status(422).send({ message: "The new genre provided already exists." });
             } else {
-                res.status(201).send("genre_Id: " + result);
+                res.status(500).send({ message: "Unknown error" });
             }
-        });
-    };
+        } else {
+            res.status(201).send({ message: "New genre added successfully!", genreId: result });
+        }
+    });
 });
 
 
