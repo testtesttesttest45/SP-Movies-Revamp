@@ -8,7 +8,8 @@ $(document).ready(function () {
 
     const newMovieModal = document.getElementById("openMovieModal");
     const clearMovieModal = document.getElementById("clearMovieModal");
-    const backgroundAnimationStop = document.getElementById("showStopper");
+    const backgroundAnimationStopFly = document.getElementById("stopAnimationForward");
+    const backgroundAnimationStopFlap = document.getElementById("stopAnimationFlap");
     newMovieModal.addEventListener("click", function (e) {
         const createMovie = document.getElementById("createMovie");
     });
@@ -29,6 +30,15 @@ $(document).ready(function () {
             genreid: newMovieGenreInput,
             genreid1: newMovieSubGenreInput
         };
+        if (newMovie.title == "" || newMovie.description == "" || newMovie.cast == "" || newMovie.opening_date == "" || newMovie.time == "" || newMovie.genreid == "" || newMovie.genreid1 == "") {
+            Swal.fire({
+                title: 'Error',
+                text: 'Please fill in all fields',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+            });
+            return;
+        }
         // send a request to post movie
         $.ajax({
             url: "http://localhost:8085/movie",
@@ -65,19 +75,23 @@ $(document).ready(function () {
         document.getElementById("new-movie-genre").value = "";
         document.getElementById("new-movie-subgenre").value = "";
     });
-    backgroundAnimationStop.addEventListener("click", function (e) {
+    backgroundAnimationStopFly.addEventListener("click", function (e) {
         const birdContainer = document.getElementsByClassName("bird-container");
         const x = birdContainer[0].style.animationPlayState;
         for (let i = 0; i < birdContainer.length; i++) {
             x === "running" 
-                ? (birdContainer[i].style.animationPlayState = "paused", this.className = "btn btn-success", this.innerHTML = "<i class='fa fa-play'> Start Animation</i>")
-                : (birdContainer[i].style.animationPlayState = "running", this.className = "btn btn-danger", this.innerHTML = "<i class='fa fa-stop'> Stop Animation</i>");
+                ? (birdContainer[i].style.animationPlayState = "paused", this.className = "btn showStopper2", this.innerHTML = "<i class='fa fa-play'> Start Flying</i>")
+                : (birdContainer[i].style.animationPlayState = "running", this.className = "btn showStopper", this.innerHTML = "<i class='fa fa-stop'> Stop Flying</i>");
         }
-
-
-
-
-
+    });
+    backgroundAnimationStopFlap.addEventListener("click", function (e) {
+        const birdContainer = document.getElementsByClassName("bird");
+        const x = birdContainer[0].style.animationName;
+        for (let i = 0; i < birdContainer.length; i++) {
+            x === "fly-cycle"
+                ? (birdContainer[i].style.animationName = "none", this.className = "btn showStopper2", this.innerHTML = "<i class='fa fa-play'> Start Flapping</i>")
+                : (birdContainer[i].style.animationName = "fly-cycle", this.className = "btn showStopper", this.innerHTML = "<i class='fa fa-stop'> Stop Flapping</i>");
+        }
     });
 
 })

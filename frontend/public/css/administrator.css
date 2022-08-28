@@ -52,6 +52,7 @@ body {
     padding: 2rem;
     max-width: 100%;
     border-radius: 10px;
+    text-align: center;
 }
 
 .bird {
@@ -194,8 +195,17 @@ button:hover {
     cursor: pointer;
 }
 
-#showStopper {
+.showStopper {
+    color: #fff;
+    background-color:#dc3545;
     margin-top: 10px;
-    width: 150px;
+    width: 140px;
+    height: 40px;
+}
+.showStopper2 {
+    color: #fff;
+    background-color: #28a745;
+    margin-top: 10px;
+    width: 140px;
     height: 40px;
 }

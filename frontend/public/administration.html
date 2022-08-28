@@ -32,29 +32,33 @@
             <a class="active" href="profile.html" id="thisusername" style="float:right">Login</a>
         </div>
         <div class="container">
-            <h1>SP Movies Adminstrator Dashboard</h1>
+            <h1>SP Movies Adminstrator Dashboard<pre>Bird Watch</pre></h1>
             <div class="bird-container bird-container--one" style="animation-play-state: running;">
-                <div class="bird bird--one"></div>
+                <div class="bird bird--one" style="animation-name: fly-cycle;"></div>
             </div>
 
             <div class="bird-container bird-container--two" style="animation-play-state: running;">
-                <div class="bird bird--two"></div>
+                <div class="bird bird--two" style="animation-name: fly-cycle;"></div>
             </div>
 
             <div class="bird-container bird-container--three" style="animation-play-state: running;">
-                <div class="bird bird--three"></div>
+                <div class="bird bird--three" style="animation-name: fly-cycle;"></div>
             </div>
 
             <div class="bird-container bird-container--four" style="animation-play-state: running;">
-                <div class="bird bird--four"></div>
+                <div class="bird bird--four" style="animation-name: fly-cycle;"></div>
             </div>
         </div>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <button type="button" class="btn btn-danger" id="showStopper">
+                    <button type="button" class="btn showStopper" id="stopAnimationForward">
                         <i class="fa fa-stop" aria-hidden="true"></i>
-                        <span>Stop Animation</span>
+                        <span>Stop Flying</span>
+                    </button>
+                    <button type="button" class="btn showStopper" id="stopAnimationFlap">
+                        <i class="fa fa-stop" aria-hidden="true"></i>
+                        <span>Stop Flapping</span>
                     </button>
                     <nav>
                         <ol class="breadcrumb" style="background-color:transparent">
