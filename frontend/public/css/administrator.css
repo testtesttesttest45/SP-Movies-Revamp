@@ -209,3 +209,7 @@ button:hover {
     width: 140px;
     height: 40px;
 }
+
+td {
+    border: 1px dotted orange;
+}

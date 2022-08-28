@@ -179,7 +179,9 @@
                         </p>
                         <p>
                             <button class="btn btn-primary btn-large" type="button" data-toggle="modal"
-                                data-target="#exampleModal2" id="openMovieModal">Add Genre</button>
+                                data-target="#exampleModal2">Add Genre</button>
+                            <button class="btn btn-primary btn-large" type="button" data-toggle="modal"
+                                data-target="#exampleModal3" id="openMovieModal">View Genres</button>
                         </p>
                         <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog"
                             aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -207,13 +209,55 @@
                                                 <textarea class="form-control" id="new-genre-description"
                                                     placeholder="Give a brief description of this genre."></textarea>
                                             </div>
-                                            
+
                                         </form>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-primary" id="addGenre">Add
                                             genre</button>
                                         <button type="button" class="btn btn-secondary" id="closeGenreModal"
+                                            data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header" style="text-align:center;display:inline-block">
+                                        <h5 class="modal-title" id="exampleModalLabel">View/Edit Genre</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                                            style="margin-top: -30px;">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        #
+                                                    </th>
+                                                    <th>
+                                                        Genre
+                                                    </th>
+                                                    <th>
+                                                        Description
+                                                    </th>
+                                                    <th>
+                                                        Edit/Delete
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="all-genre-body">
+                                                <!-- Fetched genres comes here -->
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
                                             data-dismiss="modal">Close</button>
                                     </div>
                                 </div>

@@ -1,28 +1,64 @@
+function DeleteGenre(genreID) {
+    $.ajax({
+        url: 'http://localhost:8085/genre/' + genreID,
+        type: 'DELETE',
+        success: function (result) {
+            Swal.fire({
+                title: 'Genre deleted!',
+                text: 'The genre has been deleted.',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            })
+            getGenre();
+        },
 
+        error: function (error) {
+            document.getElementById("ErrorAlert").style.display = "inline";
+            document.querySelector("#ErrorAlert h4").innerHTML += "Error: " + error.responseJSON.message; // display the error on the h4 of #ErrorAlert
+        }
+    });
+}
 
-
-
-
-
-$(document).ready(function () {
-
+function getGenre() {
+    console.log("called")
     const newMovieModal = document.getElementById("openMovieModal");
-    const clearMovieModal = document.getElementById("clearMovieModal");
-    const backgroundAnimationStopFly = document.getElementById("stopAnimationForward");
-    const backgroundAnimationStopFlap = document.getElementById("stopAnimationFlap");
-    const createMovieButton = document.getElementById("createMovie");
     const newMovieGenre = document.getElementById("new-movie-genre");
     const newMovieSubGenre = document.getElementById("new-movie-subgenre");
-    const addGenreButton = document.getElementById("addGenre");
     const clearGenreModal = document.getElementById("clearGenreModal");
+    const allGenreBody = document.getElementById("all-genre-body");
     fetch("http://localhost:8085/genre") //fetch all genres
         // append the genres to newMovieGenre select options and newMovieSubGenre select options
         .then(response => response.json())
         .then(data => {
+            allGenreBody.innerHTML = "";
             for (let i = 0; i < data.length; i++) {
-                newMovieGenre.innerHTML += `<option value="${data[i].genre}">${data[i].genre}</option>`;
-                newMovieGenre.value = "";
+                allGenreBody.innerHTML += `
+                <tr class="table-warning">
+                    <td>
+                        ${i + 1}
+                    </td>
+                    <td>
+                        ${data[i].genre}
+                    </td>
+                    <td style="width:550px">
+                        ${data[i].description}
+                    </td>
+                    <td>
+                        <button class="btn btn-warning" id="EditGenre">Edit</button>
+                        <button class="btn btn-danger" id="DeleteGenre" onclick="DeleteGenre(${data[i].genreID})">Delete</button>
+                    </td>
+                </tr>`;
             }
+            newMovieSubGenre.innerHTML = "";
+            newMovieGenre.innerHTML = "";
+            for (let i = 0; i < data.length; i++) {
+                if (data[i].genre !== newMovieSubGenre.value) {
+                    console.log(data[i].genre);
+                    newMovieGenre.innerHTML += `<option value="${data[i].genre}">${data[i].genre}</option>`;
+                    newMovieGenre.value = "";
+                }
+            }
+
             for (let i = 0; i < data.length; i++) {
                 if (data[i].genre !== newMovieGenre.value) {
                     newMovieSubGenre.innerHTML += `<option value="${data[i].genre}">${data[i].genre}</option>`;
@@ -54,12 +90,27 @@ $(document).ready(function () {
             document.getElementById("ErrorAlert").style.display = "inline";
             document.querySelector("#ErrorAlert h4").innerHTML += "Error: " + error; // display the error on the h4 of #ErrorAlert
         });
+}
+
+
+
+$(document).ready(function () {
+    const createMovieButton = document.getElementById("createMovie");
+    const clearMovieModal = document.getElementById("clearMovieModal");
+    const addGenreButton = document.getElementById("addGenre");
+    const backgroundAnimationStopFly = document.getElementById("stopAnimationForward");
+    const backgroundAnimationStopFlap = document.getElementById("stopAnimationFlap");
+
+    getGenre();
+
     createMovieButton.addEventListener("click", function (e) {
         const newMovieTitleInput = document.getElementById("new-movie-title").value;
         const newMovieDescriptionInput = document.getElementById("new-movie-description").value;
         const newMovieCastInput = document.getElementById("new-movie-cast").value;
         const newMovieReleaseDateInput = document.getElementById("new-movie-releasedate").value;
         const newMovieDurationInput = document.getElementById("new-movie-duration").value;
+        const newMovieGenre = document.getElementById("new-movie-genre");
+        const newMovieSubGenre = document.getElementById("new-movie-subgenre");
         const newMovieGenreInput = newMovieGenre.value;
         const newMovieSubGenreInput = newMovieSubGenre.value;
         const newMovie = {
@@ -145,6 +196,7 @@ $(document).ready(function () {
                     icon: 'success',
                     confirmButtonText: 'OK'
                 })
+                getGenre();
                 // click closeMovieModal
                 const closeGenreModal = document.getElementById("closeGenreModal");
                 closeGenreModal.click();
@@ -152,8 +204,8 @@ $(document).ready(function () {
             error: function (error) {
                 document.getElementById("ErrorAlert").style.display = "inline"; // display the error on the h4 of #ErrorAlert
                 error.status === 422 || error.status === 500
-                ? document.querySelector("#ErrorAlert h4").innerHTML = "Error: " + error.responseJSON.message
-                : document.querySelector("#ErrorAlert h4").innerHTML = "Error: " + error.statusText; // display the error on the h4 of #ErrorAlert
+                    ? document.querySelector("#ErrorAlert h4").innerHTML = "Error: " + error.responseJSON.message
+                    : document.querySelector("#ErrorAlert h4").innerHTML = "Error: " + error.statusText; // display the error on the h4 of #ErrorAlert
             }
         });
     });
@@ -161,6 +213,7 @@ $(document).ready(function () {
         document.getElementById("new-genre-title").value = "";
         document.getElementById("new-genre-description").value = "";
     });
+
     backgroundAnimationStopFly.addEventListener("click", function (e) {
         const birdContainer = document.getElementsByClassName("bird-container");
         const x = birdContainer[0].style.animationPlayState;

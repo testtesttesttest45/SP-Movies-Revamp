@@ -637,6 +637,26 @@ app.put("/movie/:movieId", function (req, res) {
     })
 });
 
+app.delete("/genre/:genreId", function (req, res) {
+    const genreId = parseInt(req.params.genreId);
+    var dbConn = db.getConnection();
+    dbConn.connect(function (err) {
+        if (err) {
+            return;
+        }
+        var sql = "DELETE FROM genre WHERE genreID = ?";
+        var params = [genreId];
+        dbConn.query(sql, params, function (err, result) {
+            if (err) {
+                res.status(500).send({ message: "Error deleting genre " + err, status: 500 });
+                return;
+            }
+            res.status(200).send({ message: "Genre deleted", status: 200 });
+        });
+        dbConn.end();
+    })
+});
+
 
 app.use((err, req, res, next) => {
     console.error(err);
