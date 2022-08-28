@@ -1,0 +1,221 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="./icons/favicon.ico">
+    <title>SP Movies | Create Movie</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="css/administrator.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"
+        integrity="sha512-2rNj2KJ+D8s1ceNasTIex6z4HWyOnEYLVC3FigGOmyQCZc2eBXKgOxQmo3oKLHyfcj53uz4QMsRCWNbLd32Q1g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+        integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+        crossorigin="anonymous"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" type="text/css" href="./css/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <script src="./js/checkLogin.js"></script>
+    <script src="./js/administration.js"></script>
+</head>
+
+<body>
+    <div>
+        <div class="topnav">
+            <a href="index.html">Home</a>
+            <a href="index.html">Movies</a>
+            <a href="index.html">TV Shows</a>
+            <a class="active" href="profile.html" id="thisusername" style="float:right">Login</a>
+        </div>
+        <div class="container">
+            <h1>SP Movies Adminstrator Dashboard</h1>
+            <div class="bird-container bird-container--one" style="animation-play-state: running;">
+                <div class="bird bird--one"></div>
+            </div>
+
+            <div class="bird-container bird-container--two" style="animation-play-state: running;">
+                <div class="bird bird--two"></div>
+            </div>
+
+            <div class="bird-container bird-container--three" style="animation-play-state: running;">
+                <div class="bird bird--three"></div>
+            </div>
+
+            <div class="bird-container bird-container--four" style="animation-play-state: running;">
+                <div class="bird bird--four"></div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-danger" id="showStopper">
+                        <i class="fa fa-stop" aria-hidden="true"></i>
+                        <span>Stop Animation</span>
+                    </button>
+                    <nav>
+                        <ol class="breadcrumb" style="background-color:transparent">
+                            <li class="breadcrumb-item">
+                                <a href="index.html">Home</a>
+                            </li>
+                            <li class="breadcrumb-item active">
+                                Administrator Dashboard
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="jumbotron card card-block">
+                        <h2>
+                            Create New Movie
+                        </h2>
+                        <p>
+                            Create a new movie to be added to the website. Movie titles must be unique.
+                        </p>
+                        <p>
+                            <button class="btn btn-primary btn-large" type="button" data-toggle="modal"
+                                data-target="#exampleModal" id="openMovieModal">Create Movie</button>
+                        </p>
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header" style="text-align:center;display:inline-block">
+                                        <h5 class="modal-title" id="exampleModalLabel">New Movie</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                                            style="margin-top: -30px;">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form>
+                                            <button type="button" style="float:right;margin-bottom:10px" class="btn btn-warning btn-large"
+                                            id="clearMovieModal">Reset</button>
+                                            <div class="form-group">
+                                                <label for="new-movie-title" class="col-form-label">Title:</label>
+                                                <input type="text" class="form-control" id="new-movie-title"
+                                                    placeholder="Name of movie.">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="new-movie-description"
+                                                    class="col-form-label">Description:</label>
+                                                <textarea class="form-control" id="new-movie-description"
+                                                    placeholder="Give a brief description of this movie."></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="new-movie-cast" class="col-form-label">Cast:</label>
+                                                <input type="text" class="form-control" id="new-movie-cast"
+                                                    placeholder="Starring casts">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="new-movie-releasedate" class="col-form-label">Release
+                                                    Date:</label>
+                                                <input type="text" class="form-control" id="new-movie-releasedate"
+                                                    placeholder="1 May 2007">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="new-movie-duration" class="col-form-label">Duration:</label>
+                                                <input type="text" class="form-control" id="new-movie-duration"
+                                                    placeholder="1h 19m">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="new-movie-genre" class="col-form-label">Genre:</label>
+                                                <select class="form-control" id="new-movie-genre">
+                                                    <option>Action</option>
+                                                    <option>Adventure</option>
+                                                    <option>Comedy</option>
+                                                    <option>Drama</option>
+                                                    <option>Fantasy</option>
+                                                    <option>Horror</option>
+                                                    <option>Romance</option>
+                                                    <option>Thriller</option>
+                                                    <option>Western</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="new-movie-subgenre"
+                                                    class="col-form-label">Sub-genre:</label>
+                                                <select class="form-control" id="new-movie-subgenre">
+                                                    <option>Action</option>
+                                                    <option>Adventure</option>
+                                                    <option>Comedy</option>
+                                                    <option>Drama</option>
+                                                    <option>Fantasy</option>
+                                                    <option>Horror</option>
+                                                    <option>Romance</option>
+                                                    <option>Thriller</option>
+                                                    <option>Western</option>
+                                                </select>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" id="createMovie">Create
+                                            movie</button>
+                                        <button type="button" class="btn btn-secondary" id="closeMovieModal"
+                                            data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="col-md-3">
+                    <div class="jumbotron card card-block">
+                        <h2>
+                            Create New Genre
+                        </h2>
+                        <p>
+                            Create a new genre. Genre is a category that a movie can be assigned to. Genre names must be
+                            unique.
+                        </p>
+                        <p>
+                            <button class="btn btn-primary btn-large">Create Genre</button>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="jumbotron card card-block">
+
+                        <h2>
+                            Manage Users
+                        </h2>
+                        <p>
+                            Management of users. Update a user's details or role or delete a user, as well as view their
+                            comments and reviews.
+                        </p>
+                        <p>
+                            <button class="btn btn-primary btn-large">Manage users</button>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="jumbotron card card-block">
+                        <h2>
+                            CSS Animations Test
+                        </h2>
+                        <p>
+                            View different CSS animations. Cool css animations using keyframes.
+                        </p>
+                        <p>
+                            <a class="btn btn-warning btn-large" href="birdAnimation.html">Bird</a>
+                            <a class="btn btn-warning btn-large" href="houseAnimation.html">House</a>
+                            <a class="btn btn-warning btn-large" href="storeAnimation.html">Store</a>
+                            <a class="btn btn-warning btn-large" href="ghostAnimation.html">Ghost</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

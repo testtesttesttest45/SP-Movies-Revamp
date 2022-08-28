@@ -14,3 +14,6 @@
 ![Completions](completion_screenshots/Profile4.png)
 ![Completions](completion_screenshots/Query.png)
 ![Completions](completion_screenshots/GuestMode.png)
+![Completions](completion_screenshots/EditMovie.png)
+![Completions](completion_screenshots/CreateMovie.png)
+![Completions](completion_screenshots/AdministratorDashboard.png)

@@ -214,13 +214,16 @@ app.get('/genre', function (req, res) {
 //Endpoint 7
 // POST /movie/
 app.post('/movie', function (req, res) {
-    console.log("Logged in as ", req.role);
-
+    // console.log("Logged in as ", req.role);
     movie.insert(req.body, function (err, result) {
         if (!err) {
-            res.status(201).send("movieid:" + result);
-        } else {
-            res.status(500).send("Unknown error");
+            res.status(201).send({ movie_id: result, status: 201, message: "Movie with ID " + result + " added successfully!" });
+        } else if (err && err.code == "ER_DUP_ENTRY") {
+            res.status(409).send({ status: 409, message: "The movie name provided already exists." });
+        }
+        else {
+            console.log(err);
+            res.status(500).send({ status: 500, message: "Unknown error" });
         }
     });
 
