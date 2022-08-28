@@ -197,11 +197,12 @@ button:hover {
 
 .showStopper {
     color: #fff;
-    background-color:#dc3545;
+    background-color: #dc3545;
     margin-top: 10px;
     width: 140px;
     height: 40px;
 }
+
 .showStopper2 {
     color: #fff;
     background-color: #28a745;
@@ -212,4 +213,34 @@ button:hover {
 
 td {
     border: 1px dotted orange;
+}
+
+#refreshButton {
+    float:right;
+    background: white;
+    border: white;
+}
+
+
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(359deg);
+    }
+}
+
+.modal {
+    overflow-y:auto;
+}
+thead {
+    background-color: lightblue;
+}
+.genreTest:nth-child(even) {
+    background-color: #86cfda;
+}
+.genreTest:nth-child(odd) {
+    background-color: #8fd19e;
 }

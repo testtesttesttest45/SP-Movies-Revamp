@@ -657,6 +657,53 @@ app.delete("/genre/:genreId", function (req, res) {
     })
 });
 
+app.put("/genre/:genreId", function (req, res) {
+    const genreId = parseInt(req.params.genreId);
+    const { genre, description } = req.body;
+    var dbConn = db.getConnection();
+    dbConn.connect(function (err) {
+        if (err) {
+            return;
+        }
+        var sql = "UPDATE genre SET genre = ?, description = ? WHERE genreID = ?";
+        var params = [genre, description, genreId];
+        dbConn.query(sql, params, function (err, result) {
+            if (err && err.code === "ER_DUP_ENTRY") {
+                res.status(409).send({ message: "Unable to update. Genre already exists", status: 409 });
+                return;
+            }
+            else if (err) {
+                res.status(500).send({ message: "Error updating genre " + err, status: 500 });
+                return;
+            } else {
+                res.status(200).send({ message: "Genre updated", status: 200 });
+            }
+        });
+        dbConn.end();
+    })
+});
+
+app.get("/genre/:genreId", function (req, res) {
+    const genreId = parseInt(req.params.genreId);
+    var dbConn = db.getConnection();
+    dbConn.connect(function (err) {
+        if (err) {
+            return;
+        }
+        var sql = "SELECT * FROM genre WHERE genreID = ?";
+        var params = [genreId];
+        dbConn.query(sql, params, function (err, result) {
+            if (err) {
+                res.status(500).send({ message: "Error getting genre " + err, status: 500 });
+                return;
+            } else {
+                res.status(200).send({ message: "Genre retrieved", status: 200, result });
+            }
+        });
+        dbConn.end();
+    })
+});
+
 
 app.use((err, req, res, next) => {
     console.error(err);

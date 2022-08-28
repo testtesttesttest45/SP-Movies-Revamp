@@ -18,3 +18,4 @@
 ![Completions](completion_screenshots/CreateMovie.png)
 ![Completions](completion_screenshots/AdministratorDashboard.png)
 ![Completions](completion_screenshots/AddGenre.png)
+![Completions](completion_screenshots/EditGenre.png)

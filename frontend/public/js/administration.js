@@ -1,26 +1,74 @@
 function DeleteGenre(genreID) {
-    $.ajax({
-        url: 'http://localhost:8085/genre/' + genreID,
-        type: 'DELETE',
-        success: function (result) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                url: 'http://localhost:8085/genre/' + genreID,
+                type: 'DELETE',
+                success: function (result) {
+                    Swal.fire({
+                        title: 'Genre deleted!',
+                        text: 'The genre has been deleted.',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    })
+                    getGenre();
+                },
+
+                error: function (error) {
+                    document.getElementById("ErrorAlert").style.display = "inline";
+                    document.querySelector("#ErrorAlert h4").innerHTML += "Error: " + error.responseJSON.message; // display the error on the h4 of #ErrorAlert
+                }
+            });
+        } else {
             Swal.fire({
-                title: 'Genre deleted!',
-                text: 'The genre has been deleted.',
-                icon: 'success',
+                title: 'Cancelled',
+                html: `<div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="alert alert-info alert-dismissable">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                                            &times;
+                                        </button>Genre deletion cancelled.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`,
+                icon: 'info',
                 confirmButtonText: 'OK'
             })
-            getGenre();
-        },
-
-        error: function (error) {
-            document.getElementById("ErrorAlert").style.display = "inline";
-            document.querySelector("#ErrorAlert h4").innerHTML += "Error: " + error.responseJSON.message; // display the error on the h4 of #ErrorAlert
         }
-    });
+    })
+
 }
 
+
+function EditGenre(genreID) {
+    const editGenreTitle = document.getElementById("edit-genre-title");
+    const editGenreDescription = document.getElementById("edit-genre-description");
+    const GENREID = document.getElementById("GENREID");
+    fetch("http://localhost:8085/genre/" + genreID)
+        .then(response => response.json())
+        .then(data => {
+            GENREID.textContent = data.result[0].genreID;
+            editGenreTitle.value = data.result[0].genre;
+            editGenreDescription.value = data.result[0].description;
+        }).catch(error => {
+            console.log(error);
+            document.getElementById("ErrorAlert").style.display = "inline";
+            document.querySelector("#ErrorAlert h4").innerHTML = "Error: " + error;
+        });
+
+}
+
+
 function getGenre() {
-    console.log("called")
+    console.log("getGenre() called.")
     const newMovieModal = document.getElementById("openMovieModal");
     const newMovieGenre = document.getElementById("new-movie-genre");
     const newMovieSubGenre = document.getElementById("new-movie-subgenre");
@@ -33,7 +81,7 @@ function getGenre() {
             allGenreBody.innerHTML = "";
             for (let i = 0; i < data.length; i++) {
                 allGenreBody.innerHTML += `
-                <tr class="table-warning">
+                <tr class="genreTest">
                     <td>
                         ${i + 1}
                     </td>
@@ -44,16 +92,18 @@ function getGenre() {
                         ${data[i].description}
                     </td>
                     <td>
-                        <button class="btn btn-warning" id="EditGenre">Edit</button>
+                        <button class="btn btn-warning" type="button" data-toggle="modal"
+                        data-target="#exampleModal4" id="openMovieModal" onclick="EditGenre(${data[i].genreID})">Edit</button>
                         <button class="btn btn-danger" id="DeleteGenre" onclick="DeleteGenre(${data[i].genreID})">Delete</button>
                     </td>
                 </tr>`;
             }
+
+
             newMovieSubGenre.innerHTML = "";
             newMovieGenre.innerHTML = "";
             for (let i = 0; i < data.length; i++) {
                 if (data[i].genre !== newMovieSubGenre.value) {
-                    console.log(data[i].genre);
                     newMovieGenre.innerHTML += `<option value="${data[i].genre}">${data[i].genre}</option>`;
                     newMovieGenre.value = "";
                 }
@@ -95,15 +145,20 @@ function getGenre() {
 
 
 $(document).ready(function () {
+
     const createMovieButton = document.getElementById("createMovie");
     const clearMovieModal = document.getElementById("clearMovieModal");
     const addGenreButton = document.getElementById("addGenre");
     const backgroundAnimationStopFly = document.getElementById("stopAnimationForward");
     const backgroundAnimationStopFlap = document.getElementById("stopAnimationFlap");
-
+    const refreshButton = document.getElementById("refreshButton");
+    const editGenreTitle = document.getElementById("edit-genre-title");
+    const editGenreDescription = document.getElementById("edit-genre-description");
+    const editGenreButton = document.getElementById("EditGenre");
+    const clearEditGenreModal = document.getElementById("clearEditGenreModal");
     getGenre();
 
-    createMovieButton.addEventListener("click", function (e) {
+    createMovieButton.addEventListener("click", function (e) { // NEW MOVIE
         const newMovieTitleInput = document.getElementById("new-movie-title").value;
         const newMovieDescriptionInput = document.getElementById("new-movie-description").value;
         const newMovieCastInput = document.getElementById("new-movie-cast").value;
@@ -158,7 +213,7 @@ $(document).ready(function () {
         });
 
     });
-    clearMovieModal.addEventListener("click", function (e) {
+    clearMovieModal.addEventListener("click", function (e) { // CLEAR MOVIE MODAL FORM
         document.getElementById("new-movie-title").value = "";
         document.getElementById("new-movie-description").value = "";
         document.getElementById("new-movie-cast").value = "";
@@ -167,7 +222,7 @@ $(document).ready(function () {
         document.getElementById("new-movie-genre").value = "";
         document.getElementById("new-movie-subgenre").value = "";
     });
-    addGenreButton.addEventListener("click", function (e) {
+    addGenreButton.addEventListener("click", function (e) { // NEW GENRE
         const newGenreTitleInput = document.getElementById("new-genre-title").value;
         const newGenreDescriptionInput = document.getElementById("new-genre-description").value;
         const newGenre = {
@@ -209,12 +264,11 @@ $(document).ready(function () {
             }
         });
     });
-    clearGenreModal.addEventListener("click", function (e) {
+    clearGenreModal.addEventListener("click", function (e) { // CLEAR GENRE MODAL FORM
         document.getElementById("new-genre-title").value = "";
         document.getElementById("new-genre-description").value = "";
     });
-
-    backgroundAnimationStopFly.addEventListener("click", function (e) {
+    backgroundAnimationStopFly.addEventListener("click", function (e) { // STOP ANIMATION FORWARD
         const birdContainer = document.getElementsByClassName("bird-container");
         const x = birdContainer[0].style.animationPlayState;
         for (let i = 0; i < birdContainer.length; i++) {
@@ -223,7 +277,7 @@ $(document).ready(function () {
                 : (birdContainer[i].style.animationPlayState = "running", this.className = "btn showStopper", this.innerHTML = "<i class='fa fa-stop'> Stop Flying</i>");
         }
     });
-    backgroundAnimationStopFlap.addEventListener("click", function (e) {
+    backgroundAnimationStopFlap.addEventListener("click", function (e) { // STOP ANIMATION FLAP WINGS
         const birdContainer = document.getElementsByClassName("bird");
         const x = birdContainer[0].style.animationName;
         for (let i = 0; i < birdContainer.length; i++) {
@@ -232,5 +286,53 @@ $(document).ready(function () {
                 : (birdContainer[i].style.animationName = "fly-cycle", this.className = "btn showStopper", this.innerHTML = "<i class='fa fa-stop'> Stop Flapping</i>");
         }
     });
-
+    refreshButton.addEventListener("click", function (e) { // REFRESH DATA FETCHING(USELESS BUT USEFUL)
+        getGenre();
+        // add the animation "rotation 2s infinite linear;" to refresh button when clicked
+        this.style.animation = "rotation 1s infinite linear";
+        setTimeout(function () {
+            refreshButton.style.animation = "none";
+        }, 200);
+    });
+    editGenreButton.addEventListener("click", function () { // EDIT GENRE
+        const GENREID = document.getElementById("GENREID").textContent;
+        // console.log("The genreid is: " + GENREID);
+        if (editGenreTitle.value == "" || editGenreDescription.value == "") {
+            Swal.fire({
+                title: 'Error',
+                text: 'Please fill in all fields',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+            });
+            return;
+        }
+        $.ajax({
+            url: 'http://localhost:8085/genre/' + GENREID,
+            type: 'PUT',
+            data: {
+                genre: editGenreTitle.value,
+                description: editGenreDescription.value
+            },
+            success: function (result) {
+                Swal.fire({
+                    title: 'Genre edited!',
+                    text: 'The genre has been edited.',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                })
+                getGenre();
+                // click closeMovieModal
+                const closeEditGenreModal = document.getElementById("closeEditGenreModal");
+                closeEditGenreModal.click();
+            },
+            error: function (error) {
+                document.getElementById("ErrorAlert").style.display = "inline";
+                document.querySelector("#ErrorAlert h4").innerHTML = "Error: " + error.responseJSON.message; // display the error on the h4 of #ErrorAlert
+            }
+        });
+    });
+    clearEditGenreModal.addEventListener("click", function (e) { // CLEAR EDIT GENRE MODAL FORM
+        editGenreTitle.value = "";
+        editGenreDescription.value = "";
+    });
 })

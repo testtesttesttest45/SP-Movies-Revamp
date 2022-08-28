@@ -7,16 +7,14 @@
     <link rel="icon" type="image/png" href="./icons/favicon.ico">
     <title>SP Movies | Create Movie</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/administrator.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
         integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="css/administrator.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"
         integrity="sha512-2rNj2KJ+D8s1ceNasTIex6z4HWyOnEYLVC3FigGOmyQCZc2eBXKgOxQmo3oKLHyfcj53uz4QMsRCWNbLd32Q1g=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
-        integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
-        crossorigin="anonymous"></script>
+    <script src="css/bootstrap.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" type="text/css" href="./css/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
     <script src="./js/checkLogin.js"></script>
@@ -226,11 +224,15 @@
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
                                     <div class="modal-header" style="text-align:center;display:inline-block">
-                                        <h5 class="modal-title" id="exampleModalLabel">View/Edit Genre</h5>
+                                        <h3 class="modal-title" id="exampleModalLabel">View/Edit Genre</h3>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"
                                             style="margin-top: -30px;">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
+                                        <button type="button" class="btn btn-light" id="refreshButton" title="Refresh">
+                                            <i class="fa fa-refresh" style="font-size:1.5rem"></i>
+                                        </button>
+                                        
                                     </div>
                                     <div class="modal-body">
                                         <table class="table">
@@ -258,6 +260,45 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="exampleModal4" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header" style="text-align:center;display:inline-block">
+                                        <h5 class="modal-title" id="exampleModalLabel">Edit Genre</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                                            style="margin-top: -30px;">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form>
+                                            <button type="button" style="float:right;margin-bottom:10px"
+                                                class="btn btn-warning btn-large" id="clearEditGenreModal">Reset</button>
+                                            <div class="form-group">
+                                                <label for="edit-genre-title" class="col-form-label">Genre:</label>
+                                                <input type="text" class="form-control" id="edit-genre-title"
+                                                    placeholder="Name of genre.">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="edit-genre-description"
+                                                    class="col-form-label">Description:</label>
+                                                <textarea class="form-control" id="edit-genre-description"
+                                                    placeholder="Give a brief description of this genre." rows="4"></textarea>
+                                            </div>
+                                            <h5 style="visibility:hidden" id="GENREID"></h5>
+
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" id="EditGenre">Save
+                                            changes</button>
+                                        <button type="button" class="btn btn-secondary" id="closeEditGenreModal"
                                             data-dismiss="modal">Close</button>
                                     </div>
                                 </div>
