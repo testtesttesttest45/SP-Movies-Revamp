@@ -118,7 +118,7 @@ function EditMovie(thisMovieId) {
                             success: function (data) {
                                 Swal.fire({
                                     title: 'Saved!',
-                                    html : `<div class="container-fluid">
+                                    html: `<div class="container-fluid">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="alert alert-success alert-dismissable">
@@ -148,7 +148,7 @@ function EditMovie(thisMovieId) {
                     else {
                         Swal.fire({
                             title: 'Save cancelled!',
-                            html : `<div class="container-fluid">
+                            html: `<div class="container-fluid">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="alert alert-info alert-dismissable">
@@ -221,11 +221,21 @@ function EditMovie(thisMovieId) {
         .catch(error => console.error(error));
 }
 
+function jwt_decode(token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace('-', '+').replace('_', '/');
+    return JSON.parse(window.atob(base64));
+}
+
 $(document).ready(function () {
     let homeHTML = '';
     const searchInput = document.getElementById('searchInput');
     const searchButton = document.getElementById('searchButton');
     const movieContainer = document.getElementById('movieContainer');
+    const adminButton = document.getElementById('adminButton');
+    const token = localStorage.getItem('token'); // decode the token to get role
+    const decoded = jwt_decode(token);
+    const role = decoded.role;
     fetch('http://localhost:8085/movies')
         .then(response => response.json())
         .then(data => {
@@ -249,7 +259,7 @@ $(document).ready(function () {
                         
                     </div>
                     <div class="hd">1080 <b>HD</b>
-                    <div class="social-info" style="margin-top:-50px;width:150%;height:150%">
+                    <div class="social-info AdminButtons" style="margin-top:-50px;width:150%;height:150%">
                     <button type="button" style="color:orange;background:transparent" title="Edit" onclick=EditMovie(${movieid})><i class="fa fa-pencil" style="font-size:1.3rem"></i></button>
                     <button type="button" title="Delete" onclick=DeleteMovie(${movieid}); style="color:red;background:transparent"><i class="fa fa-trash" style="font-size:1.3rem"></i></button>
                     </div>
@@ -265,6 +275,10 @@ $(document).ready(function () {
                     </div>
                 `;
                 // append child
+                if (role === 'Admin') {
+                    adminButton.style.display = 'block';
+                    $('.AdminButtons').show();
+                }
                 movieContainer.innerHTML += homeHTML;
             }
         });

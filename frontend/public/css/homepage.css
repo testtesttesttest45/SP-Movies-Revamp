@@ -3376,3 +3376,7 @@ button {
   66%  {color: yellow;}
   100% {color: red;}
 }
+
+#adminButton, .AdminButtons {
+  display: none;
+}
