@@ -4,7 +4,7 @@ function DeleteGenre(genreID) {
         text: "You won't be able to revert this!",
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!'
+        confirmButtonText: 'Yes, delete genre!'
     }).then((result) => {
         if (result.value) {
             $.ajax({
@@ -17,7 +17,7 @@ function DeleteGenre(genreID) {
                         icon: 'success',
                         confirmButtonText: 'OK'
                     })
-                    getGenre();
+                    getGenres();
                 },
 
                 error: function (error) {
@@ -47,7 +47,6 @@ function DeleteGenre(genreID) {
 
 }
 
-
 function EditGenre(genreID) {
     const editGenreTitle = document.getElementById("edit-genre-title");
     const editGenreDescription = document.getElementById("edit-genre-description");
@@ -66,9 +65,194 @@ function EditGenre(genreID) {
 
 }
 
+function DeleteUser(userID) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete user!'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                url: 'http://localhost:8085/users/' + userID,
+                type: 'DELETE',
+                success: function (result) {
+                    Swal.fire({
+                        title: 'User deleted!',
+                        text: result.message,
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    })
+                    getUsers();
+                },
 
-function getGenre() {
-    console.log("getGenre() called.")
+                error: function (error) {
+                    console.log(error);
+                    document.getElementById("ErrorAlert").style.display = "inline";
+                    document.querySelector("#ErrorAlert h4").innerHTML += "Error: " + error.responseJSON.message; // display the error on the h4 of #ErrorAlert
+                }
+            });
+        } else {
+            Swal.fire({
+                title: 'Cancelled',
+                html: `<div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="alert alert-info alert-dismissable">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                                            &times;
+                                        </button>User deletion cancelled.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`,
+                icon: 'info',
+                confirmButtonText: 'OK'
+            })
+        }
+    })
+
+}
+
+function UpdateUserRole(userID, role, username) {
+    if (role == "Customer") {
+        Swal.fire({
+            title: 'Promote ' + username + '?',
+            text: `Updating role from ${role} to Admin`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, update role!'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: `http://localhost:8085/users/${userID}/role`,
+                    type: 'PUT',
+                    data: {
+                        role: "Admin"
+                    },
+                    success: function (result) {
+                        Swal.fire({
+                            title: 'User updated!',
+                            text: result.message,
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        })
+                        getUsers();
+                    },
+                    catch: function (error) {
+                        console.log(error);
+                        document.getElementById("ErrorAlert").style.display = "inline";
+                        document.querySelector("#ErrorAlert h4").innerHTML += "Error: " + error.responseJSON.message; // display the error on the h4 of #ErrorAlert
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: 'Cancelled',
+                    html: `<div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="alert alert-info alert-dismissable">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                                                &times;
+                                            </button>User update cancelled.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`,
+                    icon: 'info',
+                    confirmButtonText: 'OK'
+                })
+            }
+        })
+    }
+    else if (role == "Admin") {
+        Swal.fire({
+            title: 'Demote ' + username + '?',
+            text: `Updating role from ${role} to Customer`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, update role!'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: `http://localhost:8085/users/${userID}/role`,
+                    type: 'PUT',
+                    data: {
+                        role: "Customer"
+                    },
+                    success: function (result) {
+                        Swal.fire({
+                            title: 'User updated!',
+                            text: result.message,
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        })
+                        getUsers();
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: 'Cancelled',
+                    html: `<div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="alert alert-info alert-dismissable">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                                                &times;
+                                            </button>User update cancelled.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`,
+                    icon: 'info',
+                    confirmButtonText: 'OK'
+                })
+            }
+        })
+    }
+}
+
+function getUsers() {
+    console.log("getUsers() called");
+    const allUserBody = document.getElementById("all-user-body");
+    $.ajax({
+        url: 'http://localhost:8085/users',
+        type: 'GET',
+        success: function (result) {
+            allUserBody.innerHTML = "";
+            for (let i = 0; i < result.length; i++) {
+                allUserBody.innerHTML +=
+                    `<tr class="userTest">
+                        <td>
+                            ${i + 1}
+                        </td>
+                        <td style="width:250px">
+                            ${result[i].username}
+                        </td style="width:250px">
+                        <td>
+                            ${result[i].email}
+                        </td>
+                        <td>
+                            ${result[i].role}
+                        </td>
+                        <td>
+                            <button class="btn btn-warning" type="button" onclick="UpdateUserRole(${result[i].userid}, '${result[i].role}', '${result[i].username}')">Update Role</button>
+                            <button class="btn btn-danger" type="button" onclick="DeleteUser(${result[i].userid})">Delete User</button>
+                        </td>
+                    </tr>`
+            }
+        },
+        error: function (error) {
+            document.getElementById("ErrorAlert").style.display = "inline";
+            document.querySelector("#ErrorAlert h4").innerHTML += "Error: " + error.responseJSON.message; // display the error on the h4 of #ErrorAlert
+        }
+    });
+
+}
+
+function getGenres() {
+    console.log("getGenres() called.")
     const newMovieModal = document.getElementById("openMovieModal");
     const newMovieGenre = document.getElementById("new-movie-genre");
     const newMovieSubGenre = document.getElementById("new-movie-subgenre");
@@ -96,7 +280,7 @@ function getGenre() {
                         data-target="#exampleModal4" id="openMovieModal" onclick="EditGenre(${data[i].genreID})">Edit</button>
                         <button class="btn btn-danger" id="DeleteGenre" onclick="DeleteGenre(${data[i].genreID})">Delete</button>
                     </td>
-                </tr>`;
+                </tr > `;
             }
 
 
@@ -104,14 +288,14 @@ function getGenre() {
             newMovieGenre.innerHTML = "";
             for (let i = 0; i < data.length; i++) {
                 if (data[i].genre !== newMovieSubGenre.value) {
-                    newMovieGenre.innerHTML += `<option value="${data[i].genre}">${data[i].genre}</option>`;
+                    newMovieGenre.innerHTML += `< option value = "${data[i].genre}" > ${data[i].genre}</option > `;
                     newMovieGenre.value = "";
                 }
             }
 
             for (let i = 0; i < data.length; i++) {
                 if (data[i].genre !== newMovieGenre.value) {
-                    newMovieSubGenre.innerHTML += `<option value="${data[i].genre}">${data[i].genre}</option>`;
+                    newMovieSubGenre.innerHTML += `< option value = "${data[i].genre}" > ${data[i].genre}</option > `;
                     newMovieSubGenre.value = "";
                 }
             }
@@ -120,7 +304,7 @@ function getGenre() {
                 $('#new-movie-subgenre').empty();
                 for (let i = 0; i < data.length; i++) {
                     if (data[i].genre !== newMovieGenre.value) {
-                        newMovieSubGenre.innerHTML += `<option value="${data[i].genre}">${data[i].genre}</option>`;
+                        newMovieSubGenre.innerHTML += `< option value = "${data[i].genre}" > ${data[i].genre}</option > `;
                         document.getElementById("new-movie-subgenre").value = X;
                     }
                 }
@@ -130,7 +314,7 @@ function getGenre() {
                 $('#new-movie-genre').empty();
                 for (let i = 0; i < data.length; i++) {
                     if (data[i].genre !== newMovieSubGenre.value) {
-                        newMovieGenre.innerHTML += `<option value="${data[i].genre}">${data[i].genre}</option>`;
+                        newMovieGenre.innerHTML += `< option value = "${data[i].genre}" > ${data[i].genre}</option > `;
                         document.getElementById("new-movie-genre").value = Y;
                     }
                 }
@@ -151,12 +335,14 @@ $(document).ready(function () {
     const addGenreButton = document.getElementById("addGenre");
     const backgroundAnimationStopFly = document.getElementById("stopAnimationForward");
     const backgroundAnimationStopFlap = document.getElementById("stopAnimationFlap");
-    const refreshButton = document.getElementById("refreshButton");
+    const refreshButtonGenre = document.getElementById("refreshButtonGenre");
+    const refreshButtonUser = document.getElementById("refreshButtonUser");
     const editGenreTitle = document.getElementById("edit-genre-title");
     const editGenreDescription = document.getElementById("edit-genre-description");
     const editGenreButton = document.getElementById("EditGenre");
     const clearEditGenreModal = document.getElementById("clearEditGenreModal");
-    getGenre();
+    const manageUsersButton = document.getElementById("manageUsers");
+    getGenres();
 
     createMovieButton.addEventListener("click", function (e) { // NEW MOVIE
         const newMovieTitleInput = document.getElementById("new-movie-title").value;
@@ -251,7 +437,7 @@ $(document).ready(function () {
                     icon: 'success',
                     confirmButtonText: 'OK'
                 })
-                getGenre();
+                getGenres();
                 // click closeMovieModal
                 const closeGenreModal = document.getElementById("closeGenreModal");
                 closeGenreModal.click();
@@ -286,12 +472,12 @@ $(document).ready(function () {
                 : (birdContainer[i].style.animationName = "fly-cycle", this.className = "btn showStopper", this.innerHTML = "<i class='fa fa-stop'> Stop Flapping</i>");
         }
     });
-    refreshButton.addEventListener("click", function (e) { // REFRESH DATA FETCHING(USELESS BUT USEFUL)
-        getGenre();
+    refreshButtonGenre.addEventListener("click", function (e) { // REFRESH DATA FETCHING(USELESS BUT USEFUL)
+        getGenres();
         // add the animation "rotation 2s infinite linear;" to refresh button when clicked
         this.style.animation = "rotation 1s infinite linear";
         setTimeout(function () {
-            refreshButton.style.animation = "none";
+            refreshButtonGenre.style.animation = "none";
         }, 200);
     });
     editGenreButton.addEventListener("click", function () { // EDIT GENRE
@@ -320,7 +506,7 @@ $(document).ready(function () {
                     icon: 'success',
                     confirmButtonText: 'OK'
                 })
-                getGenre();
+                getGenres();
                 // click closeMovieModal
                 const closeEditGenreModal = document.getElementById("closeEditGenreModal");
                 closeEditGenreModal.click();
@@ -335,4 +521,16 @@ $(document).ready(function () {
         editGenreTitle.value = "";
         editGenreDescription.value = "";
     });
+    manageUsersButton.addEventListener("click", function (e) { // MANAGE USERS
+        getUsers();
+    });
+    refreshButtonUser.addEventListener("click", function (e) { // REFRESH DATA FETCHING(USELESS BUT USEFUL)
+        getUsers();
+        // add the animation "rotation 2s infinite linear;" to refresh button when clicked
+        this.style.animation = "rotation 1s infinite linear";
+        setTimeout(function () {
+            refreshButtonUser.style.animation = "none";
+        }, 200);
+    });
+
 })

@@ -651,7 +651,7 @@ app.delete("/genre/:genreId", function (req, res) {
                 res.status(500).send({ message: "Error deleting genre " + err, status: 500 });
                 return;
             }
-            res.status(200).send({ message: "Genre deleted", status: 200 });
+            res.status(200).send({ message: "Genre deleted successfully", status: 200 });
         });
         dbConn.end();
     })
@@ -704,6 +704,49 @@ app.get("/genre/:genreId", function (req, res) {
     })
 });
 
+app.delete("/users/:userId", function (req, res) {
+    const userId = parseInt(req.params.userId);
+    var dbConn = db.getConnection();
+    dbConn.connect(function (err) {
+        if (err) {
+            return;
+        }
+        var sql = "DELETE FROM user WHERE userid = ?";
+        var params = [userId];
+        dbConn.query(sql, params, function (err, result) {
+            if (err) {
+                res.status(500).send({ message: "Error deleting user " + err, status: 500 });
+                return;
+            }
+            console.log(result)
+            res.status(200).send({ message: "User " + userId + " deleted successfully", status: 200 });
+        });
+        dbConn.end();
+    })
+});
+
+// this app.put endpoint /users/:userId is used to update the user role
+app.put("/users/:userId/role", function (req, res) {
+    const userId = parseInt(req.params.userId);
+    const { role } = req.body;
+    var dbConn = db.getConnection();
+    dbConn.connect(function (err) {
+        if (err) {
+            return;
+        }
+        var sql = "UPDATE user SET role = ? WHERE userid = ?";
+        var params = [role, userId];
+        dbConn.query(sql, params, function (err, result) {
+            if (err) {
+                res.status(500).send({ message: "Error updating user " + err, status: 500 });
+                return;
+            } else {
+                res.status(200).send({ message: "User " + userId + " updated successfully", status: 200 });
+            }
+        });
+        dbConn.end();
+    })
+});
 
 app.use((err, req, res, next) => {
     console.error(err);

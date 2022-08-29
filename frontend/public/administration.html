@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="./icons/favicon.ico">
-    <title>SP Movies | Create Movie</title>
+    <title>SP Movies | Administration</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/administrator.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
@@ -169,11 +169,11 @@
                 <div class="col-md-3">
                     <div class="jumbotron card card-block">
                         <h2>
-                            Add New Genre
+                            Add New/View Genre
                         </h2>
                         <p>
                             Add a new genre. Genre is a category that a movie can be assigned to. Genre names must be
-                            unique.
+                            unique, or view the genre and <b>edit/delete</b>.
                         </p>
                         <p>
                             <button class="btn btn-primary btn-large" type="button" data-toggle="modal"
@@ -229,10 +229,10 @@
                                             style="margin-top: -30px;">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
-                                        <button type="button" class="btn btn-light" id="refreshButton" title="Refresh">
+                                        <button type="button" class="btn btn-light refreshButton"  id="refreshButtonGenre" title="Refresh">
                                             <i class="fa fa-refresh" style="font-size:1.5rem"></i>
                                         </button>
-                                        
+
                                     </div>
                                     <div class="modal-body">
                                         <table class="table">
@@ -279,7 +279,8 @@
                                     <div class="modal-body">
                                         <form>
                                             <button type="button" style="float:right;margin-bottom:10px"
-                                                class="btn btn-warning btn-large" id="clearEditGenreModal">Reset</button>
+                                                class="btn btn-warning btn-large"
+                                                id="clearEditGenreModal">Reset</button>
                                             <div class="form-group">
                                                 <label for="edit-genre-title" class="col-form-label">Genre:</label>
                                                 <input type="text" class="form-control" id="edit-genre-title"
@@ -289,7 +290,8 @@
                                                 <label for="edit-genre-description"
                                                     class="col-form-label">Description:</label>
                                                 <textarea class="form-control" id="edit-genre-description"
-                                                    placeholder="Give a brief description of this genre." rows="4"></textarea>
+                                                    placeholder="Give a brief description of this genre."
+                                                    rows="4"></textarea>
                                             </div>
                                             <h5 style="visibility:hidden" id="GENREID"></h5>
 
@@ -299,6 +301,55 @@
                                         <button type="button" class="btn btn-primary" id="EditGenre">Save
                                             changes</button>
                                         <button type="button" class="btn btn-secondary" id="closeEditGenreModal"
+                                            data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="exampleModal5" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header" style="text-align:center;display:inline-block">
+                                        <h3 class="modal-title" id="exampleModalLabel">Manage User</h3>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                                            style="margin-top: -30px;">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <button type="button" class="btn btn-light refreshButton" id="refreshButtonUser" title="Refresh">
+                                            <i class="fa fa-refresh" style="font-size:1.5rem"></i>
+                                        </button>
+
+                                    </div>
+                                    <div class="modal-body">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        #
+                                                    </th>
+                                                    <th>
+                                                        Username
+                                                    </th>
+                                                    <th>
+                                                        Email
+                                                    </th>
+                                                    <th>
+                                                        Role
+                                                    </th>
+                                                    <th>
+                                                        Delete User/Update Role
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="all-user-body">
+                                                <!-- Fetched genres comes here -->
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
                                             data-dismiss="modal">Close</button>
                                     </div>
                                 </div>
@@ -317,7 +368,8 @@
                             comments and reviews.
                         </p>
                         <p>
-                            <button class="btn btn-primary btn-large">Manage users</button>
+                            <button class="btn btn-primary btn-large" type="button" data-toggle="modal"
+                                data-target="#exampleModal5" id="manageUsers">Manage users</button>
                         </p>
                     </div>
                 </div>

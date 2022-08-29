@@ -190,6 +190,9 @@ body {
         transform: translateY(0vh) translateX(110vw) scale(0.45);
     }
 }
+pre {
+    overflow: hidden;
+}
 
 button:hover {
     cursor: pointer;
@@ -215,7 +218,7 @@ td {
     border: 1px dotted orange;
 }
 
-#refreshButton {
+.refreshButton {
     float:right;
     background: white;
     border: white;
