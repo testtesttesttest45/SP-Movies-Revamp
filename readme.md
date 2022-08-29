@@ -19,3 +19,4 @@
 ![Completions](completion_screenshots/AdministratorDashboard.png)
 ![Completions](completion_screenshots/AddGenre.png)
 ![Completions](completion_screenshots/EditGenre.png)
+![Completions](completion_screenshots/EditRole.png)
