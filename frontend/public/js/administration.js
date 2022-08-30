@@ -288,14 +288,14 @@ function getGenres() {
             newMovieGenre.innerHTML = "";
             for (let i = 0; i < data.length; i++) {
                 if (data[i].genre !== newMovieSubGenre.value) {
-                    newMovieGenre.innerHTML += `< option value = "${data[i].genre}" > ${data[i].genre}</option > `;
+                    newMovieGenre.innerHTML += `<option value = "${data[i].genre}" > ${data[i].genre}</option> `;
                     newMovieGenre.value = "";
                 }
             }
 
             for (let i = 0; i < data.length; i++) {
                 if (data[i].genre !== newMovieGenre.value) {
-                    newMovieSubGenre.innerHTML += `< option value = "${data[i].genre}" > ${data[i].genre}</option > `;
+                    newMovieSubGenre.innerHTML += `<option value = "${data[i].genre}" > ${data[i].genre}</option> `;
                     newMovieSubGenre.value = "";
                 }
             }
@@ -304,7 +304,7 @@ function getGenres() {
                 $('#new-movie-subgenre').empty();
                 for (let i = 0; i < data.length; i++) {
                     if (data[i].genre !== newMovieGenre.value) {
-                        newMovieSubGenre.innerHTML += `< option value = "${data[i].genre}" > ${data[i].genre}</option > `;
+                        newMovieSubGenre.innerHTML += `<option value = "${data[i].genre}" > ${data[i].genre}</option> `;
                         document.getElementById("new-movie-subgenre").value = X;
                     }
                 }
@@ -314,7 +314,7 @@ function getGenres() {
                 $('#new-movie-genre').empty();
                 for (let i = 0; i < data.length; i++) {
                     if (data[i].genre !== newMovieSubGenre.value) {
-                        newMovieGenre.innerHTML += `< option value = "${data[i].genre}" > ${data[i].genre}</option > `;
+                        newMovieGenre.innerHTML += `<option value = "${data[i].genre}" > ${data[i].genre}</option> `;
                         document.getElementById("new-movie-genre").value = Y;
                     }
                 }

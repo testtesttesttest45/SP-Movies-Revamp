@@ -13,7 +13,15 @@ $(document).ready(function () {
     const userId = localStorage.getItem('userId');
     let favouriteHTML = '';
     if (userId) {
-        fetch(`http://localhost:8085/users/${userId}`)
+        // console.log('Bearer ' + localStorage.getItem('token'));
+        fetch(`http://localhost:8085/users/${userId}`,
+            // headers authroization: Bearer ${token}
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            })
             .then(response => response.json())
             .then(data => {
                 console.log("User details:", data);
@@ -68,7 +76,11 @@ $(document).ready(function () {
                 .then((result) => {
                     if (result.value) {
                         fetch(`http://localhost:8085/user/${userId}`, {
-                            method: 'DELETE'
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                            }
                         })
                             .then(response => response.json())
                             .then(data => {
@@ -154,7 +166,13 @@ $(document).ready(function () {
                         password: newPassword,
                         picture: picture
                     };
-                    fetch(`http://localhost:8085/users/${userId}`)
+                    fetch(`http://localhost:8085/users/${userId}`,
+                        {
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                            },
+                        })
                         .then(response => response.json())
                         .then(doggy => {
                             console.log("User password:", doggy.password);
@@ -181,6 +199,7 @@ $(document).ready(function () {
                                 fetch(`http://localhost:8085/user/${userId}`, {
                                     method: 'PUT',
                                     headers: {
+                                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
                                         'Content-Type': 'application/json' // Without using this, the server will not understand the data. maybe 415 error(unsupported media type)
                                     },
                                     body: JSON.stringify(data)
@@ -221,7 +240,14 @@ $(document).ready(function () {
             })
         })
         // fetch and display all favourites of the user
-        fetch(`http://localhost:8085/userFavourite/${userId}`)
+        fetch(`http://localhost:8085/userFavourite/${userId}`,
+            // headers authroization: Bearer ${token}
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            })
             .then(response => response.json())
             .then(data => {
                 console.log("You favourite these: ", data);
@@ -246,7 +272,7 @@ $(document).ready(function () {
                         </div>
                         `;
                         $('#favouriteContainer').append(favouriteHTML);  // or document.getElementById('favouriteContainer').innerHTML += favouriteHTML;
-                        
+
                     }
                 }
             })
@@ -257,7 +283,7 @@ $(document).ready(function () {
         alert("Siam")
         window.location.href = "login.html";
     }
-        
+
 
 })
 
@@ -266,6 +292,7 @@ function DeleteFromFavourites(movieid) {
     fetch(`http://localhost:8085/favourite/${movieid}`, {
         method: 'DELETE',
         headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('token'),
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({

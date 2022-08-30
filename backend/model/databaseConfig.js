@@ -2,14 +2,15 @@
 // Admin  : P1909618
 // Class DIT?FT/1B/39
 const mysql = require("mysql");
+require("dotenv").config();
 module.exports = {
   getConnection: function () {
       var conn = mysql.createConnection({
-      host: 'localhost',
+      host: process.env.DB_HOST,
       port: 3306,
       user: 'root',
-      password: 'password', //your own password
-      database: 'sp_movie',
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE,
       dateStrings: true
     });
     return conn;

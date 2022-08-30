@@ -124,7 +124,8 @@ $(document).ready(function () {
                                 fetch(`http://localhost:8085/review/${movieId}`, {
                                     method: 'POST',
                                     headers: {
-                                        'Content-Type': 'application/json'
+                                        'Content-Type': 'application/json',
+                                        'Authorization': `Bearer ${localStorage.getItem('token')}`
                                     },
                                     body: JSON.stringify({
                                         userID: userId,
@@ -157,7 +158,12 @@ $(document).ready(function () {
                     })
             });
             const favouriteButton = document.getElementById('favouriteButton');
-            fetch(`http://localhost:8085/favourite/${movieid}?userId=${userId}`)
+            fetch(`http://localhost:8085/favourite/${movieid}?userId=${userId}`,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                })
                 .then(response => response.json())
                 .then(data => {
                     console.log("isFavourite?", data);
@@ -177,7 +183,8 @@ $(document).ready(function () {
                             fetch(`http://localhost:8085/favourite/${movieid}`, {
                                 method: 'DELETE',
                                 headers: {
-                                    'Content-Type': 'application/json'
+                                    'Content-Type': 'application/json',
+                                    'Authorization': `Bearer ${localStorage.getItem('token')}`
                                 },
                                 body: JSON.stringify({
                                     userId: localStorage.getItem('userId')
@@ -218,7 +225,8 @@ $(document).ready(function () {
                             fetch(`http://localhost:8085/favourite/${movieid}`, {
                                 method: 'POST',
                                 headers: {
-                                    'Content-Type': 'application/json'
+                                    'Content-Type': 'application/json',
+                                    'Authorization': `Bearer ${localStorage.getItem('token')}`
                                 },
                                 body: JSON.stringify({
                                     userId: localStorage.getItem('userId'),
@@ -302,7 +310,8 @@ $(document).ready(function () {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
             body: JSON.stringify({
                 comment: comment,

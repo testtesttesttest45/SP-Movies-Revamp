@@ -275,11 +275,15 @@ $(document).ready(function () {
                     </div>
                 `;
                 // append child
-                if (role === 'Admin') {
-                    adminButton.style.display = 'block';
-                    $('.AdminButtons').show();
-                }
+                
                 movieContainer.innerHTML += homeHTML;
+            }
+            if (role === 'Admin') {
+                adminButton.style.display = 'block';
+                // console.log(document.getElementsByClassName('AdminButtons').length);
+                for (let i = 0; i < document.getElementsByClassName('AdminButtons').length; i++) {
+                    document.getElementsByClassName('AdminButtons')[i].style.display = 'block';
+                }
             }
         });
     const searchIcon = document.getElementById('searchIcon');
