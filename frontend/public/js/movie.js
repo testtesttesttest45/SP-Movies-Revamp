@@ -158,105 +158,109 @@ $(document).ready(function () {
                     })
             });
             const favouriteButton = document.getElementById('favouriteButton');
-            fetch(`http://localhost:8085/favourite/${movieid}?userId=${userId}`,
-                {
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log("isFavourite?", data);
-                    if (data.length > 0) {
-                        favouriteButton.textContent = '- REMOVE FROM FAVOURITES';
-                        favouriteButton.style.backgroundColor = '#ff5776'; // pink
-                        favouriteButton.addEventListener('click', function () {
-                            if (!userId) {
-                                Swal.fire({
-                                    title: 'Please login first to add to favourites',
-                                    icon: 'warning',
-                                    confirmButtonText: 'OK'
-                                })
-                                return;
-                            }
-                            // when clicked, remove the movie from the favourites list by using the delete api
-                            fetch(`http://localhost:8085/favourite/${movieid}`, {
-                                method: 'DELETE',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                                },
-                                body: JSON.stringify({
-                                    userId: localStorage.getItem('userId')
-                                })
-                            })
-                                .then(res => res.json())
-                                .then(data => {
+            if (userId) {
+                fetch(`http://localhost:8085/favourite/${movieid}?userId=${userId}`,
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${localStorage.getItem('token')}`
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("isFavourite?", data);
+                        if (data.length > 0) {
+                            favouriteButton.textContent = '- REMOVE FROM FAVOURITES';
+                            favouriteButton.style.backgroundColor = '#ff5776'; // pink
+                            favouriteButton.addEventListener('click', function () {
+                                if (!userId) {
                                     Swal.fire({
-                                        title: 'Removed from Favourites',
-                                        text: 'This movie has been removed from your favourites',
-                                        icon: 'success',
+                                        title: 'Please login first to add to favourites',
+                                        icon: 'warning',
                                         confirmButtonText: 'OK'
                                     })
-                                        .then(() => {
-                                            window.location.reload();
+                                    return;
+                                }
+                                // when clicked, remove the movie from the favourites list by using the delete api
+                                fetch(`http://localhost:8085/favourite/${movieid}`, {
+                                    method: 'DELETE',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                                    },
+                                    body: JSON.stringify({
+                                        userId: localStorage.getItem('userId')
+                                    })
+                                })
+                                    .then(res => res.json())
+                                    .then(data => {
+                                        Swal.fire({
+                                            title: 'Removed from Favourites',
+                                            text: 'This movie has been removed from your favourites',
+                                            icon: 'success',
+                                            confirmButtonText: 'OK'
                                         })
-                                }).catch(err => {
-                                    Swal.fire({
-                                        title: 'Error',
-                                        text: 'Something went wrong',
-                                        icon: 'error',
-                                        confirmButtonText: 'OK'
+                                            .then(() => {
+                                                window.location.reload();
+                                            })
+                                    }).catch(err => {
+                                        Swal.fire({
+                                            title: 'Error',
+                                            text: 'Something went wrong',
+                                            icon: 'error',
+                                            confirmButtonText: 'OK'
+                                        })
                                     })
-                                })
 
-                        });
-                    }
-                    else {
-                        favouriteButton.addEventListener('click', function () {
-                            if (!userId) {
-                                Swal.fire({
-                                    title: 'Please login first to add to favourites',
-                                    icon: 'warning',
-                                    confirmButtonText: 'OK'
-                                })
-                                return;
-                            }
-                            fetch(`http://localhost:8085/favourite/${movieid}`, {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                                },
-                                body: JSON.stringify({
-                                    userId: localStorage.getItem('userId'),
-                                    favourite: 1,
-                                })
-                            })
-                                .then(res => res.json())
-                                .then(data => {
-                                    Swal.fire({
-                                        title: 'Added to favourites',
-                                        text: 'This movie has been added to your favourites',
-                                        icon: 'success',
-                                        confirmButtonText: 'OK'
+                            });
+                        }
+                        else {
+                            favouriteButton.addEventListener('click', function () {
+                                fetch(`http://localhost:8085/favourite/${movieid}`, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                                    },
+                                    body: JSON.stringify({
+                                        userId: localStorage.getItem('userId'),
+                                        favourite: 1,
                                     })
-                                        .then(() => {
-                                            window.location.reload();
+                                })
+                                    .then(res => res.json())
+                                    .then(data => {
+                                        Swal.fire({
+                                            title: 'Added to favourites',
+                                            text: 'This movie has been added to your favourites',
+                                            icon: 'success',
+                                            confirmButtonText: 'OK'
                                         })
-                                }).catch(err => {
-                                    Swal.fire({
-                                        title: 'Error',
-                                        text: 'Something went wrong',
-                                        icon: 'error',
-                                        confirmButtonText: 'OK'
+                                            .then(() => {
+                                                window.location.reload();
+                                            })
+                                    }).catch(err => {
+                                        Swal.fire({
+                                            title: 'Error',
+                                            text: 'Something went wrong',
+                                            icon: 'error',
+                                            confirmButtonText: 'OK'
+                                        })
                                     })
-                                })
-                        });
-                    }
-                }).catch(err => {
-                    console.log(err);
-                })
+                            });
+                        }
+                    }).catch(err => {
+                        console.log(err);
+                    })
+            } else {
+                favouriteButton.addEventListener('click', function () {
+                    Swal.fire({
+                        title: 'Please login first to add to favourites',
+                        icon: 'warning',
+                        confirmButtonText: 'OK'
+                    })
+                    return;
+                });
+            }
+
 
         })
         .catch(err => alert(err));
@@ -294,6 +298,15 @@ $(document).ready(function () {
             }
         })
     commentButton.addEventListener('click', function () {
+        let userId = localStorage.getItem('userId');
+        // if (!userId) {
+        //     Swal.fire({
+        //         title: 'Please login first to add comments',
+        //         icon: 'warning',
+        //         confirmButtonText: 'OK'
+        //     })
+        //     return;
+        // }
         // send a post request to add a comment to the movie
         let comment = document.getElementById('comment').value;
         // ensure the comment is not empty
@@ -305,21 +318,28 @@ $(document).ready(function () {
             })
             return
         }
-        let userId = localStorage.getItem('userId');
         fetch(`http://localhost:8085/comment/${movieid}`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
+                'Content-Type': 'application/json'
+                //'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
             body: JSON.stringify({
                 comment: comment,
                 userID: userId
             })
         })
-            .then(response => response.json())
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else if (response.status === 403) {
+                    throw new Error('Unauthorized');
+                } // else
+                throw new Error('Something big went wrong');
+            })
             .then(data => {
+
                 Swal.fire({
                     title: 'Comment added',
                     text: 'Your comment has been added!',
@@ -329,7 +349,15 @@ $(document).ready(function () {
                     window.location.reload();
                 }).catch(err => alert(err));
             })
-            .catch(err => alert(err));
+            .catch(err => {
+                // console.warn(err) // Example is Error: Unauthorized
+                Swal.fire({
+                    title: 'Error',
+                    text: err.message, // 'Unauthorized'
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                })
+            })
     });
 
     fetch(`http://localhost:8085/review/${movieid}`) // get the reviews of the movie
