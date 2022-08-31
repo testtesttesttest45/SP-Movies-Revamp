@@ -22,13 +22,12 @@ module.exports = {
                 return callback(err, null);
             }
             else {
-                console.log("Connected!");
-
+                // console.log("Connected!");
                 var sql = 'SELECT * FROM user WHERE (email=? OR username=?) AND password=?';
 
                 conn.query(sql, [emailOrUsername, emailOrUsername, password], function (err, result) {
                     conn.end();
-                    console.log(result.length)
+                    // console.log(result.length)
                     if (err) {
                         console.log("Err: " + err);
                         return callback(err, null, null);
