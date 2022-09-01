@@ -9,6 +9,11 @@ function DeleteGenre(genreID) {
         if (result.value) {
             $.ajax({
                 url: 'http://localhost:8085/genre/' + genreID,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    // 'Authorization': localStorage.getItem('token')
+                },
                 type: 'DELETE',
                 success: function (result) {
                     Swal.fire({

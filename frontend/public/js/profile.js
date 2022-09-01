@@ -13,13 +13,13 @@ $(document).ready(function () {
     const userId = localStorage.getItem('userId');
     let favouriteHTML = '';
     if (userId) {
-        // console.log('Bearer ' + localStorage.getItem('token'));
+        // console.log(localStorage.getItem('token'));
         fetch(`http://localhost:8085/users/${userId}`,
             // headers authroization: Bearer ${token}
             {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    'Authorization': localStorage.getItem('token')
                 }
             })
             .then(response => response.json())
@@ -79,7 +79,7 @@ $(document).ready(function () {
                             method: 'DELETE',
                             headers: {
                                 'Content-Type': 'application/json',
-                                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                'Authorization': localStorage.getItem('token')
                             }
                         })
                             .then(response => response.json())
@@ -170,7 +170,7 @@ $(document).ready(function () {
                         {
                             headers: {
                                 'Content-Type': 'application/json',
-                                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                'Authorization': localStorage.getItem('token')
                             },
                         })
                         .then(response => response.json())
@@ -199,7 +199,7 @@ $(document).ready(function () {
                                 fetch(`http://localhost:8085/user/${userId}`, {
                                     method: 'PUT',
                                     headers: {
-                                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                                        'Authorization': localStorage.getItem('token'),
                                         'Content-Type': 'application/json' // Without using this, the server will not understand the data. maybe 415 error(unsupported media type)
                                     },
                                     body: JSON.stringify(data)
@@ -245,7 +245,7 @@ $(document).ready(function () {
             {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    'Authorization': localStorage.getItem('token')
                 }
             })
             .then(response => response.json())
@@ -292,7 +292,7 @@ function DeleteFromFavourites(movieid) {
     fetch(`http://localhost:8085/favourite/${movieid}`, {
         method: 'DELETE',
         headers: {
-            'Authorization': 'Bearer ' + localStorage.getItem('token'),
+            'Authorization': localStorage.getItem('token'),
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({

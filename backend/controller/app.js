@@ -203,6 +203,7 @@ app.get('/genre', function (req, res) {
         } else if (!err && result !== null) {
             res.status(200).send(result);
         } else {
+            console.log(err)
             res.status(500).send("Unknown error");
         }
     });
@@ -637,7 +638,7 @@ app.put("/movie/:movieId",  function (req, res) { // verifyAdmin
     })
 });
 
-app.delete("/genre/:genreId", function (req, res) { // veryfyAdmin
+app.delete("/genre/:genreId", verifyToken.verifyAdmin, function (req, res) { // veryfyAdmin
     const genreId = parseInt(req.params.genreId);
     var dbConn = db.getConnection();
     dbConn.connect(function (err) {
