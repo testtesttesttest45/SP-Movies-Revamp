@@ -135,7 +135,7 @@ app.get('/users', /* isLoggedInMiddleware*/ function (req, res) {
 
 //Endpoint 3
 // GET /users/:userID/
-app.get('/users/:userID', verifyToken, function (req, res) {
+app.get('/users/:userID', verifyToken.verifyLoggedIn, function (req, res) {
     const userID = req.params.userID; 
     if (isNaN(userID)) {
         res.status(400).send("Unacceptable format for user specification");
@@ -155,7 +155,7 @@ app.get('/users/:userID', verifyToken, function (req, res) {
 
 //Endpoint 4
 // Enpoint : PUT /user/:userID
-app.put('/users/:userID',  verifyToken, function (req, res) {
+app.put('/users/:userID',  verifyToken.verifyLoggedIn, function (req, res) {
     // const userID = parseInt(req.params.userID);
     const userid = parseInt(req.params.userID);
     if (isNaN(userid)) {
@@ -178,7 +178,7 @@ app.put('/users/:userID',  verifyToken, function (req, res) {
 
 //Endpoint 5
 // POST /genre/
-// app.post('/genre', verifyToken, function (req, res) {
+// app.post('/genre', verifyToken.verifyLoggedIn, function (req, res) {
 app.post('/genre', function (req, res) {
     genre.insert(req.body, function (err, result) {
         if (err) {
@@ -318,7 +318,7 @@ app.delete('/movie/:movieid/', function (req, res) { // verifyAdmin middlware
 
 //Endpoint 11
 // POST /movie/:movieID/reviews
-app.post('/movie/:movieid/review', verifyToken, function (req, res) {
+app.post('/movie/:movieid/review', verifyToken.verifyLoggedIn, function (req, res) {
     console.log("Logged in as ", req.role);
     // if (req.role == "Customer") {
     review.insert(req.body, function (err, result) {
@@ -351,7 +351,7 @@ app.get('/movie/:movieid/reviews', function (req, res) {
     }
 });
 
-app.post('/comment/:movieID', verifyToken, function (req, res) {
+app.post('/comment/:movieID', verifyToken.verifyLoggedIn, function (req, res) {
     const movieID = parseInt(req.params.movieID);
     const { userID, comment } = req.body;
     var dbConn = db.getConnection();
@@ -398,7 +398,7 @@ app.get('/comment/:movieID', function (req, res) {
     });
 });
 
-app.post('/review/:movieID',  verifyToken, function (req, res) {
+app.post('/review/:movieID',  verifyToken.verifyLoggedIn, function (req, res) {
     const movieID = parseInt(req.params.movieID);
     const { userID, rating, review } = req.body;
     var dbConn = db.getConnection();
@@ -445,7 +445,7 @@ app.get('/review/:movieID', function (req, res) {
     });
 });
 
-app.post("/favourite/:movieId",  verifyToken, function (req, res) {
+app.post("/favourite/:movieId",  verifyToken.verifyLoggedIn, function (req, res) {
     const movieId = parseInt(req.params.movieId);
     const { userId, favourite } = req.body;
     var dbConn = db.getConnection();
@@ -467,7 +467,7 @@ app.post("/favourite/:movieId",  verifyToken, function (req, res) {
     })
 });
 
-app.get("/favourite/:movieId", verifyToken, function (req, res) {
+app.get("/favourite/:movieId", verifyToken.verifyLoggedIn, function (req, res) {
     const movieId = parseInt(req.params.movieId);
     const userID = req.query.userId;
     var dbConn = db.getConnection();
@@ -489,7 +489,7 @@ app.get("/favourite/:movieId", verifyToken, function (req, res) {
     })
 });
 
-app.delete("/favourite/:movieId", verifyToken, function (req, res) {
+app.delete("/favourite/:movieId", verifyToken.verifyLoggedIn, function (req, res) {
     const movieId = parseInt(req.params.movieId);
     const { userId } = req.body;
     var dbConn = db.getConnection();
@@ -509,7 +509,7 @@ app.delete("/favourite/:movieId", verifyToken, function (req, res) {
     })
 });
 
-app.delete("/user/:userId", verifyToken, function (req, res) {
+app.delete("/user/:userId", verifyToken.verifyLoggedIn, function (req, res) {
     const userId = parseInt(req.params.userId);
     var dbConn = db.getConnection();
     dbConn.connect(function (err) {
@@ -528,7 +528,7 @@ app.delete("/user/:userId", verifyToken, function (req, res) {
     })
 });
 
-app.put("/user/:userId", verifyToken, function (req, res) {
+app.put("/user/:userId", verifyToken.verifyLoggedIn, function (req, res) {
     console.log(req.file);
     const userId = parseInt(req.params.userId);
     const { username, email, contact, password, picture } = req.body;
@@ -555,7 +555,7 @@ app.put("/user/:userId", verifyToken, function (req, res) {
     })
 });
 
-app.get("/userFavourite/:userId", verifyToken, function (req, res) {
+app.get("/userFavourite/:userId", verifyToken.verifyLoggedIn, function (req, res) {
     const userId = parseInt(req.params.userId);
     var dbConn = db.getConnection();
     dbConn.connect(function (err) {

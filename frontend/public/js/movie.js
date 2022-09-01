@@ -125,7 +125,7 @@ $(document).ready(function () {
                                     method: 'POST',
                                     headers: {
                                         'Content-Type': 'application/json',
-                                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                                        'Authorization': `${localStorage.getItem('token')}`
                                     },
                                     body: JSON.stringify({
                                         userID: userId,
@@ -133,7 +133,14 @@ $(document).ready(function () {
                                         review: review
                                     })
                                 })
-                                    .then(res => res.json())
+                                    .then(response => {
+                                        if (response.ok) {
+                                            return response.json();
+                                        } else if (response.status === 403) {
+                                            throw new Error('Unauthorized, please login!');
+                                        } // else
+                                        throw new Error('Something big went wrong');
+                                    })
                                     .then(data => {
                                         Swal.fire({
                                             title: 'Review Added',
@@ -162,10 +169,17 @@ $(document).ready(function () {
                 fetch(`http://localhost:8085/favourite/${movieid}?userId=${userId}`,
                     {
                         headers: {
-                            'Authorization': `Bearer ${localStorage.getItem('token')}`
+                            'Authorization': `${localStorage.getItem('token')}`
                         }
                     })
-                    .then(response => response.json())
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        } else if (response.status === 403) {
+                            throw new Error('Unauthorized, please login!');
+                        } // else
+                        throw new Error('Something big went wrong');
+                    })
                     .then(data => {
                         console.log("isFavourite?", data);
                         if (data.length > 0) {
@@ -185,13 +199,20 @@ $(document).ready(function () {
                                     method: 'DELETE',
                                     headers: {
                                         'Content-Type': 'application/json',
-                                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                                        'Authorization': `${localStorage.getItem('token')}`
                                     },
                                     body: JSON.stringify({
                                         userId: localStorage.getItem('userId')
                                     })
                                 })
-                                    .then(res => res.json())
+                                    .then(res => {
+                                        if (response.ok) {
+                                            return response.json();
+                                        } else if (response.status === 403) {
+                                            throw new Error('Unauthorized, please login!');
+                                        } // else
+                                        throw new Error('Something big went wrong');
+                                    })
                                     .then(data => {
                                         Swal.fire({
                                             title: 'Removed from Favourites',
@@ -219,14 +240,21 @@ $(document).ready(function () {
                                     method: 'POST',
                                     headers: {
                                         'Content-Type': 'application/json',
-                                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                                        'Authorization': `${localStorage.getItem('token')}`
                                     },
                                     body: JSON.stringify({
                                         userId: localStorage.getItem('userId'),
                                         favourite: 1,
                                     })
                                 })
-                                    .then(res => res.json())
+                                    .then(response => {
+                                        if (response.ok) {
+                                            return response.json();
+                                        } else if (response.status === 403) {
+                                            throw new Error('Unauthorized, please login!');
+                                        } // else
+                                        throw new Error('Something big went wrong');
+                                    })
                                     .then(data => {
                                         Swal.fire({
                                             title: 'Added to favourites',
@@ -299,14 +327,14 @@ $(document).ready(function () {
         })
     commentButton.addEventListener('click', function () {
         let userId = localStorage.getItem('userId');
-        // if (!userId) {
-        //     Swal.fire({
-        //         title: 'Please login first to add comments',
-        //         icon: 'warning',
-        //         confirmButtonText: 'OK'
-        //     })
-        //     return;
-        // }
+        if (!userId) {
+            Swal.fire({
+                title: 'Please login first to add comments',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+            })
+            return;
+        }
         // send a post request to add a comment to the movie
         let comment = document.getElementById('comment').value;
         // ensure the comment is not empty
@@ -322,8 +350,8 @@ $(document).ready(function () {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
-                //'Authorization': `Bearer ${localStorage.getItem('token')}`
+                'Content-Type': 'application/json',
+                'Authorization': `${localStorage.getItem('token')}`
             },
             body: JSON.stringify({
                 comment: comment,
@@ -334,12 +362,11 @@ $(document).ready(function () {
                 if (response.ok) {
                     return response.json();
                 } else if (response.status === 403) {
-                    throw new Error('Unauthorized');
+                    throw new Error('Unauthorized, please login!');
                 } // else
                 throw new Error('Something big went wrong');
             })
             .then(data => {
-
                 Swal.fire({
                     title: 'Comment added',
                     text: 'Your comment has been added!',

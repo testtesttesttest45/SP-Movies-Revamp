@@ -234,8 +234,12 @@ $(document).ready(function () {
     const movieContainer = document.getElementById('movieContainer');
     const adminButton = document.getElementById('adminButton');
     const token = localStorage.getItem('token'); // decode the token to get role
-    const decoded = jwt_decode(token);
-    const role = decoded.role;
+    if (token) {
+        const decodedToken = jwt_decode(token);
+        if (decodedToken.role == 'Admin') {
+            adminButton.style.display = 'block';
+        }
+    }
     fetch('http://localhost:8085/movies')
         .then(response => response.json())
         .then(data => {
@@ -278,13 +282,15 @@ $(document).ready(function () {
                 
                 movieContainer.innerHTML += homeHTML;
             }
-            if (role === 'Admin') {
-                adminButton.style.display = 'block';
-                // console.log(document.getElementsByClassName('AdminButtons').length);
-                for (let i = 0; i < document.getElementsByClassName('AdminButtons').length; i++) {
-                    document.getElementsByClassName('AdminButtons')[i].style.display = 'block';
+            // for each document.getElementByClassName("AdminButtons"), if the user is not an admin, hide the buttons
+            const AdminButtons = document.getElementsByClassName("AdminButtons");
+            for (let i = 0; i < AdminButtons.length; i++) {
+                const decodedToken = jwt_decode(token);
+                if (decodedToken.role == 'Admin') {
+                    AdminButtons[i].style.display = 'block';
                 }
             }
+            
         });
     const searchIcon = document.getElementById('searchIcon');
     searchIcon.addEventListener('click', function () {

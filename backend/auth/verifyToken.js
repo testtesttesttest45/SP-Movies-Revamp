@@ -11,17 +11,18 @@ exports.verifyLoggedIn = (req, res, next)  => {
 
     // if (!token || !token.includes('Bearer')){ //process the token
     if (!token) { //process the token
-        res.status(403);
-        return res.send({ auth: 'false', message: 'Login First!' });
+        // res.status(403);
+        // return res.send({ auth: 'false', message: 'Please login first!' });
+        return res.status(403).send({ auth: 'false', message: 'Please login first!' });
     } else {
-        token = token.split('Bearer ')[1]; //obtain the token’s value
+        // token = token.split('')[1]; //obtain the token’s value
         // console.log("2", token);
         jwt.verify(token, config.key, function (err, decodedToken) {//verify token
             if (err) {
                 res.status(500);
-                return res.end({ auth: false, message: 'Failed to authenticate token.' });
+                return res.send({ auth: false, message: 'Failed to authenticate token.' });
             } else {
-                req.userid = decodedToken.userid; //decode the userid and store in req for use
+                req.userId = decodedToken.userid; //decode the userid and store in req for use
                 req.role = decodedToken.role; //decode the role and store in req for use
                 next();
             }
