@@ -7,7 +7,7 @@ exports.verifyLoggedIn = (req, res, next)  => {
     // console.log("req.headers", req.headers);
 
     var token = req.headers['authorization']; //retrieve authorization header’s content
-    console.log("1", token);
+    console.log("Bearer", token);
 
     // if (!token || !token.includes('Bearer')){ //process the token
     if (!token) { //process the token
@@ -48,7 +48,7 @@ exports.verifyAdmin = (req, res, next) => {
             }
             else {
                 req.role = decodedToken.role; //decode the role and store in req for use
-                console.log(req.role);
+                console.log("You are logged in as", req.role);
                 if (req.role === 'Admin') {
                     next();
                 } else {

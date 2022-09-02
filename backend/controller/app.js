@@ -179,7 +179,7 @@ app.put('/users/:userID',  verifyToken.verifyLoggedIn, function (req, res) {
 //Endpoint 5
 // POST /genre/
 // app.post('/genre', verifyToken.verifyLoggedIn, function (req, res) {
-app.post('/genre', function (req, res) {
+app.post('/genre', verifyToken.verifyAdmin, function (req, res) {
     genre.insert(req.body, function (err, result) {
         if (err) {
             if (err.code == "ER_DUP_ENTRY") {
@@ -212,7 +212,7 @@ app.get('/genre', function (req, res) {
 
 //Endpoint 7
 // POST /movie/
-app.post('/movie', function (req, res) { // verifyAdmin middlware
+app.post('/movie', verifyToken.verifyAdmin, function (req, res) { // verifyAdmin middlware
     // console.log("Logged in as ", req.role);
     movie.insert(req.body, function (err, result) {
         if (!err) {
@@ -298,7 +298,7 @@ app.get('/searchtitle/:id/', function (req, res) {
 
 //Endpoint 10
 // DELETE /movie/:movieID/	
-app.delete('/movie/:movieid/', function (req, res) { // verifyAdmin middlware
+app.delete('/movie/:movieid/', verifyToken.verifyAdmin, function (req, res) { // verifyAdmin middlware
     const movieid = parseInt(req.params.movieid);
     if (isNaN(movieid)) {
         res.status(400).send("Unacceptable format for movie specification");
@@ -607,7 +607,7 @@ app.get("/search", function (req, res) {
     })
 });
 
-app.put("/movie/:movieId",  function (req, res) { // verifyAdmin
+app.put("/movie/:movieId", verifyToken.verifyAdmin, function (req, res) { // verifyAdmin
     const movieId = parseInt(req.params.movieId);
     const { title, time, opening_date, genreid, genreid1, description, cast } = req.body;
     var dbConn = db.getConnection();
@@ -658,7 +658,7 @@ app.delete("/genre/:genreId", verifyToken.verifyAdmin, function (req, res) { // 
     })
 });
 
-app.put("/genre/:genreId", function (req, res) { // verifyAdmin
+app.put("/genre/:genreId", verifyToken.verifyAdmin, function (req, res) { // verifyAdmin
     const genreId = parseInt(req.params.genreId);
     const { genre, description } = req.body;
     var dbConn = db.getConnection();
@@ -705,7 +705,7 @@ app.get("/genre/:genreId", function (req, res) {
     })
 });
 
-app.delete("/users/:userId", function (req, res) { //verifyAdmin
+app.delete("/users/:userId", verifyToken.verifyAdmin, function (req, res) { //verifyAdmin
     const userId = parseInt(req.params.userId);
     var dbConn = db.getConnection();
     dbConn.connect(function (err) {
@@ -727,7 +727,7 @@ app.delete("/users/:userId", function (req, res) { //verifyAdmin
 });
 
 // this app.put endpoint /users/:userId is used to update the user role
-app.put("/users/:userId/role", function (req, res) { //verifyAdmin
+app.put("/users/:userId/role", verifyToken.verifyAdmin, function (req, res) { //verifyAdmin
     const userId = parseInt(req.params.userId);
     const { role } = req.body;
     var dbConn = db.getConnection();

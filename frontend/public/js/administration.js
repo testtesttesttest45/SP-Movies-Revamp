@@ -12,7 +12,7 @@ function DeleteGenre(genreID) {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
-                    // 'Authorization': localStorage.getItem('token')
+                    'Authorization': localStorage.getItem('token')
                 },
                 type: 'DELETE',
                 success: function (result) {
@@ -81,6 +81,9 @@ function DeleteUser(userID) {
         if (result.value) {
             $.ajax({
                 url: 'http://localhost:8085/users/' + userID,
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                },
                 type: 'DELETE',
                 success: function (result) {
                     Swal.fire({
@@ -133,6 +136,9 @@ function UpdateUserRole(userID, role, username) {
                 $.ajax({
                     url: `http://localhost:8085/users/${userID}/role`,
                     type: 'PUT',
+                    headers: {
+                        'Authorization': localStorage.getItem('token')
+                    },
                     data: {
                         role: "Admin"
                     },
@@ -282,7 +288,7 @@ function getGenres() {
                     </td>
                     <td>
                         <button class="btn btn-warning" type="button" data-toggle="modal"
-                        data-target="#exampleModal4" id="openMovieModal" onclick="EditGenre(${data[i].genreID})">Edit</button>
+                        data-target="#exampleModal4" onclick="EditGenre(${data[i].genreID})">Edit</button>
                         <button class="btn btn-danger" id="DeleteGenre" onclick="DeleteGenre(${data[i].genreID})">Delete</button>
                     </td>
                 </tr > `;
@@ -381,6 +387,9 @@ $(document).ready(function () {
         $.ajax({
             url: "http://localhost:8085/movie",
             type: "POST",
+            headers: {
+                'Authorization': localStorage.getItem("token")
+            },
             data: JSON.stringify(newMovie),
             contentType: "application/json",
             success: function (data) {
@@ -434,7 +443,10 @@ $(document).ready(function () {
             url: "http://localhost:8085/genre",
             type: "POST",
             data: JSON.stringify(newGenre),
-            contentType: "application/json",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem("token")
+            },
             success: function (data) {
                 Swal.fire({
                     title: data.message,
@@ -449,7 +461,7 @@ $(document).ready(function () {
             },
             error: function (error) {
                 document.getElementById("ErrorAlert").style.display = "inline"; // display the error on the h4 of #ErrorAlert
-                error.status === 422 || error.status === 500
+                error.status === 422 || error.status === 500 || error.status === 403
                     ? document.querySelector("#ErrorAlert h4").innerHTML = "Error: " + error.responseJSON.message
                     : document.querySelector("#ErrorAlert h4").innerHTML = "Error: " + error.statusText; // display the error on the h4 of #ErrorAlert
             }
@@ -500,6 +512,9 @@ $(document).ready(function () {
         $.ajax({
             url: 'http://localhost:8085/genre/' + GENREID,
             type: 'PUT',
+            headers: {
+                'Authorization': localStorage.getItem('token')
+            },
             data: {
                 genre: editGenreTitle.value,
                 description: editGenreDescription.value

@@ -10,6 +10,9 @@ function DeleteMovie(thisMovieId) {
                 $.ajax({
                     url: "http://localhost:8085/movie/" + thisMovieId,
                     type: "DELETE",
+                    headers: {
+                        "Authorization": localStorage.getItem("token")
+                    },
                     success: function (data) {
                         Swal.fire({
                             title: 'Deleted!',
@@ -20,6 +23,13 @@ function DeleteMovie(thisMovieId) {
                             .then(function () {
                                 window.location.reload();
                             });
+                    },
+                    error: function (data) {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: data.responseJSON.message,
+                            icon: 'error'
+                        })
                     }
                 });
             }
@@ -112,8 +122,12 @@ function EditMovie(thisMovieId) {
                         console.log(movie);
                         $.ajax({
                             url: "http://localhost:8085/movie/" + thisMovieId,
-                            contentType: "application/json", // ensure the datatype is application json and can be parsed to be sent to the server
+                            // contentType: "application/json", // ensure the datatype is application json and can be parsed to be sent to the server
                             type: "PUT",
+                            headers: {
+                                "Authorization": localStorage.getItem("token"),
+                                "Content-Type": "application/json" // ensure the datatype is application json and can be parsed to be sent to the server
+                            },
                             data: JSON.stringify(movie),
                             success: function (data) {
                                 Swal.fire({
@@ -279,7 +293,7 @@ $(document).ready(function () {
                     </div>
                 `;
                 // append child
-                
+
                 movieContainer.innerHTML += homeHTML;
             }
             // for each document.getElementByClassName("AdminButtons"), if the user is not an admin, hide the buttons
@@ -290,7 +304,7 @@ $(document).ready(function () {
                     AdminButtons[i].style.display = 'block';
                 }
             }
-            
+
         });
     const searchIcon = document.getElementById('searchIcon');
     searchIcon.addEventListener('click', function () {
