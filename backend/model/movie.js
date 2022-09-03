@@ -108,7 +108,14 @@ module.exports = {
                 return callback(err, null);
             } else {
                 // const findUserByIDQuery = "SELECT m.movieid, m.title, m.description, m.cast, m.time, m.opening_date , m.thumbnail,  CONCAT(g.genre) as 'genre' from movie m, genre g where m.genreid = g.genreid and movieid = ? ;  "
-                const findUserByIDQuery = "SELECT m.movieid, m.title, m.time, m.opening_date, g1.genre, g2.genre AS subgenre, m.description, m.cast, m.thumbnail FROM movie m  LEFT JOIN genre g1 ON m.genreid = g1.genreID LEFT JOIN genre g2 ON m.genreid1 = g2.genreID WHERE movieid = ?"
+                const findUserByIDQuery = `
+                SELECT m.movieid, m.title, m.time, m.opening_date, g1.genre, g2.genre AS subgenre, IFNULL(ROUND(AVG(r.rating),2),0) as score, m.description, m.cast, m.thumbnail 
+                FROM movie m  
+                LEFT JOIN genre g1 ON m.genreid = g1.genreID 
+                LEFT JOIN genre g2 ON m.genreid1 = g2.genreID
+                LEFT JOIN reviews r ON m.movieid = r.movie_id 
+                WHERE movieid = ?
+                GROUP BY m.movieid;`
                 dbConn.query(findUserByIDQuery, [movieid], (error, results) => {
                     dbConn.end();
                     if (error) {

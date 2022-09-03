@@ -3,7 +3,7 @@ var config = require('../config');
 
 
 // function verifyToken(req, res, next) {
-exports.verifyLoggedIn = (req, res, next)  => {
+exports.verifyLoggedIn = (req, res, next) => {
     // console.log("req.headers", req.headers);
 
     var token = req.headers['authorization']; //retrieve authorization header’s content
@@ -42,9 +42,14 @@ exports.verifyAdmin = (req, res, next) => {
         // console.log("token", token);
         jwt.verify(token, config.key, function (err, decodedToken) {//verify token
             if (err) {
-                console.log("err", err);
-                res.status(500);
-                return res.end({ auth: false, message: 'Failed to authenticate token.' });
+                // if err is token expired 
+                if (err.name == 'TokenExpiredError') {
+                    return res.status(401).send({ auth: false, message: 'Token expired' });
+                } else {
+                    console.log("err", err);
+                    res.status(500);
+                    return res.end({ auth: false, message: 'Failed to authenticate token.' });
+                }
             }
             else {
                 req.role = decodedToken.role; //decode the role and store in req for use

@@ -38,7 +38,8 @@ module.exports = {
                         return callback(err2, null, null);
                     } else {
                         let token = jwt.sign({ userid: result[0].userID, username: result[0].username, role: result[0].role }, config.key, {
-                            expiresIn: '1h'
+                            // expiresIn: '1h'
+                            // token never expires
                         });
                         return callback(null, token, result);
                     }

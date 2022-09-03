@@ -12,7 +12,7 @@ $(document).ready(function () {
         .then(response => response.json())
         .then(data => {
             console.log("Movie retrieved:", data);
-            const { title, description, cast, opening_date, genre, time, thumbnail } = data;
+            const { title, description, cast, opening_date, genre, time, thumbnail, score } = data;
             movieHTML = `
                 <div class="col-lg-8">
                         <div class="movie-info-box">
@@ -26,9 +26,9 @@ $(document).ready(function () {
                                             <circle class="circle-chart__background" stroke="#eee" stroke-width="2"
                                                 fill="none" cx="15" cy="15" r="14"></circle>
                                             <circle class="circle-chart__circle" stroke="#4eb04b" stroke-width="2"
-                                                stroke-dasharray="87,100" cx="15" cy="15" r="14"></circle>
+                                                stroke-dasharray="${score * 20 },100" cx="15" cy="15" r="14"></circle>
                                         </svg>
-                                        <b>4.7</b> Total rating
+                                        <b>${score}</b> Total rating
                                     </div>
                                     <!-- end rate -->
                                 </li>
