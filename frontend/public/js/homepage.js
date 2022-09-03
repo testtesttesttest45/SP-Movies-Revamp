@@ -49,7 +49,22 @@ function DeleteMovie(thisMovieId) {
             })
         })
 }
-
+function uploadThumbnailButtonClick() {
+    $.ajax({
+        url: 'http://localhost:3001/thumbnail-upload-single',
+        type: 'POST',
+        enctype: 'multipart/form-data',
+        data: new FormData(document.getElementById("FileUploadForm")),
+        processData: false,
+        contentType: false,
+        success: function (result) {
+            alert(result.message);
+        },
+        error: function (error) {
+            alert(error.responseJSON.message);
+        }
+    });
+}
 function EditMovie(thisMovieId) {
     // thisMovieId is the id of the movie that is being edited, display the movie details in the form
     console.log("Movie Id: ", thisMovieId);
@@ -94,7 +109,19 @@ function EditMovie(thisMovieId) {
                     '<div class="form-group">' +
                     '<label for="duration">Duration</label>' +
                     '<input type="text" class="form-control" id="duration" placeholder="Enter duration" value="' + data.time + '">' +
-                    '</div>',
+                    '</div>' +
+                    '</form>' +
+                    '<form id="FileUploadForm">' +
+                    '<div class="form-group" style="display:flex">' +
+                    '<div>' +
+                    '<label for="thumbnail">Thumbnail</label>' +
+                    '<input type="file" name="thumbnail-file" id="thumbnail" required/>' +
+                    '</div>' +
+                    '<div>' +
+                    '<button type="submit" id="uploadThumbnail" style="visibility:hidden">Upload</button>' +
+                    '</div>' +
+                    '</form>',
+
                 showCancelButton: true,
                 confirmButtonText: 'Save',
                 cancelButtonText: 'Cancel',
@@ -109,6 +136,8 @@ function EditMovie(thisMovieId) {
                         var cast = $('#cast').val();
                         var releaseDate = $('#releaseDate').val();
                         var duration = $('#duration').val();
+                        var thumbnail = $('#thumbnail').val().split('\\').pop();
+                        const uploadThumbnailButton = document.getElementById('uploadThumbnail');
                         // create a json object with the values
                         var movie = {
                             "title": title,
@@ -117,9 +146,18 @@ function EditMovie(thisMovieId) {
                             "genreid1": subgenre,
                             "cast": cast,
                             "opening_date": releaseDate,
-                            "time": duration
+                            "time": duration,
+                            "thumbnail": thumbnail
                         };
                         console.log(movie);
+                        if (thumbnail !== "") {
+                            // uploadThumbnailButton.addEventListener("click", uploadThumbnailButtonClick());
+                            uploadThumbnailButton.addEventListener("click", function (e) {
+                                e.preventDefault();
+                                uploadThumbnailButtonClick();
+                            });
+                            uploadThumbnailButton.click();
+                        }
                         $.ajax({
                             url: "http://localhost:8085/movie/" + thisMovieId,
                             // contentType: "application/json", // ensure the datatype is application json and can be parsed to be sent to the server

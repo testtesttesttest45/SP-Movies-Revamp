@@ -111,7 +111,8 @@ $(document).ready(function () {
                         }).then((result) => {
                             if (result.value) {
                                 // when user clicks submit, get the values of the form and send them to the server
-                                let rating = parseInt($('#rating').val());
+                                // let rating be #rating value but convert it to 2 decimal places
+                                let rating = parseFloat($('#rating').val()).toFixed(2);
                                 let review = $('#review').val();
                                 if (isNaN(rating) || rating < 0 || rating > 5 || review == '') {
                                     Swal.fire({
@@ -142,6 +143,8 @@ $(document).ready(function () {
                                         throw new Error('Something big went wrong');
                                     })
                                     .then(data => {
+                                        
+                                    console.log("THE RATING U GAVE IS" + rating);
                                         Swal.fire({
                                             title: 'Review Added',
                                             text: 'Your review has been added',
@@ -405,7 +408,7 @@ $(document).ready(function () {
                             fill="none" cx="15" cy="15" r="14"></circle>
                         <circle class="circle-chart__circle" stroke="gold" stroke-width="2"
                             stroke-dasharray="${rating * 20},100" cx="15" cy="15" r="14"></circle>  
-                            <b style="margin-left:-40px">${rating}/5</b>
+                            <b style="margin-left:-40px">${rating}</b>
                         </svg>   
                         
                         </h4>

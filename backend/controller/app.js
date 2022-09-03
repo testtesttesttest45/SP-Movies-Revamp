@@ -609,7 +609,7 @@ app.get("/search", function (req, res) {
 
 app.put("/movie/:movieId", verifyToken.verifyAdmin, function (req, res) { // verifyAdmin
     const movieId = parseInt(req.params.movieId);
-    const { title, time, opening_date, genreid, genreid1, description, cast } = req.body;
+    const { title, time, opening_date, genreid, genreid1, description, cast, thumbnail } = req.body;
     var dbConn = db.getConnection();
     dbConn.connect(function (err) {
         if (err) {
@@ -619,8 +619,8 @@ app.put("/movie/:movieId", verifyToken.verifyAdmin, function (req, res) { // ver
         // var sql = "UPDATE movie SET title = ?, time = ?, opening_date = ?, genreid = ?, genreid1 = ?, description = ?, cast = ? WHERE movieid = ?";
         // the sql query will convert genreid and genreid1 from text to genre id with reference to genre table. I will be using inbar statement to do this
         var sql = `UPDATE movie SET title = ?, time = ?, opening_date = ?, genreid = (SELECT genreID FROM genre WHERE genre = ?), 
-        genreid1 = (SELECT genreID FROM genre WHERE genre = ?), description = ?, cast = ? WHERE movieid = ?`;
-        var params = [title, time, opening_date, genreid, genreid1, description, cast, movieId];
+        genreid1 = (SELECT genreID FROM genre WHERE genre = ?), description = ?, cast = ?, thumbnail = IF(? = "", 'noImage.png', ?) WHERE movieid = ?`;
+        var params = [title, time, opening_date, genreid, genreid1, description, cast, thumbnail, thumbnail, movieId];
         dbConn.query(sql, params, function (err, result) {
             if (err && err.code === "ER_DUP_ENTRY") {
                 res.status(409).send({ message: "Title already exists", status: 409 });
