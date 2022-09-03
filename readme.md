@@ -1,3 +1,106 @@
+
+
+# **SP MOVIES SELF LEARNING PROJECT**
+#### This is a self learning project for the SP Movies app, which I got a score of 10/100. It is completed and no longer maintained.
+#### This project is made with 
+> Javascript
+> MySQL
+> CSS
+> HTML
+>> jQuery, Bootstrap
+
+
+___
+
+
+## To run the project:
+
+1. Clone the repository
+2. Execute **dumpfile_new.sql** in MySQL database to create the database schema and tables  
+3. Go backend folder and Run `npm install` to install all the dependencies
+4. Run `npm start` to start the backend server
+5. Go frontend folder and Run `npm install` to install all the dependencies
+6. Run `npm start` to start the frontend server
+7. Open the browser and go to `http://localhost:3001` to view the app
+___
+
+### Pre-registered accounts:
+
+| Email | Password | User Role |
+| ------ | ----------- | ----------- |
+| _mary@email.com_   | _password_ | _Customer_ |
+| _admin@email.com_ | _password_ |    _Admin_ |
+
+___
+
+### Project includes:
+
++ Guest, Customer and Admin user roles
++ Guest operations include
+    - Viewing movies on the homepage
+    - Searching for movies
+    - Viewing movie details on a movie page
+    - Viewing the actual movie trailer on a movie page
+    - Viewing comments on a movie page
+    - Viewing ratings and reviews on a movie page
++ Customer operations include
+    - All `Guest Operations`
+    - Adding/Removing movies to/from the favourite list
+    - Adding/Removing reviews and ratings for a movie
+    - Leaving comments on a movie page
+    - Viewing Profile page
+    - Viewing the favourite list on Profile page
+    - Account settings such as editing profile, changing password,     deleting account, requesting Admin role on Profile page, changing profile picture, etc
+    - Deleting/Going to the movie page from list of favourite movies on Profile page
++ Admin operations include
+    - All `Guest Operations`
+    - All `Customer Operations`
+    - Editing/Removing movies from the homepage/database
+    - Administrations page
+      * Adding movies
+        * List of genres to choose from are fetched from the database, with proper options listed out
+      * Adding genres, deleting/editing genres
+      * Managing users operations such as promoting/demoting user roles, deleting users, etc
+      * ~~Exciting _**Birdwatch**_ view with 2 responsive buttons to control the birds~~
++ Image upload for profile picture and movie poster with Multer
++ Proper global error handling with custom stylish alerts
++ Proper input validation
++ Protection from Broken Access Control and SQL Injection
+___
+
+### Project drawbacks:
+
++ Vulnerable to some attacks (I did not focus on security for this project)
+  - Broken Authentication
+    * Poor storage of authentication tokens
+    * Tokens never expires
+  - Sensitive Data Exposure
+    * Passwords are stored in plain text
+    * No encryption of sensitive data such as password
+    * Possible Cross-Site Scripting (XSS) attacks
+    * Lack of CSRF protection
+  - Security Misconfiguration
+    * Many security headers are not set
+  - No logging/monitoring
++ A few pages are not designed properly
++ Does not have search for movies by genre
++ No pagination
++ No sorting
++ Application may look strange on mobile devices
++ No input validations for areas such as movie date, duration, comments, reviews, etc
+
+
+___
+
+
+
+### Links
+
+Link to hosted application www.google.com
+
+___
+
+### Screenshots
 ![Completions](completion_screenshots/Comments.png)
 ![Completions](completion_screenshots/Homepage.png)
 ![Completions](completion_screenshots/InteractiveLogin.png)
@@ -20,3 +123,9 @@
 ![Completions](completion_screenshots/AddGenre.png)
 ![Completions](completion_screenshots/EditGenre.png)
 ![Completions](completion_screenshots/EditRole.png)
+
+___
+
+
+
+
