@@ -337,9 +337,25 @@ function getGenres() {
         });
 }
 
-
+function uploadThumbnailButtonClick() {
+    $.ajax({
+        url: 'http://localhost:3001/thumbnail-upload-single',
+        type: 'POST',
+        enctype: 'multipart/form-data',
+        data: new FormData(document.getElementById("FileUploadForm")),
+        processData: false,
+        contentType: false,
+        success: function (result) {
+            alert(result.message);
+        },
+        error: function (error) {
+            alert(error.responseJSON.message);
+        }
+    });
+}
 
 $(document).ready(function () {
+
 
     const createMovieButton = document.getElementById("createMovie");
     const clearMovieModal = document.getElementById("clearMovieModal");
@@ -353,6 +369,9 @@ $(document).ready(function () {
     const editGenreButton = document.getElementById("EditGenre");
     const clearEditGenreModal = document.getElementById("clearEditGenreModal");
     const manageUsersButton = document.getElementById("manageUsers");
+    const uploadThumbnailButton = document.getElementById("uploadThumbnail");
+
+
     getGenres();
 
     createMovieButton.addEventListener("click", function (e) { // NEW MOVIE
@@ -365,6 +384,9 @@ $(document).ready(function () {
         const newMovieSubGenre = document.getElementById("new-movie-subgenre");
         const newMovieGenreInput = newMovieGenre.value;
         const newMovieSubGenreInput = newMovieSubGenre.value;
+        // new-movie-pic is a file input. use document get element by id and take the text value of the file input
+        const newMoviePicInput = document.getElementById("new-movie-pic").value.split("\\").pop();
+
         const newMovie = {
             title: newMovieTitleInput,
             description: newMovieDescriptionInput,
@@ -372,8 +394,10 @@ $(document).ready(function () {
             opening_date: newMovieReleaseDateInput,
             time: newMovieDurationInput,
             genreid: newMovieGenreInput,
-            genreid1: newMovieSubGenreInput
+            genreid1: newMovieSubGenreInput,
+            thumbnail: newMoviePicInput
         };
+        // console.log("The thumbnail is " + newMovie.thumbnail);
         if (newMovie.title == "" || newMovie.description == "" || newMovie.cast == "" || newMovie.opening_date == "" || newMovie.time == "" || newMovie.genreid == "" || newMovie.genreid1 == "") {
             Swal.fire({
                 title: 'Error',
@@ -383,6 +407,16 @@ $(document).ready(function () {
             });
             return;
         }
+        // clicking create movie button will also automatically click the upload thumbnail button
+        if (newMoviePicInput !== "") {
+            // uploadThumbnailButton.addEventListener("click", uploadThumbnailButtonClick());
+            uploadThumbnailButton.addEventListener("click", function (e) {
+                e.preventDefault();
+                uploadThumbnailButtonClick();
+            });
+            uploadThumbnailButton.click();
+        }
+
         // send a request to post movie
         $.ajax({
             url: "http://localhost:8085/movie",
@@ -404,6 +438,7 @@ $(document).ready(function () {
                 closeMovieModal.click();
             },
             error: function (error) {
+                console.log("error", error);
                 Swal.fire({
                     icon: 'error',
                     title: 'Error creating movie',

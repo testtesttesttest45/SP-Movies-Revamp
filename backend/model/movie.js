@@ -20,16 +20,17 @@ module.exports = {
                 // VALUES (?, ?, ?, ?, ?, ?, ?);
                 // `;
                 // the query will insert the data. Reference the genre name from genre table so that the genreID will be inserted
-                const insertUserQuery = `INSERT INTO movie (title, description, cast, genreid, genreid1, time, opening_date) 
-                                        VALUES (?, ?, ?, (SELECT genreID from genre WHERE genre = ?), (SELECT genreID from genre WHERE genre = ?), ?, ?)`;
+                const insertUserQuery = `INSERT INTO movie (title, description, cast, genreid, genreid1, time, opening_date, thumbnail) 
+                                        VALUES (?, ?, ?, (SELECT genreID from genre WHERE genre = ?), (SELECT genreID from genre WHERE genre = ?), ?, ?, IF(? = '', 'noImage.png', ?));`
                 dbConn.query(
                     insertUserQuery,
-                    [movie.title, movie.description, movie.cast, movie.genreid, movie.genreid1, movie.time, movie.opening_date, movie.genreid, movie.genreid1],
+                    [movie.title, movie.description, movie.cast, movie.genreid, movie.genreid1, movie.time, movie.opening_date, movie.thumbnail, movie.thumbnail],
                     (error, results) => {
                         dbConn.end();
                         if (error) {
                             return callback(error, null);
                         } else {
+                            // console.log("The thumbnail is " + movie.thumbnail);
                             return callback(null, results.insertId);
                         }
                     });

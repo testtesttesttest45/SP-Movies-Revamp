@@ -151,6 +151,16 @@
                                                     <!-- Fetched genres comes here -->
                                                 </select>
                                             </div>
+                                            
+                                        </form>
+                                        <form id="FileUploadForm">
+                                            <div>
+                                                <label>Thumbnail:</label>
+                                                <input type="file" name="thumbnail-file" id="new-movie-pic" required/>
+                                            </div>
+                                            <div>
+                                                <button type="submit" id="uploadThumbnail" style="visibility:hidden">Upload</button>
+                                            </div>
                                         </form>
                                     </div>
                                     <div class="modal-footer">
@@ -229,7 +239,8 @@
                                             style="margin-top: -30px;">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
-                                        <button type="button" class="btn btn-light refreshButton"  id="refreshButtonGenre" title="Refresh">
+                                        <button type="button" class="btn btn-light refreshButton"
+                                            id="refreshButtonGenre" title="Refresh">
                                             <i class="fa fa-refresh" style="font-size:1.5rem"></i>
                                         </button>
 
@@ -316,7 +327,8 @@
                                             style="margin-top: -30px;">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
-                                        <button type="button" class="btn btn-light refreshButton" id="refreshButtonUser" title="Refresh">
+                                        <button type="button" class="btn btn-light refreshButton" id="refreshButtonUser"
+                                            title="Refresh">
                                             <i class="fa fa-refresh" style="font-size:1.5rem"></i>
                                         </button>
 

@@ -48,7 +48,7 @@ exports.verifyAdmin = (req, res, next) => {
             }
             else {
                 req.role = decodedToken.role; //decode the role and store in req for use
-                console.log("You are logged in as", req.role);
+                // console.log("You are logged in as", req.role);
                 if (req.role === 'Admin') {
                     next();
                 } else {

@@ -198,17 +198,16 @@ $(document).ready(function () {
                                 fetch(`http://localhost:8085/favourite/${movieid}`, {
                                     method: 'DELETE',
                                     headers: {
-                                        'Content-Type': 'application/json',
-                                        'Authorization': `${localStorage.getItem('token')}`
+                                        'Authorization': localStorage.getItem('token')
                                     },
                                     body: JSON.stringify({
                                         userId: localStorage.getItem('userId')
                                     })
                                 })
                                     .then(res => {
-                                        if (response.ok) {
-                                            return response.json();
-                                        } else if (response.status === 403) {
+                                        if (res.ok) {
+                                            return res.json();
+                                        } else if (res.status === 403) {
                                             throw new Error('Unauthorized, please login!');
                                         } // else
                                         throw new Error('Something big went wrong');
@@ -226,7 +225,7 @@ $(document).ready(function () {
                                     }).catch(err => {
                                         Swal.fire({
                                             title: 'Error',
-                                            text: 'Something went wrong',
+                                            text: err.message,
                                             icon: 'error',
                                             confirmButtonText: 'OK'
                                         })
