@@ -38,7 +38,7 @@ ___
 + Guest, Customer and Admin user roles
 + Guest operations include
     - Viewing movies on the homepage
-    - Searching for movies
+    - Searching for movies with server side filtering
     - Viewing movie details on a movie page
     - Viewing the actual movie trailer on a movie page
     - Viewing comments on a movie page
@@ -96,9 +96,12 @@ ___
 
 ### Links
 
-Link to hosted application www.google.com
+Link to hosted application https://sp-movies.netlify.app
 
-___
+### **Important notes**
+::: warning
+**Going to this link is rather buggy. Some errors occur with multer image upload, along with other bugs such as removing a movie from list of favourites, inconsistency in fetching movie reviews, and possibly more undiscovered. I did not put time to fix these as the backend which is hosted with Heroku and using free products are going away in a few months.**
+:::
 
 ### Screenshots
 ![Completions](completion_screenshots/Comments.png)
