@@ -189,6 +189,9 @@ function UpdateUserRole(userID, role, username) {
                 $.ajax({
                     url: `http://localhost:8085/users/${userID}/role`,
                     type: 'PUT',
+                    headers: {
+                        'Authorization': localStorage.getItem('token')
+                    },
                     data: {
                         role: "Customer"
                     },
