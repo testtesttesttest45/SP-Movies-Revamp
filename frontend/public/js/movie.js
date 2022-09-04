@@ -201,7 +201,8 @@ $(document).ready(function () {
                                 fetch(`http://localhost:8085/favourite/${movieid}`, {
                                     method: 'DELETE',
                                     headers: {
-                                        'Authorization': localStorage.getItem('token')
+                                        'Authorization': localStorage.getItem('token'),
+                                        'Content-Type': 'application/json'
                                     },
                                     body: JSON.stringify({
                                         userId: localStorage.getItem('userId')

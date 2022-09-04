@@ -1,7 +1,8 @@
 
 
 # **SP MOVIES SELF LEARNING PROJECT**
-#### This is a self learning project for the SP Movies app, which I got a score of 10/100. It is completed and no longer maintained.
+#### This is a self learning project done during my free hours for the SP Movies app, which I got a score of 10/100. It is completed and no longer maintained.
+``` Project started on 15 August 2022 and completed/hosted successfully on 4 September 2022.```
 #### This project is made with 
 > Javascript
 > MySQL
@@ -96,12 +97,13 @@ ___
 
 ### Links
 
-Link to hosted application https://sp-movies.netlify.app
 
-### **Important notes**
-::: warning
-**Going to this link is rather buggy. Some errors occur with multer image upload, along with other bugs such as removing a movie from list of favourites, inconsistency in fetching movie reviews, and possibly more undiscovered. I did not put time to fix these as the backend which is hosted with Heroku and using free products are going away in a few months.**
-:::
+Link to hosted application: ``` https://sp-movies.netlify.app ```
+
+
+>### **Important notes**
+> **Going to this link is rather buggy. Some errors occur with multer image upload, along with other bugs such as removing a movie from list of favourites, inconsistency in fetching movie reviews, and possibly more undiscovered. I did not put time to fix these as the backend which is hosted with Heroku and using free products are going away in a few months. The loading of certain pages and elements and data fetching is not consistent as well. This slow data fetching may not allow certain parts of pages to  load properly.**
+
 
 ### Screenshots
 ![Completions](completion_screenshots/Comments.png)

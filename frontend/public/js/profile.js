@@ -290,32 +290,39 @@ $(document).ready(function () {
 function DeleteFromFavourites(movieid) {
     // when clicked, remove the movie from the favourites list by using the delete api
     fetch(`http://localhost:8085/favourite/${movieid}`, {
-        method: 'DELETE',
-        headers: {
-            'Authorization': localStorage.getItem('token'),
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            userId: localStorage.getItem('userId')
-        })
-    })
-        .then(res => res.json())
-        .then(data => {
-            Swal.fire({
-                title: 'Removed from Favourites',
-                text: 'This movie has been removed from your favourites',
-                icon: 'success',
-                confirmButtonText: 'OK'
-            })
-                .then(() => {
-                    window.location.reload();
-                })
-        }).catch(err => {
-            Swal.fire({
-                title: 'Error',
-                text: 'Something went wrong',
-                icon: 'error',
-                confirmButtonText: 'OK'
-            })
-        })
+                                    method: 'DELETE',
+                                    headers: {
+                                        'Authorization': localStorage.getItem('token'),
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({
+                                        userId: localStorage.getItem('userId')
+                                    })
+                                })
+                                    .then(res => {
+                                        if (res.ok) {
+                                            return res.json();
+                                        } else if (res.status === 403) {
+                                            throw new Error('Unauthorized, please login!');
+                                        } // else
+                                        throw new Error('Something big went wrong');
+                                    })
+                                    .then(data => {
+                                        Swal.fire({
+                                            title: 'Removed from Favourites',
+                                            text: 'This movie has been removed from your favourites',
+                                            icon: 'success',
+                                            confirmButtonText: 'OK'
+                                        })
+                                            .then(() => {
+                                                window.location.reload();
+                                            })
+                                    }).catch(err => {
+                                        Swal.fire({
+                                            title: 'Error',
+                                            text: err.message,
+                                            icon: 'error',
+                                            confirmButtonText: 'OK'
+                                        })
+                                    })
 }
