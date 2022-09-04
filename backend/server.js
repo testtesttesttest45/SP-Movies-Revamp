@@ -3,7 +3,7 @@
 // Class DIT?FT/1B/39
 var app = require('./controller/app.js');
 var hostname = "localhost";
-var port=  process.env.port || 8085;
+var port=  process.env.PORT || 8085;
 
 var server = app.listen(port, function () {
 
