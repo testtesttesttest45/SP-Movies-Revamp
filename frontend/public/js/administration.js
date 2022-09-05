@@ -8,7 +8,7 @@ function DeleteGenre(genreID) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: 'https://sp-movies-backend.herokuapp.com/genre/' + genreID,
+                url: 'http://localhost:8085/genre/' + genreID,
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ function EditGenre(genreID) {
     const editGenreTitle = document.getElementById("edit-genre-title");
     const editGenreDescription = document.getElementById("edit-genre-description");
     const GENREID = document.getElementById("GENREID");
-    fetch("https://sp-movies-backend.herokuapp.com/genre/" + genreID)
+    fetch("http://localhost:8085/genre/" + genreID)
         .then(response => response.json())
         .then(data => {
             GENREID.textContent = data.result[0].genreID;
@@ -80,7 +80,7 @@ function DeleteUser(userID) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: 'https://sp-movies-backend.herokuapp.com/users/' + userID,
+                url: 'http://localhost:8085/users/' + userID,
                 headers: {
                     'Authorization': localStorage.getItem('token')
                 },
@@ -134,7 +134,7 @@ function UpdateUserRole(userID, role, username) {
         }).then((result) => {
             if (result.value) {
                 $.ajax({
-                    url: `https://sp-movies-backend.herokuapp.com/users/${userID}/role`,
+                    url: `http://localhost:8085/users/${userID}/role`,
                     type: 'PUT',
                     headers: {
                         'Authorization': localStorage.getItem('token')
@@ -187,7 +187,7 @@ function UpdateUserRole(userID, role, username) {
         }).then((result) => {
             if (result.value) {
                 $.ajax({
-                    url: `https://sp-movies-backend.herokuapp.com/users/${userID}/role`,
+                    url: `http://localhost:8085/users/${userID}/role`,
                     type: 'PUT',
                     headers: {
                         'Authorization': localStorage.getItem('token')
@@ -231,7 +231,7 @@ function getUsers() {
     console.log("getUsers() called");
     const allUserBody = document.getElementById("all-user-body");
     $.ajax({
-        url: 'https://sp-movies-backend.herokuapp.com/users',
+        url: 'http://localhost:8085/users',
         type: 'GET',
         success: function (result) {
             allUserBody.innerHTML = "";
@@ -272,7 +272,7 @@ function getGenres() {
     const newMovieSubGenre = document.getElementById("new-movie-subgenre");
     const clearGenreModal = document.getElementById("clearGenreModal");
     const allGenreBody = document.getElementById("all-genre-body");
-    fetch("https://sp-movies-backend.herokuapp.com/genre") //fetch all genres
+    fetch("http://localhost:8085/genre") //fetch all genres
         // append the genres to newMovieGenre select options and newMovieSubGenre select options
         .then(response => response.json())
         .then(data => {
@@ -342,7 +342,7 @@ function getGenres() {
 
 function uploadThumbnailButtonClick() {
     $.ajax({
-        url: 'https://sp-movies.netlify.app/thumbnail-upload-single',
+        url: 'http://localhost:3001/thumbnail-upload-single',
         type: 'POST',
         enctype: 'multipart/form-data',
         data: new FormData(document.getElementById("FileUploadForm")),
@@ -422,7 +422,7 @@ $(document).ready(function () {
 
         // send a request to post movie
         $.ajax({
-            url: "https://sp-movies-backend.herokuapp.com/movie",
+            url: "http://localhost:8085/movie",
             type: "POST",
             headers: {
                 'Authorization': localStorage.getItem("token")
@@ -478,7 +478,7 @@ $(document).ready(function () {
         }
         // send a request to post genre
         $.ajax({
-            url: "https://sp-movies-backend.herokuapp.com/genre",
+            url: "http://localhost:8085/genre",
             type: "POST",
             data: JSON.stringify(newGenre),
             headers: {
@@ -548,7 +548,7 @@ $(document).ready(function () {
             return;
         }
         $.ajax({
-            url: 'https://sp-movies-backend.herokuapp.com/genre/' + GENREID,
+            url: 'http://localhost:8085/genre/' + GENREID,
             type: 'PUT',
             headers: {
                 'Authorization': localStorage.getItem('token')

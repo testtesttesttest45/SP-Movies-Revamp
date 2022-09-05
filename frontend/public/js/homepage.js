@@ -8,7 +8,7 @@ function DeleteMovie(thisMovieId) {
         .then((result) => {
             if (result.value) {
                 $.ajax({
-                    url: "https://sp-movies-backend.herokuapp.com/movie/" + thisMovieId,
+                    url: "http://localhost:8085/movie/" + thisMovieId,
                     type: "DELETE",
                     headers: {
                         "Authorization": localStorage.getItem("token")
@@ -51,7 +51,7 @@ function DeleteMovie(thisMovieId) {
 }
 function uploadThumbnailButtonClick() {
     $.ajax({
-        url: 'https://sp-movies.netlify.app/thumbnail-upload-single',
+        url: 'http://localhost:3001/thumbnail-upload-single',
         type: 'POST',
         enctype: 'multipart/form-data',
         data: new FormData(document.getElementById("FileUploadForm")),
@@ -68,7 +68,7 @@ function uploadThumbnailButtonClick() {
 function EditMovie(thisMovieId) {
     // thisMovieId is the id of the movie that is being edited, display the movie details in the form
     console.log("Movie Id: ", thisMovieId);
-    fetch("https://sp-movies-backend.herokuapp.com/movie/" + thisMovieId)
+    fetch("http://localhost:8085/movie/" + thisMovieId)
         .then(response => response.json())
         .then(data => {
             console.log(data)
@@ -159,7 +159,7 @@ function EditMovie(thisMovieId) {
                             uploadThumbnailButton.click();
                         }
                         $.ajax({
-                            url: "https://sp-movies-backend.herokuapp.com/movie/" + thisMovieId,
+                            url: "http://localhost:8085/movie/" + thisMovieId,
                             // contentType: "application/json", // ensure the datatype is application json and can be parsed to be sent to the server
                             type: "PUT",
                             headers: {
@@ -223,7 +223,7 @@ function EditMovie(thisMovieId) {
                     })
                 });
             // this will be used to populate the select dropdown with the genres that are in the database
-            fetch("https://sp-movies-backend.herokuapp.com/genre")
+            fetch("http://localhost:8085/genre")
                 .then(response => response.json())
                 .then(data => {
                     console.log(data)
@@ -292,7 +292,7 @@ $(document).ready(function () {
             adminButton.style.display = 'block';
         }
     }
-    fetch('https://sp-movies-backend.herokuapp.com/movies')
+    fetch('http://localhost:8085/movies')
         .then(response => response.json())
         .then(data => {
             console.log("Total movies retrieved:", data);
@@ -301,7 +301,7 @@ $(document).ready(function () {
                 homeHTML = `
                 <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6" id="container">
                     <div class="video-thumb">
-                    <figure class="video-image"><img src="https://sp-movies-backend.herokuapp.com/image/movies/${data[i].thumbnail}" class="movieBanner" alt="Image">
+                    <figure class="video-image"><img src="http://localhost:8085/image/movies/${data[i].thumbnail}" class="movieBanner" alt="Image">
                     <div class="circle-rate">
                         <svg class="circle-chart" viewBox="0 0 30 30"
                             xmlns="http://www.w3.org/2000/svg">
@@ -325,7 +325,7 @@ $(document).ready(function () {
                                 <ul class="tags">
                                     <li>${data[i].genre}</li>
                                 </ul>
-                                <h3 class="name"><a href="https://sp-movies.netlify.app/movie.html?movieid=${data[i].movieid}">${data[i].title}</a></h3>
+                                <h3 class="name"><a href="http://localhost:3001/movie.html?movieid=${data[i].movieid}">${data[i].title}</a></h3>
                             </div>
                         </div>
                     </div>
@@ -361,7 +361,7 @@ $(document).ready(function () {
         // send a fetch request to the server to search for the movie
         // first, set the query string to the value of the search input
         const queryString = searchInput.value;
-        fetch(`https://sp-movies-backend.herokuapp.com/search?searchText=${queryString}`)
+        fetch(`http://localhost:8085/search?searchText=${queryString}`)
             .then(response => response.json())
             .then(data => {
                 if (data.length === 0) {
@@ -375,7 +375,7 @@ $(document).ready(function () {
                     homeHTML = `
                         <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6" id="container">
                             <div class="video-thumb">
-                            <figure class="video-image"><img src="https://sp-movies-backend.herokuapp.com/image/movies/${data[i].thumbnail}" class="movieBanner" alt="Image">
+                            <figure class="video-image"><img src="http://localhost:8085/image/movies/${data[i].thumbnail}" class="movieBanner" alt="Image">
                             <div class="circle-rate">
                                 <svg class="circle-chart" viewBox="0 0 30 30"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -386,7 +386,7 @@ $(document).ready(function () {
                                 </svg>
                                 <b>${score}</b>
                                 <!-- Delete from favourites/Go to the movie -->
-                                <div class="social-info"><button type="button" title="Remove from Favourites" onclick=DeleteFromFavourites(${movieid}); style="border:none;background:transparent"><i class="fa fa-trash"></i></button><a title="Go To" href="https://sp-movies.netlify.app/movie.html?movieid=${movieid}"><i class="fa fa-external-link"></i></a></div>
+                                <div class="social-info"><button type="button" title="Remove from Favourites" onclick=DeleteFromFavourites(${movieid}); style="border:none;background:transparent"><i class="fa fa-trash"></i></button><a title="Go To" href="http://localhost:3001/movie.html?movieid=${movieid}"><i class="fa fa-external-link"></i></a></div>
                                 <div class="age" style="border: 1px solid greenyellow;margin:-80px 0px 0px 0px; color:white">PG13</div>
                             </div>
                             <div class="hd">1080 <b>HD</b></div>
@@ -395,7 +395,7 @@ $(document).ready(function () {
                                         <ul class="tags">
                                             <li>${data[i].genre}</li>
                                         </ul>
-                                        <h3 class="name"><a href="https://sp-movies.netlify.app/movie.html?movieid=${data[i].movieid}">${data[i].title}</a></h3>
+                                        <h3 class="name"><a href="http://localhost:3001/movie.html?movieid=${data[i].movieid}">${data[i].title}</a></h3>
                                     </div>
                                 </div>
                             </div>

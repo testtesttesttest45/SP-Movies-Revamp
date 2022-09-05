@@ -18,7 +18,7 @@
     console.log("movieid from url params is", movieid);
     $.ajax({
       
-      url: `https://sp-movies-backend.herokuapp.com/movie/${movieid}`,
+      url: `http://localhost:8085/movie/${movieid}`,
       type: 'GET',
       data: data,
       contentType: "application/json; charset=utf-8",

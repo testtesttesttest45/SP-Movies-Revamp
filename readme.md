@@ -2,7 +2,7 @@
 
 # **SP MOVIES SELF LEARNING PROJECT**
 #### This is a self learning project done during my free hours for the SP Movies app, which I got a score of 10/100. It is completed and no longer maintained.
-``` Project started on 15 August 2022 and completed/hosted successfully on 4 September 2022.```
+``` Project started on 15 August 2022 and completed/hosted successfully on 5 September 2022.```
 #### This project is made with 
 > Javascript
 > MySQL
@@ -22,15 +22,15 @@ ___
 4. Run `npm start` to start the backend server
 5. Go frontend folder and Run `npm install` to install all the dependencies
 6. Run `npm start` to start the frontend server
-7. Open the browser and go to `https://sp-movies.netlify.app` to view the app
+7. Open the browser and go to `http://localhost:3001` to view the app
 ___
 
 ### Pre-registered accounts:
 
 | Email | Password | User Role |
 | ------ | ----------- | ----------- |
-| _mary@email.com_   | _password_ | _Customer_ |
-| _admin@email.com_ | _password_ |    _Admin_ |
+| ``` mary@email.com ```  | ``` password ``` | _Customer_ |
+| ``` admin@email.com ``` | ``` password ``` |    _Admin_ |
 
 ___
 
@@ -51,7 +51,7 @@ ___
     - Leaving comments on a movie page
     - Viewing Profile page
     - Viewing the favourite list on Profile page
-    - Account settings such as editing profile, changing password,     deleting account, requesting Admin role on Profile page, changing profile picture, etc
+    - Account settings such as editing profile, changing password, deleting account, requesting Admin role on Profile page, changing profile picture, etc
     - Deleting/Going to the movie page from list of favourite movies on Profile page
 + Admin operations include
     - All `Guest Operations`
@@ -97,12 +97,11 @@ ___
 
 ### Links
 
-
-Link to hosted application: ``` https://sp-movies.netlify.app ```
+``` Link to hosted application: ``` **https://sp-movies.netlify.app**
 
 
 >### **Important notes**
-> **Going to this link is rather buggy. Some errors occur with multer image upload, along with other bugs such as removing a movie from list of favourites, inconsistency in fetching movie reviews, and possibly more undiscovered. I did not put time to fix these as the backend which is hosted with Heroku and using free products are going away in a few months. The loading of certain pages and elements and data fetching is not consistent as well. This slow data fetching may not allow certain parts of pages to  load properly.**
+> **Going to this link is rather buggy. Some errors occur with multer image upload, along with inconsistency in fetching movie reviews, and possibly more undiscovered. I did not put time to fix these as the backend which is hosted with Heroku and using free products are going away in a few months. The loading of certain pages and elements and data fetching is not consistent as well. This slow data fetching may not allow some parts of pages to load properly.**
 
 
 ### Screenshots
