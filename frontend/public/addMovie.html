@@ -13,7 +13,7 @@
 <body>  
 
     <div class="login-form">
-        <!--<form action="http://localhost:3001/profile.html"> -->
+        <!--<form action="https://sp-movies.netlify.app/profile.html"> -->
         <form action=""> 
             <h2 class="text-center">Add Movie</h2>       
             <div class="form-group">
@@ -68,7 +68,7 @@
                         if (data != null){                    
                            localStorage.setItem('token',data.token);
                            localStorage.setItem('userInfo',data.UserData);
-                           window.location.assign("http://localhost:3001/index.html");
+                           window.location.assign("https://sp-movies.netlify.app/index.html");
                         } else {
                             
                             console.log("error");
@@ -76,7 +76,7 @@
                     },  
                     error: function (xhr, textStatus, errorThrown) {  
                         alert("New movie added");
-                        window.location.assign("http://localhost:3001/index.html");
+                        window.location.assign("https://sp-movies.netlify.app/index.html");
                     }  
                });  
                return false;

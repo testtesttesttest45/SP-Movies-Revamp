@@ -261,7 +261,7 @@ $(document).ready(function () {
                         <div class="advisor_thumb"><img src="https://sp-movies-backend.herokuapp.com/image/movies/${thumbnail}"
                                 class="movieBanner">
                                 <!-- Delete from favourites/Go to the movie -->
-                                <div class="social-info"><button type="button" title="Remove from Favourites" onclick=DeleteFromFavourites(${movieid}); style="border:none;background:transparent"><i class="fa fa-trash"></i></button><a title="Go To" href="http://localhost:3001/movie.html?movieid=${movieid}"><i class="fa fa-external-link"></i></a></div>
+                                <div class="social-info"><button type="button" title="Remove from Favourites" onclick=DeleteFromFavourites(${movieid}); style="border:none;background:transparent"><i class="fa fa-trash"></i></button><a title="Go To" href="https://sp-movies.netlify.app/movie.html?movieid=${movieid}"><i class="fa fa-external-link"></i></a></div>
                               </div>
                         
                         <div class="single_advisor_details_info">

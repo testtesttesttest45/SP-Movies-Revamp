@@ -22,7 +22,7 @@ ___
 4. Run `npm start` to start the backend server
 5. Go frontend folder and Run `npm install` to install all the dependencies
 6. Run `npm start` to start the frontend server
-7. Open the browser and go to `http://localhost:3001` to view the app
+7. Open the browser and go to `https://sp-movies.netlify.app` to view the app
 ___
 
 ### Pre-registered accounts:
