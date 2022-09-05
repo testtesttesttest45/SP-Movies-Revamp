@@ -5,8 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js || node server.js",
-    "build": "npm install"
+    "start": "nodemon server.js || node server.js"
   },
   "author": "weilin.19@ichat.sp.edu.sg",
   "license": "ISC",
