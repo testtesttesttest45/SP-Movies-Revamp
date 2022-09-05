@@ -342,7 +342,7 @@ function getGenres() {
 
 function uploadThumbnailButtonClick() {
     $.ajax({
-        url: 'http://localhost:3001/thumbnail-upload-single',
+        url: 'https://sp-movies.netlify.app/thumbnail-upload-single',
         type: 'POST',
         enctype: 'multipart/form-data',
         data: new FormData(document.getElementById("FileUploadForm")),
