@@ -581,7 +581,7 @@ app.get("/userFavourite/:userId", verifyToken.verifyLoggedIn, function (req, res
 // create an appget request with the search text in the query params
 app.get("/search", function (req, res) {
     const searchText = req.query.searchText;
-    // so the backend will look like this: http://localhost:8085/search?searchText=avengers
+    // so the backend will look like this: https://sp-movies-backend.herokuapp.com/search?searchText=avengers
     var dbConn = db.getConnection();
     dbConn.connect(function (err) {
         if (err) {

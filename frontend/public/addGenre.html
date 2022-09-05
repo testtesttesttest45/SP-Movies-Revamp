@@ -39,7 +39,7 @@
                console.log(data);
                $.ajax({                  
                    headers: {'authorization': 'Bearer '+tmpToken},                                             
-                    url: 'http://localhost:8085/genre' ,  
+                    url: 'https://sp-movies-backend.herokuapp.com/genre' ,  
                     type: 'POST', 
                     data: data,
                     contentType: "application/json; charset=utf-8",

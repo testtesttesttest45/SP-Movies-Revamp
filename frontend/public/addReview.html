@@ -47,7 +47,7 @@
                console.log(data);
                $.ajax({           
                     headers: {'authorization': 'Bearer '+tmpToken},                                                    
-                    url: 'http://localhost:8085/reviews' ,  
+                    url: 'https://sp-movies-backend.herokuapp.com/reviews' ,  
                     type: 'POST', 
                     data: data,
                     contentType: "application/json; charset=utf-8",

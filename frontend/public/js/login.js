@@ -5,7 +5,7 @@ $(document).ready(function () {
         var body = JSON.stringify({ email: emailInput, password: passwordInput });
         console.log(body);
         $.ajax({
-            url: 'http://localhost:8085/user/login',
+            url: 'https://sp-movies-backend.herokuapp.com/user/login',
             type: 'POST',
             data: body,
             contentType: "application/json; charset=utf-8",

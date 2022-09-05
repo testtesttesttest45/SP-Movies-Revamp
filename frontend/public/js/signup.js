@@ -7,7 +7,7 @@ $(document).ready(function () {
         var contactInput = $('#contact').val();
         var body = JSON.stringify({ email: emailInput, password: passwordInput, username: usernameInput, contact: contactInput });
         $.ajax({
-            url: 'http://localhost:8085/signup',
+            url: 'https://sp-movies-backend.herokuapp.com/signup',
             type: 'POST',
             data: body,
             contentType: "application/json; charset=utf-8",

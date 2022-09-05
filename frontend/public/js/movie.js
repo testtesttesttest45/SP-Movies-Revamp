@@ -8,7 +8,7 @@ $(document).ready(function () {
     let userId = localStorage.getItem('userId');
     let commentButton = document.getElementById('commentButton');
 
-    fetch(`http://localhost:8085/movie/${movieid}`)
+    fetch(`https://sp-movies-backend.herokuapp.com/movie/${movieid}`)
         .then(response => response.json())
         .then(data => {
             console.log("Movie retrieved:", data);
@@ -49,7 +49,7 @@ $(document).ready(function () {
                     </div>
                     <div class="col-lg-4">
                         <div class="movie-side-info-box">
-                            <figure><img src="http://localhost:8085/image/movies/${thumbnail}" alt="Image"></figure>
+                            <figure><img src="https://sp-movies-backend.herokuapp.com/image/movies/${thumbnail}" alt="Image"></figure>
                             <ul>
                                 <li><strong>Release date: </strong> ${opening_date}</li>
                                 <li><strong>Cast:</strong> ${cast}</li>
@@ -62,7 +62,7 @@ $(document).ready(function () {
             // append to id = movieContainer
             $('#movieContainer').append(movieHTML);
             $('title').text(`SP Movies | ${title}`); // replace the title of the page with the title of the movie
-            $('#movie-poster').attr('poster', `http://localhost:8085/image/movies/${thumbnail}`); // replace the poster of the page with the poster of the movie
+            $('#movie-poster').attr('poster', `https://sp-movies-backend.herokuapp.com/image/movies/${thumbnail}`); // replace the poster of the page with the poster of the movie
             const reviewButton = document.getElementById('reviewButton');
             reviewButton.addEventListener('click', function () {
                 let movieId = movieid;
@@ -75,7 +75,7 @@ $(document).ready(function () {
                     return;
                 }
                 // when clicked, open the Swal form where user will enter a rating and a review
-                fetch(`http://localhost:8085/review/${movieId}`)
+                fetch(`https://sp-movies-backend.herokuapp.com/review/${movieId}`)
                     .then(response => response.json())
                     .then(data => {
                         // loop through the array and check the userid. if data[i].user_id == userId, show alert: You have already reviewed this movie, and dont show the form
@@ -122,7 +122,7 @@ $(document).ready(function () {
                                     });
                                     return;
                                 }
-                                fetch(`http://localhost:8085/review/${movieId}`, {
+                                fetch(`https://sp-movies-backend.herokuapp.com/review/${movieId}`, {
                                     method: 'POST',
                                     headers: {
                                         'Content-Type': 'application/json',
@@ -169,7 +169,7 @@ $(document).ready(function () {
             });
             const favouriteButton = document.getElementById('favouriteButton');
             if (userId) {
-                fetch(`http://localhost:8085/favourite/${movieid}?userId=${userId}`,
+                fetch(`https://sp-movies-backend.herokuapp.com/favourite/${movieid}?userId=${userId}`,
                     {
                         headers: {
                             'Authorization': `${localStorage.getItem('token')}`
@@ -198,7 +198,7 @@ $(document).ready(function () {
                                     return;
                                 }
                                 // when clicked, remove the movie from the favourites list by using the delete api
-                                fetch(`http://localhost:8085/favourite/${movieid}`, {
+                                fetch(`https://sp-movies-backend.herokuapp.com/favourite/${movieid}`, {
                                     method: 'DELETE',
                                     headers: {
                                         'Authorization': localStorage.getItem('token'),
@@ -239,7 +239,7 @@ $(document).ready(function () {
                         }
                         else {
                             favouriteButton.addEventListener('click', function () {
-                                fetch(`http://localhost:8085/favourite/${movieid}`, {
+                                fetch(`https://sp-movies-backend.herokuapp.com/favourite/${movieid}`, {
                                     method: 'POST',
                                     headers: {
                                         'Content-Type': 'application/json',
@@ -295,7 +295,7 @@ $(document).ready(function () {
 
         })
         .catch(err => alert(err));
-    fetch(`http://localhost:8085/comment/${movieid}`)
+    fetch(`https://sp-movies-backend.herokuapp.com/comment/${movieid}`)
         .then(response => response.json(console.log("Comment status code: ", response.status)))
         .then(data => {
             console.log("Comments retrieved:", data);
@@ -304,7 +304,7 @@ $(document).ready(function () {
                     const { comment, username, created_on, pic } = data[i];
                     let commentHTML = `
                 <li>
-                <figure class="avatar"><img src="http://localhost:8085/image/${pic}" alt="Image"  class="rounded-circle"></figure>
+                <figure class="avatar"><img src="https://sp-movies-backend.herokuapp.com/image/${pic}" alt="Image"  class="rounded-circle"></figure>
                 <div class="comment">
                 <h6>${username}</h6>
                 <p>${comment}</p>
@@ -349,7 +349,7 @@ $(document).ready(function () {
             })
             return
         }
-        fetch(`http://localhost:8085/comment/${movieid}`, {
+        fetch(`https://sp-movies-backend.herokuapp.com/comment/${movieid}`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -390,7 +390,7 @@ $(document).ready(function () {
             })
     });
 
-    fetch(`http://localhost:8085/review/${movieid}`) // get the reviews of the movie
+    fetch(`https://sp-movies-backend.herokuapp.com/review/${movieid}`) // get the reviews of the movie
         .then(response => response.json())
         .then(data => {
             console.log("Reviews retrieved:", data);
@@ -400,7 +400,7 @@ $(document).ready(function () {
                     let reviewHTML = `
                     <div style="border:1px solid black;margin:10px;width:50%;background:rgb(40, 42, 43);border-radius:10px">
                     <div class="comment" style="justify-content:center;">
-                    <figure class="avatar"><img src="http://localhost:8085/image/${pic}"  class="rounded-circle" style="width:70px;height:70px;float:left" alt="Image"></figure>
+                    <figure class="avatar"><img src="https://sp-movies-backend.herokuapp.com/image/${pic}"  class="rounded-circle" style="width:70px;height:70px;float:left" alt="Image"></figure>
                         <h3 style="color:white;font-weight:bold">${review}</h3>
                         <h4 style="color:orange">-${username}, ${created_on}</h4>
                         <h4 style="color:white">Rating: <svg class="circle-chart" viewBox="0 0 30 30" margin-bottom="-15px" width="50" height="50"

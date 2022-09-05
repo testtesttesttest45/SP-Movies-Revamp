@@ -14,7 +14,7 @@ $(document).ready(function () {
     let favouriteHTML = '';
     if (userId) {
         // console.log(localStorage.getItem('token'));
-        fetch(`http://localhost:8085/users/${userId}`,
+        fetch(`https://sp-movies-backend.herokuapp.com/users/${userId}`,
             // headers authroization: Bearer ${token}
             {
                 headers: {
@@ -27,7 +27,7 @@ $(document).ready(function () {
                 console.log("User details:", data);
                 $('title').text(`SP Movies | ${data.username}`); // replace the title of the page with the title of the movie
                 nameSide.innerHTML = data.username;
-                profilePhoto.src = `http://localhost:8085/image/${data.pic}`;
+                profilePhoto.src = `https://sp-movies-backend.herokuapp.com/image/${data.pic}`;
                 nameMain.innerHTML = data.username;
                 emailMain.innerHTML = data.email;
                 phoneMain.innerHTML = data.contact;
@@ -75,7 +75,7 @@ $(document).ready(function () {
             })
                 .then((result) => {
                     if (result.value) {
-                        fetch(`http://localhost:8085/user/${userId}`, {
+                        fetch(`https://sp-movies-backend.herokuapp.com/user/${userId}`, {
                             method: 'DELETE',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -158,7 +158,7 @@ $(document).ready(function () {
                     const newPassword = document.getElementById('newPassword').value;
                     const confirmNewPassword = document.getElementById('confirmNewPassword').value;
                     const picture = document.querySelector('select').value;
-                    // Ignore: profileSelector is a file object, need to convert it to a form data object, then save it to the http://localhost:8085/image folder
+                    // Ignore: profileSelector is a file object, need to convert it to a form data object, then save it to the https://sp-movies-backend.herokuapp.com/image folder
                     const data = {
                         username: username,
                         email: email,
@@ -166,7 +166,7 @@ $(document).ready(function () {
                         password: newPassword,
                         picture: picture
                     };
-                    fetch(`http://localhost:8085/users/${userId}`,
+                    fetch(`https://sp-movies-backend.herokuapp.com/users/${userId}`,
                         {
                             headers: {
                                 'Content-Type': 'application/json',
@@ -196,7 +196,7 @@ $(document).ready(function () {
                                 return;
                             }
                             else {
-                                fetch(`http://localhost:8085/user/${userId}`, {
+                                fetch(`https://sp-movies-backend.herokuapp.com/user/${userId}`, {
                                     method: 'PUT',
                                     headers: {
                                         'Authorization': localStorage.getItem('token'),
@@ -240,7 +240,7 @@ $(document).ready(function () {
             })
         })
         // fetch and display all favourites of the user
-        fetch(`http://localhost:8085/userFavourite/${userId}`,
+        fetch(`https://sp-movies-backend.herokuapp.com/userFavourite/${userId}`,
             // headers authroization: Bearer ${token}
             {
                 headers: {
@@ -258,7 +258,7 @@ $(document).ready(function () {
                         <div class="col-12 col-sm-6 col-lg-3">
                         <div class="single_advisor_profile wow fadeInUp" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;max-width: 100%;
                             max-height: 300px;">
-                        <div class="advisor_thumb"><img src="http://localhost:8085/image/movies/${thumbnail}"
+                        <div class="advisor_thumb"><img src="https://sp-movies-backend.herokuapp.com/image/movies/${thumbnail}"
                                 class="movieBanner">
                                 <!-- Delete from favourites/Go to the movie -->
                                 <div class="social-info"><button type="button" title="Remove from Favourites" onclick=DeleteFromFavourites(${movieid}); style="border:none;background:transparent"><i class="fa fa-trash"></i></button><a title="Go To" href="http://localhost:3001/movie.html?movieid=${movieid}"><i class="fa fa-external-link"></i></a></div>
@@ -289,7 +289,7 @@ $(document).ready(function () {
 
 function DeleteFromFavourites(movieid) {
     // when clicked, remove the movie from the favourites list by using the delete api
-    fetch(`http://localhost:8085/favourite/${movieid}`, {
+    fetch(`https://sp-movies-backend.herokuapp.com/favourite/${movieid}`, {
                                     method: 'DELETE',
                                     headers: {
                                         'Authorization': localStorage.getItem('token'),

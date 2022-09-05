@@ -20,7 +20,7 @@
                    var data = "{\"username\":\""+tmpUName+"\", \"email\":\""+tmpEmail+"\", \"role\":\""+tmpRole+"\", \"password\":\""+tmpPwd+"\"}"; 
                     $.ajax({   
                         headers: {'authorization': 'Bearer '+tmpToken},     
-                        url: 'http://localhost:8085/user',  
+                        url: 'https://sp-movies-backend.herokuapp.com/user',  
                         type: 'PUT',
                         data: data,  
                         contentType: "application/json; charset=utf-8",
@@ -54,7 +54,7 @@
     
     <body>
             <div class="card">
-                    <img src="http://localhost:8085/image/pic.jpg" id="profilepic" alt="Profile" style="width:100%">
+                    <img src="https://sp-movies-backend.herokuapp.com/image/pic.jpg" id="profilepic" alt="Profile" style="width:100%">
                     <p class="username"> <label>Username: </label>
                         <input type="text" id="username"> </br></p>
                     <p class="role"><label>Job role: </label>
@@ -79,7 +79,7 @@
                     document.getElementById("username").value = username; 
                     document.getElementById("email").value = useremail; 
                     document.getElementById("role").value = userrole; 
-                   document.getElementById("profilepic").src = "http://localhost:8085/image/"+userpic;
+                   document.getElementById("profilepic").src = "https://sp-movies-backend.herokuapp.com/image/"+userpic;
                 </script>
                  
         

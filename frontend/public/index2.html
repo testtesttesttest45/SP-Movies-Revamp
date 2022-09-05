@@ -41,7 +41,7 @@
         <div style="margin-top: 2rem;">
             
             <h1>Welcome to SP MOVIES</h1>
-            <!-- <a href="login.html"><img src="http://localhost:8085/image/GodzillaPoster.jpg" alt="HTML tutorial" style="width:160px;height:160px;"></a>
+            <!-- <a href="login.html"><img src="https://sp-movies-backend.herokuapp.com/image/GodzillaPoster.jpg" alt="HTML tutorial" style="width:160px;height:160px;"></a>
             <h6>Godzilla Vs Kong</h6> -->
 
             <div id="searchresults">
@@ -60,7 +60,7 @@
         var data ="";
     $.ajax({
       
-      url: `http://localhost:8085/searchtitle/${title}`,
+      url: `https://sp-movies-backend.herokuapp.com/searchtitle/${title}`,
       type: 'GET',
       data: data,
       contentType: "application/json; charset=utf-8",
@@ -101,7 +101,7 @@
     console.log("movieid from url params is", movieid);
     $.ajax({
       
-      url: `http://localhost:8085/movie/${movieid}`,
+      url: `https://sp-movies-backend.herokuapp.com/movie/${movieid}`,
       type: 'GET',
       data: data,
       contentType: "application/json; charset=utf-8",

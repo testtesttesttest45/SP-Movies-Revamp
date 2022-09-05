@@ -8,7 +8,7 @@ function DeleteMovie(thisMovieId) {
         .then((result) => {
             if (result.value) {
                 $.ajax({
-                    url: "http://localhost:8085/movie/" + thisMovieId,
+                    url: "https://sp-movies-backend.herokuapp.com/movie/" + thisMovieId,
                     type: "DELETE",
                     headers: {
                         "Authorization": localStorage.getItem("token")
@@ -68,7 +68,7 @@ function uploadThumbnailButtonClick() {
 function EditMovie(thisMovieId) {
     // thisMovieId is the id of the movie that is being edited, display the movie details in the form
     console.log("Movie Id: ", thisMovieId);
-    fetch("http://localhost:8085/movie/" + thisMovieId)
+    fetch("https://sp-movies-backend.herokuapp.com/movie/" + thisMovieId)
         .then(response => response.json())
         .then(data => {
             console.log(data)
@@ -159,7 +159,7 @@ function EditMovie(thisMovieId) {
                             uploadThumbnailButton.click();
                         }
                         $.ajax({
-                            url: "http://localhost:8085/movie/" + thisMovieId,
+                            url: "https://sp-movies-backend.herokuapp.com/movie/" + thisMovieId,
                             // contentType: "application/json", // ensure the datatype is application json and can be parsed to be sent to the server
                             type: "PUT",
                             headers: {
@@ -223,7 +223,7 @@ function EditMovie(thisMovieId) {
                     })
                 });
             // this will be used to populate the select dropdown with the genres that are in the database
-            fetch("http://localhost:8085/genre")
+            fetch("https://sp-movies-backend.herokuapp.com/genre")
                 .then(response => response.json())
                 .then(data => {
                     console.log(data)
@@ -292,7 +292,7 @@ $(document).ready(function () {
             adminButton.style.display = 'block';
         }
     }
-    fetch('http://localhost:8085/movies')
+    fetch('https://sp-movies-backend.herokuapp.com/movies')
         .then(response => response.json())
         .then(data => {
             console.log("Total movies retrieved:", data);
@@ -301,7 +301,7 @@ $(document).ready(function () {
                 homeHTML = `
                 <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6" id="container">
                     <div class="video-thumb">
-                    <figure class="video-image"><img src="http://localhost:8085/image/movies/${data[i].thumbnail}" class="movieBanner" alt="Image">
+                    <figure class="video-image"><img src="https://sp-movies-backend.herokuapp.com/image/movies/${data[i].thumbnail}" class="movieBanner" alt="Image">
                     <div class="circle-rate">
                         <svg class="circle-chart" viewBox="0 0 30 30"
                             xmlns="http://www.w3.org/2000/svg">
@@ -361,7 +361,7 @@ $(document).ready(function () {
         // send a fetch request to the server to search for the movie
         // first, set the query string to the value of the search input
         const queryString = searchInput.value;
-        fetch(`http://localhost:8085/search?searchText=${queryString}`)
+        fetch(`https://sp-movies-backend.herokuapp.com/search?searchText=${queryString}`)
             .then(response => response.json())
             .then(data => {
                 if (data.length === 0) {
@@ -375,7 +375,7 @@ $(document).ready(function () {
                     homeHTML = `
                         <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6" id="container">
                             <div class="video-thumb">
-                            <figure class="video-image"><img src="http://localhost:8085/image/movies/${data[i].thumbnail}" class="movieBanner" alt="Image">
+                            <figure class="video-image"><img src="https://sp-movies-backend.herokuapp.com/image/movies/${data[i].thumbnail}" class="movieBanner" alt="Image">
                             <div class="circle-rate">
                                 <svg class="circle-chart" viewBox="0 0 30 30"
                                     xmlns="http://www.w3.org/2000/svg">
