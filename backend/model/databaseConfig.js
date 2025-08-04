@@ -1,7 +1,7 @@
 // Name : Quek Wei Lin
 // Admin  : P1909618
 // Class DIT?FT/1B/39
-const mysql = require("mysql");
+const mysql = require("mysql2");
 require("dotenv").config();
 module.exports = {
   getConnection: function () {
